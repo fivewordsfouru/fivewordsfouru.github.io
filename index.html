@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5words4u - William Schiesser Portfolio</title>
+    <!-- 1. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. Load Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
@@ -84,13 +86,68 @@
 </head>
 <body class="antialiased">
 
+    <!-- 
+      HEADER / NAVIGATION
+    -->
     <header class="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-gray-800">
         <nav class="container mx-auto max-w-7xl px-6 py-5 flex justify-between items-center">
+            <!-- Your Brand / Logo -->
             <a href="#" class="text-2xl font-bold text-white flex items-center space-x-2">
-                <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" alt="5words4u character" class="w-8 h-8">
+                
+                <!-- Your SVG Logo Code is Pasted Below -->
+                <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-8 h-8">
+                  <defs>
+                    <style>
+                      .st0 {
+                        fill: none;
+                      }
+                
+                      .st1 {
+                        fill: #e4d7bb; /* Skin */
+                      }
+                
+                      .st2 {
+                        fill: #091414; /* Original Hair/Outline Color */
+                      }
+                
+                      .st3 {
+                        fill: #101b1b; /* Original Hair/Outline Color */
+                      }
+                
+                      .st4 {
+                        clip-path: url(#clippath);
+                      }
+                
+                      .st5 {
+                        fill: #1d6d00; /* Original Leaf Color */
+                      }
+                    </style>
+                    <clipPath id="clippath">
+                      <path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    </clipPath>
+                  </defs>
+                  <g id="Black_Outline">
+                    <path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    <g class="st4">
+                      <path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                    </g>
+                  </g>
+                  <g id="Leaf">
+                    <path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                  </g>
+                  <g id="Skin">
+                    <path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                  </g>
+                  <g id="Smile">
+                    <path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                  </g>
+                </svg>
+                <!-- End of SVG Logo Code -->
+                
                 <span class="hidden sm:inline">5words4u</span>
             </a>
             
+            <!-- Navigation Links (now scroll links) -->
             <ul class="flex space-x-6 md:space-x-8 text-gray-300 font-medium">
                 <li><a href="#work" class="header-link hover:text-white transition-colors">Work</a></li>
                 <li><a href="#about" class="header-link hover:text-white transition-colors">About</a></li>
@@ -99,8 +156,14 @@
         </nav>
     </header>
 
+    <!-- 
+      MAIN CONTENT AREA
+    -->
     <main class="container mx-auto max-w-6xl p-6">
 
+        <!-- ============================================= -->
+        <!-- 'HERO' SECTION                                  -->
+        <!-- ============================================= -->
         <section id="hero" class="min-h-[70vh] flex items-center my-16">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div class="md:col-span-2">
@@ -119,18 +182,52 @@
                     </a>
                 </div>
                 <div class="md:col-span-1 flex justify-center md:justify-end relative">
-                    <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" 
-                         alt="5words4u character" 
-                         class="w-64 h-64 md:w-full md:h-auto z-10">
+                    <!-- Your character SVG replaces the img tag -->
+                    <svg id="Layer_1_Hero" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-64 h-64 md:w-full md:h-auto z-10">
+                      <defs>
+                        <style>
+                          .st0-hero { fill: none; }
+                          .st1-hero { fill: #e4d7bb; }
+                          .st2-hero { fill: #091414; }
+                          .st3-hero { fill: #101b1b; }
+                          .st4-hero { clip-path: url(#clippath-hero); }
+                          .st5-hero { fill: #1d6d00; }
+                        </style>
+                        <clipPath id="clippath-hero">
+                          <path class="st0-hero" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                        </clipPath>
+                      </defs>
+                      <g id="Black_Outline-hero">
+                        <path class="st3-hero" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                        <g class="st4-hero">
+                          <path class="st2-hero" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                        </g>
+                      </g>
+                      <g id="Leaf-hero">
+                        <path class="st5-hero" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                      </g>
+                      <g id="Skin-hero">
+                        <path class="st1-hero" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                      </g>
+                      <g id="Smile-hero">
+                        <path class="st3-hero" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                      </g>
+                    </svg>
+                    <!-- Decorative shape behind -->
                     <div class="absolute w-full h-full bg-[#f59e0b] rounded-full blur-3xl opacity-30 z-0"></div>
                 </div>
             </div>
         </section>
 
+        <!-- ============================================= -->
+        <!-- 'WORK' SECTION (Collage/Zine Layout)          -->
+        <!-- ============================================= -->
         <section id="work" class="pt-24 space-y-16 md:space-y-24">
             
+            <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
+            <!-- Project 1: Video -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
                     <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" onclick="openModal('video', 'https://www.youtube.com/embed/zPoqNeR3_UA', 'Client Project: Motion Reel', 'A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.')">
@@ -148,6 +245,7 @@
                 </div>
             </div>
 
+            <!-- Project 2: Graphic Design -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
                     <p class="text-lg text-gray-300">Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.</p>
@@ -165,43 +263,48 @@
                 </div>
             </div>
 
-            <div class="mt-16 md:mt-24 pt-16 md:pt-24 border-t border-gray-800">
-                <div class="text-center max-w-xl mx-auto">
-                    <h3 class="text-4xl font-bold text-white tracking-tight">A Gallery of My Best Work</h3>
-                    <p class="text-lg text-gray-400 mt-4 typewriter">A collection of various pieces, from branding to motion design. Click any image to learn more.</p>
+            <!-- Project 3: Graphic Design -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN', 'Music Festival Poster', 'Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event\'s energy.')">
+                        <img src="https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN" 
+                             onerror="this.src='https://placehold.co/1200x800/10B981/FFF?text=Design'"
+                             alt="Poster Project Thumbnail" class="w-full aspect-video object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold">Music Festival Poster</h3>
+                            <p class="typewriter text-gray-600">Graphic Design / Print</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-12">
-                    
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform" onclick="openModal('image', 'https://placehold.co/1200x800/EF4444/FFFFFF?text=BEST+WORK+1', 'Title for Best Work 1', 'Description for this piece. What was it? Who was it for? What did you do?')">
-                        <img src="https://placehold.co/1200x800/EF4444/FFFFFF?text=BEST+WORK+1" alt="Best work 1" class="w-full aspect-video object-cover">
-                        <div class="p-5">
-                            <h4 class="text-xl font-bold">Best Work 1 (e.g., Poster)</h4>
-                            <p class="typewriter text-gray-600">Graphic Design</p>
+                <div class="md:col-span-2">
+                    <p class="text-lg text-gray-300">Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event's energy.</p>
+                </div>
+            </div>
+            
+            <!-- Project 4: Album Covers -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 md:order-last">
+                    <p class="text-lg text-gray-300">A collection of various album covers designed for musicians and bands. Style ranges from grunge photo-manipulation to bold, minimalist typography.</p>
+                </div>
+                <div class="md:col-span-3">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-1" onclick="openModal('image', 'https://placehold.co/1200x1200/8B5CF6/FFFFFF?text=ALBUM+ART+GALLERY', 'Album Art Collection', 'A collection of various album covers designed for musicians and bands. Style ranges from grunge photo-manipulation to bold, minimalist typography.')">
+                        <!-- For this image, you should create a collage of your best covers -->
+                        <img src="https://placehold.co/1200x800/8B5CF6/FFFFFF?text=ALBUM+COVER+COLLAGE" 
+                             onerror="this.src='https://placehold.co/1200x800/8B5CF6/FFF?text=Design'"
+                             alt="Album Cover Collage" class="w-full aspect-video object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold">Album Art Collection</h3>
+                            <p class="typewriter text-gray-600">Graphic Design / Music</p>
                         </div>
                     </div>
-                    
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform" onclick="openModal('image', 'https://placehold.co/1200x800/3B82F6/FFFFFF?text=BEST+WORK+2', 'Title for Best Work 2', 'Description for this piece.')">
-                        <img src="https://placehold.co/1200x800/3B82F6/FFFFFF?text=BEST+WORK+2" alt="Best work 2" class="w-full aspect-video object-cover">
-                        <div class="p-5">
-                            <h4 class="text-xl font-bold">Best Work 2 (e.g., Logo)</h4>
-                            <p class="typewriter text-gray-600">Branding</p>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=BEST+WORK+3', 'Title for Best Work 3', 'Description for this piece.')">
-                        <img src="https://placehold.co/1200x800/10B981/FFFFFF?text=BEST+WORK+3" alt="Best work 3" class="w-full aspect-video object-cover">
-                        <div class="p-5">
-                            <h4 class="text-xl font-bold">Best Work 3 (e.g., Animation)</h4>
-                            <p class="typewriter text-gray-600">Motion Graphics</p>
-                        </div>
-                    </div>
-                    
-                    </div>
+                </div>
             </div>
 
         </section>
 
+        <!-- ============================================= -->
+        <!-- 'ABOUT' SECTION                                 -->
+        <!-- ============================================= -->
         <section id="about" class="pt-32 md:pt-48">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
@@ -231,21 +334,55 @@
             </div>
         </section>
 
+        <!-- ============================================= -->
+        <!-- 'CONTACT' SECTION                               -->
+        <!-- ============================================= -->
         <section id="contact" class="pt-32 md:pt-48 pb-32">
             <div class="max-w-2xl mx-auto text-center">
-                <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" alt="5words4u character" class="w-24 h-24 mx-auto mb-6">
+                <!-- Your character SVG replaces the img tag -->
+                <svg id="Layer_1_Contact" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-24 h-24 mx-auto mb-6">
+                  <defs>
+                    <style>
+                      .st0-contact { fill: none; }
+                      .st1-contact { fill: #e4d7bb; }
+                      .st2-contact { fill: #091414; } /* Original Hair/Outline Color */
+                      .st3-contact { fill: #101b1b; } /* Original Hair/Outline Color */
+                      .st4-contact { clip-path: url(#clippath-contact); }
+                      .st5-contact { fill: #1d6d00; } /* Original Leaf Color */
+                    </style>
+                    <clipPath id="clippath-contact">
+                      <path class="st0-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    </clipPath>
+                  </defs>
+                  
+                  <g id="Black_Outline-contact">
+                    <path class="st3-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    <g class="st4-contact">
+                      <path class="st2-contact" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                    </g>
+                  </g>
+                  <g id="Leaf-contact">
+                    <path class="st5-contact" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                  </g>
+                  <g id="Skin-contact">
+                    <path class="st1-contact" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                  </g>
+                  <g id="Smile-contact">
+                    <path class="st3-contact" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                  </g>
+                </svg>
+
                 <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Let's Make Something</h2>
-                
                 <p class="text-lg text-gray-400 mt-6 mb-10 typewriter">
-                    If you'd like to see more work or want to get in touch,
+                    Got an idea? Need a new look?
                     <br>
-                    please feel free to send me an email.
+                    I'm currently available for freelance projects.
                 </p>
-                
                 <a href="mailto:your-email@example.com" class="btn-primary inline-block px-10 py-4 rounded-lg text-lg">
                     Send Me An Email
                 </a>
                 
+                <!-- Social Links -->
                 <div class="mt-16">
                     <div class="flex justify-center space-x-8">
                         <a href="#" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
@@ -261,23 +398,33 @@
 
     </main>
 
+    <!-- 
+      FOOTER
+    -->
     <footer class="text-center py-10 border-t border-gray-800 mt-16">
         <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser. Built with grit.</p>
     </footer>
 
 
+    <!-- 
+      MODAL / LIGHTBOX
+    -->
     <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
         
         <div class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden" onclick="event.stopPropagation()">
             
-            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
-                </div>
+            <!-- Modal Media (Image or Video) -->
+            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden flex-shrink-0">
+                <!-- Content injected by JS -->
+            </div>
 
+            <!-- Modal Content (Text) -->
             <div id="modal-body" class="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto">
                 <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
                 <p id="modal-description" class="text-gray-300"></p>
             </div>
             
+            <!-- Close Button -->
             <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-all">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -285,52 +432,80 @@
     </div>
 
 
+    <!-- 
+      JAVASCRIPT
+    -->
     <script>
         // Define all consts that need to query the DOM
         let modal, modalMedia, modalTitle, modalDescription;
 
-        // Wait for the DOM to be fully loaded before querying elements
-        document.addEventListener('DOMContentLoaded', (event) => {
+        // Wait for the page to be ready, then assign the elements to the variables
+        window.addEventListener('DOMContentLoaded', () => {
             modal = document.getElementById('modal');
             modalMedia = document.getElementById('modal-media');
             modalTitle = document.getElementById('modal-title');
             modalDescription = document.getElementById('modal-description');
-        });
 
+            // Also attach the keydown listener here
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+        
+        // --- FUNCTION DEFINITIONS ---
+        // (This site is a long-scroll page, so it doesn't need the page-switching or filtering functions)
+
+        // --- Modal Logic ---
         function openModal(type, src, title, description) {
-            if (!modal) return; // Guard clause in case DOM isn't ready
+            if (!modal || !modalMedia || !modalTitle || !modalDescription) return; // Safety check
 
             // Clear previous media
             modalMedia.innerHTML = '';
-
+            
             if (type === 'video') {
-                // Use a responsive iframe wrapper (requires @tailwindcss/aspect-ratio plugin, or manual CSS)
-                // For simplicity without the plugin, we'll set a fixed aspect ratio.
-                modalMedia.innerHTML = `
-                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
-                        <iframe src="${src}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                `;
-            } else if (type === 'image') {
-                modalMedia.innerHTML = `<img src="${src}" alt="${title}" class="w-full h-auto object-contain max-h-[80vh] md:max-h-full">`;
+                // For video, create an iframe
+                const iframe = document.createElement('iframe');
+                iframe.src = src + "?autoplay=1&mute=1"; // Autoplay muted video
+                iframe.className = 'w-full h-full aspect-video md:aspect-auto md:h-full';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                modalMedia.appendChild(iframe);
+            } 
+            else if (type === 'image') {
+                // For image, create an img tag
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = title;
+                img.className = 'w-full h-full object-contain'; // object-contain to see full image
+                modalMedia.appendChild(img);
             }
 
+            // Set text content
             modalTitle.textContent = title;
             modalDescription.textContent = description;
             
+            // Show modal
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
 
         function closeModal() {
-            if (!modal) return; // Guard clause
+            if (!modal) return; // Safety check
 
+            // Hide modal
             modal.classList.add('hidden');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = 'auto'; // Restore scrolling
             
-            // Stop video playback by clearing the media content
-            modalMedia.innerHTML = '';
+            // Stop video from playing
+            if(modalMedia) {
+                modalMedia.innerHTML = '';
+            }
         }
+        
     </script>
 </body>
 </html>
+
