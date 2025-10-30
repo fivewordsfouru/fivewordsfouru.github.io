@@ -250,4 +250,145 @@
     </footer>
 
 
-    <div id="modal" class="fixed inset-0 bg-bla
+    <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
+        <div class="bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row" onclick="event.stopPropagation()">
+            
+            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden">
+                </div>
+
+            <div id="modal-body" class="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto">
+                <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
+                <p id="modal-description" class="text-gray-300"></p>
+            </div>
+            
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- 1. Page Navigation ---
+        function showPage(pageId) {
+            // Find elements *just-in-time* when the function is called
+            const pages = document.querySelectorAll('.page-content');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Hide all pages
+            pages.forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show the target page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('nav-active');
+                if (link.id === `nav-${pageId}`) {
+                    link.classList.add('nav-active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- 2. Gallery Filtering ---
+        function filterGallery(category) {
+            // Find elements *just-in-time*
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Filter grid items
+            galleryItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category');
+                if (category === 'all' || itemCategory === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update active filter button
+            filterBtns.forEach(btn => {
+                btn.classList.remove('filter-active');
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-gray-300', 'bg-gray-800', 'hover:bg-gray-700');
+                
+                if (btn.getAttribute('onclick') === `filterGallery('${category}')`) {
+                    btn.classList.add('filter-active');
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    btn.classList.remove('text-gray-300', 'bg-gray-800', 'hover:bg-gray-700');
+                }
+            });
+        }
+
+        // --- 3. Modal Logic ---
+        function openModal(type, src, title, description) {
+            // Find elements *just-in-time*
+            const modal = document.getElementById('modal');
+            const modalMedia = document.getElementById('modal-media');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+
+            // Clear previous media
+            modalMedia.innerHTML = '';
+            
+            if (type === 'video') {
+                // For video, create an iframe
+                const iframe = document.createElement('iframe');
+                iframe.src = src + "?autoplay=1&mute=1"; // Autoplay muted video
+                iframe.className = 'w-full h-full aspect-video md:aspect-auto md:h-full';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                modalMedia.appendChild(iframe);
+            } 
+            else if (type === 'image') {
+                // For image, create an img tag
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = title;
+                img.className = 'w-full h-full object-contain'; // object-contain to see full image
+                modalMedia.appendChild(img);
+            }
+
+            // Set text content
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            // Find elements *just-in-time*
+            const modal = document.getElementById('modal');
+            const modalMedia = document.getElementById('modal-media');
+
+            // Hide modal
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Stop video from playing
+            if (modalMedia) {
+                modalMedia.innerHTML = '';
+            }
+        }
+        
+        // --- 4. Close modal with Escape key ---
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+    </script>
+</body>
+</html>
