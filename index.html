@@ -58,11 +58,37 @@
             border: 1px solid #333;
             box-shadow: 5px 5px 0px #000; /* Hard, offset shadow */
             transition: all 0.2s ease-in-out;
+            position: relative; /* Needed for play icon positioning */
         }
         .project-card:hover {
             transform: scale(1.03) !important; /* Override inline rotate */
             box-shadow: 8px 8px 0px #000;
             z-index: 10;
+        }
+
+        /* Play button overlay */
+        .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 124px); /* Adjust height to cover only the image (card_padding + text_height) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .play-button-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            color: white;
+            font-size: 3rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         
         /* 7. Button Style */
@@ -82,6 +108,8 @@
         /* 8. Hide scrollbar for modal */
         #modal-body::-webkit-scrollbar { display: none; }
         #modal-body { -ms-overflow-style: none; scrollbar-width: none; }
+        #modal-media::-webkit-scrollbar { display: none; }
+        #modal-media { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased">
@@ -227,74 +255,85 @@
             <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
-            <!-- Project 1: Video -->
+            <!-- Project 1: Video (Now with play icon and prompt) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" onclick="openModal('video', 'https://www.youtube.com/embed/zPoqNeR3_UA', 'Client Project: Motion Reel', 'A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.')">
-                        <img src="https://placehold.co/1200x800/374151/F9FAFB?text=MOTION+REEL" 
-                             onerror="this.src='https://placehold.co/1200x800/374151/F9FAFB?text=Video'"
-                             alt="Video Project Thumbnail" class="w-full aspect-video object-cover">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" 
+                         onclick="openModal('video', 'https://www.instagram.com/reel/DPuJIMGEhty/embed/', 'Song Video Edit', 'A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section).')">
+                        <div class="relative">
+                            <!-- UPDATED Image for Video Edit -->
+                            <img src="https://iili.io/KivKf5u.md.png" 
+                                 onerror="this.src='https://placehold.co/1200x800/374151/F9FAFB?text=Video+Thumbnail'"
+                                 alt="Video Project Thumbnail" class="w-full aspect-video object-cover">
+                            <div class="play-button-overlay">
+                                <svg class="play-icon w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold">Client Project: Motion Reel</h3>
-                            <p class="typewriter text-gray-600">Video / Motion Graphics</p>
+                            <h3 class="text-2xl font-bold">Song Video Edit</h3>
+                            <p class="typewriter text-gray-600">Video / Edit</p>
+                            <p class="typewriter text-gray-800 text-sm mt-2">Click to View Full Video</p>
                         </div>
                     </div>
                 </div>
                 <div class="md:col-span-2">
-                    <p class="text-lg text-gray-300">A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.</p>
+                    <p class="text-lg text-gray-300">A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section below).</p>
                 </div>
             </div>
 
-            <!-- Project 2: Graphic Design -->
+            <!-- Project 2: Graphic Design (UPDATED) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
-                    <p class="text-lg text-gray-300">Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.</p>
+                    <p class="text-lg text-gray-300">Advertisement concept for a fictional burger company, focusing on bold typography and a grunge, textured feel.</p>
                 </div>
                 <div class="md:col-span-3">
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-2" onclick="openModal('image', 'https://placehold.co/1200x800/3B82F6/FFFFFF?text=BRAND+IDENTITY', 'Aura Cosmetics Branding', 'Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.')">
-                        <img src="https://placehold.co/1200x800/3B82F6/FFFFFF?text=BRAND+IDENTITY" 
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-2" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Advertisement', 'Advertisement concept for a fictional burger company, focusing on bold typography and a grunge, textured feel.')">
+                        <img src="https://iili.io/Kie3SjV.md.png" 
                              onerror="this.src='https://placehold.co/1200x800/3B82F6/FFF?text=Design'"
-                             alt="Branding Project Thumbnail" class="w-full aspect-video object-cover">
+                             alt="Burger Advertisement" class="w-full aspect-video object-cover">
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold">Aura Cosmetics Branding</h3>
+                            <h3 class="text-2xl font-bold">Burger Ad Concept</h3>
                             <p class="typewriter text-gray-600">Graphic Design / Branding</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Project 3: Graphic Design -->
+            <!-- Project 3: Graphic Design (UPDATED) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN', 'Music Festival Poster', 'Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event\'s energy.')">
-                        <img src="https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN" 
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster (Concept)', 'An unused poster concept for Rolling Loud, created with an analog, cut-and-paste zine style.')">
+                        <img src="https://iili.io/Kikrl3X.md.png" 
                              onerror="this.src='https://placehold.co/1200x800/10B981/FFF?text=Design'"
-                             alt="Poster Project Thumbnail" class="w-full aspect-video object-cover">
+                             alt="Rolling Loud Poster" class="w-full aspect-video object-cover">
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold">Music Festival Poster</h3>
+                            <h3 class="text-2xl font-bold">Rolling Loud Poster</h3>
                             <p class="typewriter text-gray-600">Graphic Design / Print</p>
                         </div>
                     </div>
                 </div>
                 <div class="md:col-span-2">
-                    <p class="text-lg text-gray-300">Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event's energy.</p>
+                    <p class="text-lg text-gray-300">An unused poster concept for Rolling Loud, created with an analog, cut-and-paste zine style.</p>
                 </div>
             </div>
             
-            <!-- Project 4: Album Covers -->
+            <!-- Project 4: Random Graphics Gallery (UPDATED) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
-                    <p class="text-lg text-gray-300">A collection of various album covers designed for musicians and bands. Style ranges from grunge photo-manipulation to bold, minimalist typography.</p>
+                    <p class="text-lg text-gray-300">A collection of various graphics, logos, and digital art. Click the card to open the gallery and see more.</p>
                 </div>
                 <div class="md:col-span-3">
-                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-1" onclick="openModal('image', 'https://placehold.co/1200x1200/8B5CF6/FFFFFF?text=ALBUM+ART+GALLERY', 'Album Art Collection', 'A collection of various album covers designed for musicians and bands. Style ranges from grunge photo-manipulation to bold, minimalist typography.')">
-                        <!-- For this image, you should create a collage of your best covers -->
-                        <img src="https://placehold.co/1200x800/8B5CF6/FFFFFF?text=ALBUM+COVER+COLLAGE" 
+                    <!-- UPDATED onclick with all 9 images -->
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-1" 
+                         onclick="openModal('gallery', ['https://iili.io/Kie3SjV.md.png', 'https://iili.io/Kikrl3X.md.png', 'https://iili.io/KivKf5u.md.png', 'https://iili.io/KivzWb9.md.png', 'https://iili.io/KivIKdl.md.webp', 'https://iili.io/KivTnvp.md.png', 'https://iili.io/Kivu6X9.md.png', 'https://iili.io/KivAIBn.md.png', 'https://iili.io/KivAg3J.png'], 'Random Graphics', 'A collection of various graphics, logos, and digital art.')">
+                        
+                        <!-- UPDATED Thumbnail for gallery -->
+                        <img src="https://iili.io/KivzWb9.md.png" 
                              onerror="this.src='https://placehold.co/1200x800/8B5CF6/FFF?text=Design'"
-                             alt="Album Cover Collage" class="w-full aspect-video object-cover">
+                             alt="Random Graphics Collage" class="w-full aspect-video object-cover">
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold">Album Art Collection</h3>
-                            <p class="typewriter text-gray-600">Graphic Design / Music</p>
+                            <h3 class="text-2xl font-bold">Random Graphics</h3>
+                            <p class="typewriter text-gray-600">Graphic Design / Art</p>
                         </div>
                     </div>
                 </div>
@@ -309,10 +348,37 @@
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
                     <div class="md:col-span-1">
-                        <img src="https://placehold.co/400x400/1a1a1a/f4f4f4?text=WS" 
-                             onerror="this.src='https://placehold.co/400x400/1a1a1a/f4f4f4?text=Photo'"
-                             alt="Profile photo for William Schiesser" 
-                             class="rounded-lg w-full aspect-square object-cover border-2 border-gray-300">
+                        <!-- UPDATED: Replaced placeholder <img> with your SVG -->
+                        <svg id="Layer_1_About" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="rounded-lg w-full aspect-square object-cover border-2 border-gray-300 p-4">
+                          <defs>
+                            <style>
+                              .st0-about { fill: none; }
+                              .st1-about { fill: #e4d7bb; }
+                              .st2-about { fill: #091414; }
+                              .st3-about { fill: #101b1b; }
+                              .st4-about { clip-path: url(#clippath-about); }
+                              .st5-about { fill: #1d6d00; }
+                            </style>
+                            <clipPath id="clippath-about">
+                              <path class="st0-about" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                            </clipPath>
+                          </defs>
+                          <g id="Black_Outline-about">
+                            <path class="st3-about" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                            <g class="st4-about">
+                              <path class="st2-about" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                            </g>
+                          </g>
+                          <g id="Leaf-about">
+                            <path class="st5-about" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                          </g>
+                          <g id="Skin-about">
+                            <path class="st1-about" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                          </g>
+                          <g id="Smile-about">
+                            <path class="st3-about" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                          </g>
+                        </svg>
                     </div>
                     <div class="md:col-span-2">
                         <h2 class="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase">About Me</h2>
@@ -386,9 +452,9 @@
                 <!-- Social Links -->
                 <div class="mt-16">
                     <div class="flex justify-center space-x-8">
-                        <!-- CORRECTED LINKEDIN LINK -->
+                        <!-- CORRECTED LINKEDIN LINK (FIXED SVG PATH) -->
                         <a href="https://www.linkedin.com/in/william-schiesser-613566357/?skipRedirect=true" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.T'Challa 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
                         <!-- CORRECTED INSTAGRAM LINK -->
                         <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
@@ -411,18 +477,22 @@
 
     <!-- 
       MODAL / LIGHTBOX
+      UPDATED for Gallery
     -->
     <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
         
-        <div class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden" onclick="event.stopPropagation()">
+        <!-- Main modal container: Removed flex-row, added max-w-6xl for gallery -->
+        <div class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-6xl w-full max-h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
             
-            <!-- Modal Media (Image or Video) -->
-            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden flex-shrink-0">
+            <!-- Modal Media (Image, Video, or Gallery) -->
+            <!-- UPDATED: Removed fixed widths, added scroll/height limits -->
+            <div id="modal-media" class="w-full bg-black md:rounded-t-lg overflow-y-auto max-h-[70vh]">
                 <!-- Content injected by JS -->
             </div>
 
             <!-- Modal Content (Text) -->
-            <div id="modal-body" class="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto">
+            <!-- UPDATED: Removed fixed widths -->
+            <div id="modal-body" class="w-full p-6 md:p-8 overflow-y-auto">
                 <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
                 <p id="modal-description" class="text-gray-300"></p>
             </div>
@@ -441,6 +511,10 @@
     <script>
         // Define all consts that need to query the DOM
         let modal, modalMedia, modalTitle, modalDescription;
+        // Global variables to hold gallery state
+        let currentGalleryItems = [];
+        let currentGalleryTitle = '';
+        let currentGalleryDescription = '';
 
         // Wait for the page to be ready, then assign the elements to the variables
         window.addEventListener('DOMContentLoaded', () => {
@@ -460,18 +534,27 @@
         // --- FUNCTION DEFINITIONS ---
         // (This site is a long-scroll page, so it doesn't need the page-switching or filtering functions)
 
-        // --- Modal Logic ---
-        function openModal(type, src, title, description) {
+        // --- Modal Logic (UPDATED) ---
+        function openModal(type, srcOrGallery, title, description) {
             if (!modal || !modalMedia || !modalTitle || !modalDescription) return; // Safety check
 
             // Clear previous media
             modalMedia.innerHTML = '';
+            // Ensure modal is not in relative positioning mode
+            modalMedia.classList.remove('relative');
             
             if (type === 'video') {
                 // For video, create an iframe
                 const iframe = document.createElement('iframe');
-                iframe.src = src + "?autoplay=1&mute=1"; // Autoplay muted video
-                iframe.className = 'w-full h-full aspect-video md:aspect-auto md:h-full';
+                
+                // Check if it's a YouTube link before adding autoplay
+                if (srcOrGallery.includes('youtube.com')) {
+                    iframe.src = srcOrGallery + "?autoplay=1&mute=1"; // Autoplay muted video
+                } else {
+                    iframe.src = srcOrGallery; // For other embeds like Instagram
+                }
+                
+                iframe.className = 'w-full h-full aspect-video min-h-[400px] md:min-h-0 md:aspect-auto md:h-full';
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
                 iframe.setAttribute('allowfullscreen', '');
@@ -480,10 +563,31 @@
             else if (type === 'image') {
                 // For image, create an img tag
                 const img = document.createElement('img');
-                img.src = src;
+                img.src = srcOrGallery;
                 img.alt = title;
                 img.className = 'w-full h-full object-contain'; // object-contain to see full image
                 modalMedia.appendChild(img);
+            }
+            else if (type === 'gallery') {
+                // Store gallery items for "Back" button
+                currentGalleryItems = srcOrGallery;
+                currentGalleryTitle = title;
+                currentGalleryDescription = description;
+
+                // For gallery, create a grid of images
+                const grid = document.createElement('div');
+                // UPDATED grid to be 4 columns on medium screens
+                grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4';
+                srcOrGallery.forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = title;
+                    // Added cursor-pointer and onclick
+                    img.className = 'w-full h-full object-cover rounded-lg shadow-md aspect-square cursor-pointer transition-transform hover:scale-105';
+                    img.onclick = () => showGalleryImage(imgSrc); // Call new function
+                    grid.appendChild(img);
+                });
+                modalMedia.appendChild(grid);
             }
 
             // Set text content
@@ -493,6 +597,34 @@
             // Show modal
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // NEW Function to show a single image from the gallery
+        function showGalleryImage(imgSrc) {
+            if (!modalMedia) return;
+            modalMedia.innerHTML = ''; // Clear the grid
+
+            // Add relative class for button positioning
+            modalMedia.classList.add('relative');
+
+            // Add the single image
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = "Full size graphic";
+            img.className = 'w-full h-auto object-contain max-h-[70vh]'; // Max height to fit in modal
+            
+            // Add a "Back to Gallery" button
+            const backButton = document.createElement('button');
+            backButton.innerHTML = '&larr; Back to Gallery'; // Use HTML arrow
+            backButton.className = 'text-white typewriter absolute top-4 left-4 bg-black/50 px-3 py-1 rounded z-10 hover:bg-black/80';
+            // On click, re-open the modal with the stored gallery items
+            backButton.onclick = (e) => {
+                e.stopPropagation(); // Prevent modal from closing
+                openModal('gallery', currentGalleryItems, currentGalleryTitle, currentGalleryDescription);
+            };
+            
+            modalMedia.appendChild(backButton);
+            modalMedia.appendChild(img);
         }
 
         function closeModal() {
