@@ -4,337 +4,334 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5words4u - William Schiesser Portfolio</title>
+    <!-- 1. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. Load Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 3. Set base font and smooth scrolling */
-        body {
-            font-family: 'Inter', sans-serif;
+        /* 3. Base font and dark, grainy background */
+        html {
             scroll-behavior: smooth;
         }
-        /* Custom class for the active nav link */
-        .nav-active {
-            color: #60A5FA; /* blue-400 */
-            font-weight: 500;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Dark charcoal */
+            color: #e5e5e5;
+            /* Subtle noise texture */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noise)" opacity="0.02"/></svg>');
+            overflow-x: hidden;
         }
-        /* Custom class for the active filter button */
-        .filter-active {
-            background-color: #2563EB; /* blue-600 */
-            color: white;
+
+        /* 4. Typewriter font for accents */
+        .typewriter {
+            font-family: 'Courier Prime', monospace;
         }
-        /* Hide scrollbar for modal content if it overflows */
-        #modal-body::-webkit-scrollbar {
-            display: none;
+        
+        /* 5. Header style */
+        .header-link {
+            position: relative;
+            padding-bottom: 4px;
         }
-        #modal-body {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .header-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #f59e0b; /* Amber/mustard accent */
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
+        .header-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* 6. Project "card" style */
+        .project-card {
+            background-color: #f4f4f4; /* Off-white paper */
+            color: #1a1a1a;
+            border: 1px solid #333;
+            box-shadow: 5px 5px 0px #000; /* Hard, offset shadow */
+            transition: all 0.2s ease-in-out;
+        }
+        .project-card:hover {
+            transform: scale(1.03) !important; /* Override inline rotate */
+            box-shadow: 8px 8px 0px #000;
+            z-index: 10;
+        }
+        
+        /* 7. Button Style */
+        .btn-primary {
+            background-color: #f59e0b; /* Amber */
+            color: #1a1a1a;
+            font-weight: 700;
+            border: 2px solid #1a1a1a;
+            box-shadow: 3px 3px 0px #1a1a1a;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px #1a1a1a;
+        }
+        
+        /* 8. Hide scrollbar for modal */
+        #modal-body::-webkit-scrollbar { display: none; }
+        #modal-body { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-300 antialiased">
+<body class="antialiased">
 
-    <header class="bg-gray-950/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-700">
-        <nav class="container mx-auto max-w-6xl px-6 py-5 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white" onclick="showPage('work'); return false;">
-                5words4u
+    <!-- 
+      HEADER / NAVIGATION
+    -->
+    <header class="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-gray-800">
+        <nav class="container mx-auto max-w-7xl px-6 py-5 flex justify-between items-center">
+            <!-- Your Brand / Logo -->
+            <a href="#" class="text-2xl font-bold text-white flex items-center space-x-2">
+                <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" alt="5words4u character" class="w-8 h-8">
+                <span class="hidden sm:inline">5words4u</span>
             </a>
             
-            <ul class="flex space-x-6 md:space-x-8 text-gray-400">
-                <li><a href="#" id="nav-work" class="hover:text-blue-400 transition-colors nav-link nav-active" onclick="showPage('work'); return false;">Work</a></li>
-                <li><a href="#" id="nav-about" class="hover:text-blue-400 transition-colors nav-link" onclick="showPage('about'); return false;">About</a></li>
-                <li><a href="#" id="nav-contact" class="hover:text-blue-400 transition-colors nav-link" onclick="showPage('contact'); return false;">Contact</a></li>
+            <!-- Navigation Links (now scroll links) -->
+            <ul class="flex space-x-6 md:space-x-8 text-gray-300 font-medium">
+                <li><a href="#work" class="header-link hover:text-white transition-colors">Work</a></li>
+                <li><a href="#about" class="header-link hover:text-white transition-colors">About</a></li>
+                <li><a href="#contact" class="header-link hover:text-white transition-colors">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="container mx-auto max-w-6xl p-6 min-h-screen">
+    <!-- 
+      MAIN CONTENT AREA
+    -->
+    <main class="container mx-auto max-w-6xl p-6">
 
-        <section id="page-work" class="page-content">
-            <div class="text-center py-16 md:py-24">
-                <h1 class="text-4xl md:text-5xl font-bold text-white">Graphic Designer & Videographer</h1>
-                <p class="text-lg md:text-xl text-gray-400 mt-4 max-w-2xl mx-auto">
-                    A clean, visual-first portfolio focusing on brand identity, motion graphics, and video production.
-                </p>
-            </div>
-
-            <div id="filter-buttons" class="flex justify-center space-x-2 md:space-x-3 mb-12">
-                <button class="filter-btn filter-active px-4 py-2 rounded-full text-sm font-medium transition-all" onclick="filterGallery('all')">All</button>
-                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 transition-all" onclick="filterGallery('design')">Graphic Design</button>
-                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 transition-all" onclick="filterGallery('video')">Video</button>
-            </div>
-
-            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="video" onclick="openModal('video', 'https://www.youtube.com/embed/zPoqNeR3_UA', 'Client Project: Motion Reel', 'A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/374151/F9FAFB?text=Video+Project" 
-                             onerror="this.src='https://placehold.co/600x400/374151/F9FAFB?text=Video'"
-                             alt="Video Project Thumbnail" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Client Project: Motion Reel</h3>
-                        <p class="text-sm text-gray-400">Video</p>
-                    </div>
+        <!-- ============================================= -->
+        <!-- 'HERO' SECTION                                  -->
+        <!-- ============================================= -->
+        <section id="hero" class="min-h-[70vh] flex items-center my-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2">
+                    <h1 class="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter">
+                        William
+                        <br>
+                        Schiesser
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-400 mt-6 max-w-xl typewriter">
+                        Graphic Designer & Videographer.
+                        <br>
+                        Creating raw, authentic, and impactful visual work.
+                    </p>
+                    <a href="#work" class="inline-block bg-white text-black font-bold px-10 py-3 rounded-lg mt-10 text-lg shadow-lg hover:bg-gray-200 transition-colors">
+                        See My Work
+                    </a>
                 </div>
-
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/3B82F6/FFFFFF?text=Brand+Identity', 'Aura Cosmetics Branding', 'Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/3B82F6/FFFFFF?text=Brand+Identity" 
-                             onerror="this.src='https://placehold.co/600x400/3B82F6/FFF?text=Design'"
-                             alt="Branding Project Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Aura Cosmetics Branding</h3>
-                        <p class="text-sm text-gray-400">Graphic Design</p>
-                    </div>
+                <div class="md:col-span-1 flex justify-center md:justify-end relative">
+                    <!-- Your character, but larger and as a central element -->
+                    <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" 
+                         alt="5words4u character" 
+                         class="w-64 h-64 md:w-full md:h-auto z-10">
+                    <!-- Decorative shape behind -->
+                    <div class="absolute w-full h-full bg-f59e0b rounded-full blur-3xl opacity-30 z-0"></div>
                 </div>
-
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=Poster+Design', 'Music Festival Poster', 'Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event\'s energy.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/10B981/FFFFFF?text=Poster+Design" 
-                             onerror="this.src='https://placehold.co/600x400/10B981/FFF?text=Design'"
-                             alt="Poster Project Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Music Festival Poster</h3>
-                        <p class="text-sm text-gray-400">Graphic Design</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="video" onclick="openModal('video', 'https://www.youtube.com/embed/6_pnan_qtrY', 'Product Showcase: Tech Gadget', 'A 30-second promotional video for a new tech gadget. Responsible for storyboarding, filming, and post-production.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/6366F1/FFFFFF?text=Product+Video" 
-                             onerror="this.src='https://placehold.co/600x400/6366F1/FFF?text=Video'"
-                             alt="Product Video Thumbnail" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Product Showcase: Tech Gadget</h3>
-                        <p class="text-sm text-gray-400">Video</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/EC4899/FFFFFF?text=App+UI/UX', 'Mindful App UI/UX', 'UI/UX design for a mindfulness and meditation app. Focused on creating a calm, intuitive, and accessible user experience.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/EC4899/FFFFFF?text=App+UI/UX" 
-                             onerror="this.src='https://placehold.co/600x400/EC4899/FFF?text=Design'"
-                             alt="App UI/UX Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Mindful App UI/UX</h3>
-                        <p class="text-sm text-gray-400">Graphic Design</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'httpshttps://placehold.co/1200x800/F59E0B/FFFFFF?text=Logo+Concepts', 'Logo Explorations', 'A collection of logo concepts and explorations from various client projects. This shows the design process from initial sketch to final vector.')">
-                    <div class="relative w-full aspect-video">
-                        <img src="https://placehold.co/600x400/F59E0B/FFFFFF?text=Logo+Concepts" 
-                             onerror="this.src='https://placehold.co/600x400/F59E0B/FFF?text=Design'"
-                             alt="Logo Concepts Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-white">Logo Explorations</h3>
-                        <p class="text-sm text-gray-400">Graphic Design</p>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <section id="page-about" class="page-content hidden">
-            <div class="max-w-4xl mx-auto py-16 md:py-24">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+        <!-- ============================================= -->
+        <!-- 'WORK' SECTION (Collage/Zine Layout)          -->
+        <!-- ============================================= -->
+        <section id="work" class="pt-24 space-y-16 md:space-y-24">
+            
+            <!-- Section Title -->
+            <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
+
+            <!-- Project 1: Video -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" onclick="openModal('video', 'https://www.youtube.com/embed/zPoqNeR3_UA', 'Client Project: Motion Reel', 'A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.')">
+                        <img src="https://placehold.co/1200x800/374151/F9FAFB?text=MOTION+REEL" 
+                             onerror="this.src='https://placehold.co/1200x800/374151/F9FAFB?text=Video'"
+                             alt="Video Project Thumbnail" class="w-full aspect-video object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold">Client Project: Motion Reel</h3>
+                            <p class="typewriter text-gray-600">Video / Motion Graphics</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <p class="text-lg text-gray-300">A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.</p>
+                </div>
+            </div>
+
+            <!-- Project 2: Graphic Design -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 md:order-last">
+                    <p class="text-lg text-gray-300">Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.</p>
+                </div>
+                <div class="md:col-span-3">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-2" onclick="openModal('image', 'https://placehold.co/1200x800/3B82F6/FFFFFF?text=BRAND+IDENTITY', 'Aura Cosmetics Branding', 'Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.')">
+                        <img src="https://placehold.co/1200x800/3B82F6/FFFFFF?text=BRAND+IDENTITY" 
+                             onerror="this.src='https://placehold.co/1200x800/3B82F6/FFF?text=Design'"
+                             alt="Branding Project Thumbnail" class="w-full aspect-video object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold">Aura Cosmetics Branding</h3>
+                            <p class="typewriter text-gray-600">Graphic Design / Branding</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Graphic Design -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN', 'Music Festival Poster', 'Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event\'s energy.')">
+                        <img src="https://placehold.co/1200x800/10B981/FFFFFF?text=POSTER+DESIGN" 
+                             onerror="this.src='https://placehold.co/1200x800/10B981/FFF?text=Design'"
+                             alt="Poster Project Thumbnail" class="w-full aspect-video object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold">Music Festival Poster</h3>
+                            <p class="typewriter text-gray-600">Graphic Design / Print</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <p class="text-lg text-gray-300">Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event's energy.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- 'ABOUT' SECTION                                 -->
+        <!-- ============================================= -->
+        <section id="about" class="pt-32 md:pt-48">
+            <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
                     <div class="md:col-span-1">
-                        <img src="https://placehold.co/400x400/4B5563/F9FAFB?text=WS" 
-                             onerror="this.src='https://placehold.co/400x400/4B5563/F9FAFB?text=Photo'"
+                        <img src="https://placehold.co/400x400/1a1a1a/f4f4f4?text=WS" 
+                             onerror="this.src='https://placehold.co/400x400/1a1a1a/f4f4f4?text=Photo'"
                              alt="Profile photo for William Schiesser" 
-                             class="rounded-lg w-full aspect-square object-cover shadow-md">
+                             class="rounded-lg w-full aspect-square object-cover border-2 border-gray-300">
                     </div>
                     <div class="md:col-span-2">
-                        <h1 class="text-4xl font-bold text-white mb-6">About 5words4u</h1>
-                        <div class="space-y-4 text-lg text-gray-300">
-                            <p>Hi, I'm William Schiesser, the designer and videographer behind 5words4u. With over 5 years of experience, I specialize in building memorable brands and producing engaging video content.</p>
-                            <p>My approach combines strategic thinking with creative execution, ensuring every project not only looks great but also achieves its goals. I thrive on collaboration and love bringing ideas to life.</p>
-                        </div>
-
-                        <h2 class="text-2xl font-bold text-white mt-12 mb-6">Services</h2>
-                        <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-gray-300">
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Brand Identity & Logo Design</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Video Production & Editing</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Motion Graphics & Animation</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>UI/UX Design</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Print & Packaging</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Creative Direction</span>
-                            </li>
+                        <h2 class="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase">About Me</h2>
+                        <p class="text-lg text-gray-700 mt-6">
+                            Hi, I'm William Schiesser, the creative force behind <strong>5words4u</strong>. I’m a designer and videographer who believes in ditching the polish for something real.
+                        </p>
+                        <p class="text-lg text-gray-700 mt-4">
+                            My style is built on raw ideas, textured layers, and a human touch. I love the happy accidents in analog design and the grit of a story told honestly. I'm here to help brands find their voice, not just a clean look.
+                        </p>
+                        <h3 class="text-2xl font-bold mt-10 mb-4 typewriter">services.</h3>
+                        <ul class="space-y-2 text-gray-800">
+                            <li>> Brand Identity & Logo Design</li>
+                            <li>> Video Production & Editing</li>
+                            <li>> Motion Graphics</li>
+                            <li>> Packaging & Print Design</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="page-contact" class="page-content hidden">
-            <div class="max-w-xl mx-auto py-16 md:py-24">
-                <h1 class="text-4xl md:text-5xl font-bold text-white text-center">Let's create something.</h1>
-                <p class="text-lg text-gray-400 text-center mt-4 mb-12">
-                    Have a project in mind or just want to say hi? <br> Send me a message, and I'll get back to you soon.
+        <!-- ============================================= -->
+        <!-- 'CONTACT' SECTION                               -->
+        <!-- ============================================= -->
+        <section id="contact" class="pt-32 md:pt-48 pb-32">
+            <div class="max-w-2xl mx-auto text-center">
+                <img src="https://assets-global.website-files.com/653063f256086a9ce802875b/65306716cf62822a16c17f7d_5words4u-p-500.png" alt="5words4u character" class="w-24 h-24 mx-auto mb-6">
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Let's Make Something</h2>
+                <p class="text-lg text-gray-400 mt-6 mb-10 typewriter">
+                    Got an idea? Need a new look?
+                    <br>
+                    I'm currently available for freelance projects.
                 </p>
-
-                <form action="#" method="POST" class="space-y-6 bg-gray-800 p-8 rounded-lg shadow-lg border border-gray-700">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
-                        <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
-                        <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white">
-                    </div>
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-300">Message</label>
-                        <textarea id="message" name="message" rows="5" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"></textarea>
-                    </div>
-                    <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                            Send Message
-                        </button>
-                    </div>
-                </form>
-
-                <div class="text-center mt-12">
-                    <p class="text-gray-400 mb-4">Find me on</p>
-                    <div class="flex justify-center space-x-6">
-                        <a href="#" class="text-gray-400 hover:text-blue-500 transition-colors" title="LinkedIn">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <a href="mailto:your-email@example.com" class="btn-primary inline-block px-10 py-4 rounded-lg text-lg">
+                    Send Me An Email
+                </a>
+                
+                <!-- Social Links -->
+                <div class="mt-16">
+                    <div class="flex justify-center space-x-8">
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-pink-500 transition-colors" title="Instagram">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919-4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors" title="Twitter/X">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919 4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
                         </a>
                     </div>
                 </div>
-
             </div>
         </section>
 
     </main>
 
-    <footer class="text-center py-10 border-t border-gray-700 mt-16">
-        <p class="text-sm text-gray-400">&copy; 2025 5words4u | William Schiesser. All Rights Reserved.</p>
+    <!-- 
+      FOOTER
+    -->
+    <footer class="text-center py-10 border-t border-gray-800 mt-16">
+        <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser. Built with grit.</p>
     </footer>
 
 
+    <!-- 
+      MODAL / LIGHTBOX
+    -->
     <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
-        <div class="bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row" onclick="event.stopPropagation()">
+        
+        <div class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden" onclick="event.stopPropagation()">
             
-            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden">
-                </div>
+            <!-- Modal Media (Image or Video) -->
+            <div id="modal-media" class="w-full md:w-2/3 bg-black md:rounded-l-lg overflow-hidden flex-shrink-0">
+                <!-- Content injected by JS -->
+            </div>
 
-            <div id="modal-body" class="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto">
+            <!-- Modal Content (Text) -->
+            <div id="modal-body" classs="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto">
                 <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
                 <p id="modal-description" class="text-gray-300"></p>
             </div>
             
-            <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-colors">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-all">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
 
 
+    <!-- 
+      JAVASCRIPT
+    -->
     <script>
-        // --- 1. Page Navigation ---
-        function showPage(pageId) {
-            // Find elements *just-in-time* when the function is called
-            const pages = document.querySelectorAll('.page-content');
-            const navLinks = document.querySelectorAll('.nav-link');
+        // Define all consts that need to query the DOM
+        let modal, modalMedia, modalTitle, modalDescription;
 
-            // Hide all pages
-            pages.forEach(page => {
-                page.classList.add('hidden');
-            });
-            
-            // Show the target page
-            const targetPage = document.getElementById(`page-${pageId}`);
-            if (targetPage) {
-                targetPage.classList.remove('hidden');
-            }
-            
-            // Update active nav link
-            navLinks.forEach(link => {
-                link.classList.remove('nav-active');
-                if (link.id === `nav-${pageId}`) {
-                    link.classList.add('nav-active');
+        // Wait for the page to be ready, then assign the elements to the variables
+        window.addEventListener('DOMContentLoaded', () => {
+            modal = document.getElementById('modal');
+            modalMedia = document.getElementById('modal-media');
+            modalTitle = document.getElementById('modal-title');
+            modalDescription = document.getElementById('modal-description');
+
+            // Also attach the keydown listener here
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeModal();
                 }
             });
+        });
+        
+        // --- FUNCTION DEFINITIONS ---
+        // (This site is a long-scroll page, so it doesn't need the page-switching or filtering functions)
 
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-
-        // --- 2. Gallery Filtering ---
-        function filterGallery(category) {
-            // Find elements *just-in-time*
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            const filterBtns = document.querySelectorAll('.filter-btn');
-
-            // Filter grid items
-            galleryItems.forEach(item => {
-                const itemCategory = item.getAttribute('data-category');
-                if (category === 'all' || itemCategory === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-            
-            // Update active filter button
-            filterBtns.forEach(btn => {
-                btn.classList.remove('filter-active');
-                btn.classList.remove('bg-blue-600', 'text-white');
-                btn.classList.add('text-gray-300', 'bg-gray-800', 'hover:bg-gray-700');
-                
-                if (btn.getAttribute('onclick') === `filterGallery('${category}')`) {
-                    btn.classList.add('filter-active');
-                    btn.classList.add('bg-blue-600', 'text-white');
-                    btn.classList.remove('text-gray-300', 'bg-gray-800', 'hover:bg-gray-700');
-                }
-            });
-        }
-
-        // --- 3. Modal Logic ---
+        // --- Modal Logic ---
         function openModal(type, src, title, description) {
-            // Find elements *just-in-time*
-            const modal = document.getElementById('modal');
-            const modalMedia = document.getElementById('modal-media');
-            const modalTitle = document.getElementById('modal-title');
-            const modalDescription = document.getElementById('modal-description');
+            if (!modal || !modalMedia || !modalTitle || !modalDescription) return; // Safety check
 
             // Clear previous media
             modalMedia.innerHTML = '';
@@ -368,27 +365,20 @@
         }
 
         function closeModal() {
-            // Find elements *just-in-time*
-            const modal = document.getElementById('modal');
-            const modalMedia = document.getElementById('modal-media');
+            if (!modal) return; // Safety check
 
             // Hide modal
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto'; // Restore scrolling
             
             // Stop video from playing
-            if (modalMedia) {
+            if(modalMedia) {
                 modalMedia.innerHTML = '';
             }
         }
         
-        // --- 4. Close modal with Escape key ---
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
-
     </script>
 </body>
 </html>
+
+
