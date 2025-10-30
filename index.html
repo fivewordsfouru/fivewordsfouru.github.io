@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5words4u - William Schiesser Portfolio</title>
-    <!-- 1. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 2. Load Google Font (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -39,18 +37,12 @@
 </head>
 <body class="bg-gray-900 text-gray-300 antialiased">
 
-    <!-- 
-      HEADER / NAVIGATION
-      This would be your main site header in Wix.
-    -->
     <header class="bg-gray-950/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-700">
         <nav class="container mx-auto max-w-6xl px-6 py-5 flex justify-between items-center">
-            <!-- Your Brand / Logo -->
             <a href="#" class="text-2xl font-bold text-white" onclick="showPage('work'); return false;">
                 5words4u
             </a>
             
-            <!-- Navigation Links -->
             <ul class="flex space-x-6 md:space-x-8 text-gray-400">
                 <li><a href="#" id="nav-work" class="hover:text-blue-400 transition-colors nav-link nav-active" onclick="showPage('work'); return false;">Work</a></li>
                 <li><a href="#" id="nav-about" class="hover:text-blue-400 transition-colors nav-link" onclick="showPage('about'); return false;">About</a></li>
@@ -59,18 +51,9 @@
         </nav>
     </header>
 
-    <!-- 
-      MAIN CONTENT AREA
-      This area holds your "pages". In Wix, you would create separate pages
-      and link to them from your header navigation.
-    -->
     <main class="container mx-auto max-w-6xl p-6 min-h-screen">
 
-        <!-- ============================================= -->
-        <!-- 'WORK' PAGE (The Main Gallery)                  -->
-        <!-- ============================================= -->
         <section id="page-work" class="page-content">
-            <!-- Page Title/Hero -->
             <div class="text-center py-16 md:py-24">
                 <h1 class="text-4xl md:text-5xl font-bold text-white">Graphic Designer & Videographer</h1>
                 <p class="text-lg md:text-xl text-gray-400 mt-4 max-w-2xl mx-auto">
@@ -78,30 +61,19 @@
                 </p>
             </div>
 
-            <!-- 
-              FILTER BUTTONS
-              In Wix, you can use a "Portfolio" element which often has filtering built-in.
-              If not, you can use buttons to link to different galleries (e.g., a "Video" page).
-            -->
             <div id="filter-buttons" class="flex justify-center space-x-2 md:space-x-3 mb-12">
                 <button class="filter-btn filter-active px-4 py-2 rounded-full text-sm font-medium transition-all" onclick="filterGallery('all')">All</button>
                 <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 transition-all" onclick="filterGallery('design')">Graphic Design</button>
                 <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 transition-all" onclick="filterGallery('video')">Video</button>
             </div>
 
-            <!-- 
-              PORTFOLIO GRID
-              This is the main gallery. A grid layout is perfect for mixed media.
-            -->
             <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 
-                <!-- Project 1: Video -->
                 <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="video" onclick="openModal('video', 'https://www.youtube.com/embed/zPoqNeR3_UA', 'Client Project: Motion Reel', 'A compilation of motion graphics work from 2024. This reel showcases various styles, including 2D animation, logo reveals, and UI motion.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/374151/F9FAFB?text=Video+Project" 
                              onerror="this.src='https://placehold.co/600x400/374151/F9FAFB?text=Video'"
                              alt="Video Project Thumbnail" class="w-full h-full object-cover">
-                        <!-- Play Icon Overlay -->
                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                         </div>
@@ -112,7 +84,6 @@
                     </div>
                 </div>
 
-                <!-- Project 2: Graphic Design -->
                 <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/3B82F6/FFFFFF?text=Brand+Identity', 'Aura Cosmetics Branding', 'Full brand identity design for Aura Cosmetics, a new e-commerce startup. Deliverables included logo, packaging, and social media templates.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/3B82F6/FFFFFF?text=Brand+Identity" 
@@ -125,13 +96,11 @@
                     </div>
                 </div>
 
-                <!-- Project 3: Graphic Design -->
                 <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/10B981/FFFFFF?text=Poster+Design', 'Music Festival Poster', 'Event poster and social media assets for the 2024 Summer Sounds music festival. The design uses vibrant colors and custom typography to capture the event\'s energy.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/10B981/FFFFFF?text=Poster+Design" 
                              onerror="this.src='https://placehold.co/600x400/10B981/FFF?text=Design'"
-                             alt="Poster Project Thumbnail" class="w-full h-full object-cover group-hover:scale-1all
--transform duration-300">
+                             alt="Poster Project Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     </div>
                     <div class="p-4">
                         <h3 class="font-medium text-white">Music Festival Poster</h3>
@@ -139,13 +108,11 @@
                     </div>
                 </div>
 
-                <!-- Project 4: Video -->
                 <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="video" onclick="openModal('video', 'https://www.youtube.com/embed/6_pnan_qtrY', 'Product Showcase: Tech Gadget', 'A 30-second promotional video for a new tech gadget. Responsible for storyboarding, filming, and post-production.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/6366F1/FFFFFF?text=Product+Video" 
                              onerror="this.src='https://placehold.co/600x400/6366F1/FFF?text=Video'"
                              alt="Product Video Thumbnail" class="w-full h-full object-cover">
-                        <!-- Play Icon Overlay -->
                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                         </div>
@@ -156,7 +123,6 @@
                     </div>
                 </div>
                 
-                <!-- Project 5: Graphic Design -->
                 <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/EC4899/FFFFFF?text=App+UI/UX', 'Mindful App UI/UX', 'UI/UX design for a mindfulness and meditation app. Focused on creating a calm, intuitive, and accessible user experience.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/EC4899/FFFFFF?text=App+UI/UX" 
@@ -169,8 +135,7 @@
                     </div>
                 </div>
 
-                <!-- Project 6: Graphic Design -->
-                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'https://placehold.co/1200x800/F59E0B/FFFFFF?text=Logo+Concepts', 'Logo Explorations', 'A collection of logo concepts and explorations from various client projects. This shows the design process from initial sketch to final vector.')">
+                <div class="gallery-item rounded-lg overflow-hidden bg-gray-800 border border-gray-700 shadow-lg cursor-pointer group" data-category="design" onclick="openModal('image', 'httpshttps://placehold.co/1200x800/F59E0B/FFFFFF?text=Logo+Concepts', 'Logo Explorations', 'A collection of logo concepts and explorations from various client projects. This shows the design process from initial sketch to final vector.')">
                     <div class="relative w-full aspect-video">
                         <img src="https://placehold.co/600x400/F59E0B/FFFFFF?text=Logo+Concepts" 
                              onerror="this.src='https://placehold.co/600x400/F59E0B/FFF?text=Design'"
@@ -185,23 +150,15 @@
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- 'ABOUT' PAGE                                    -->
-        <!-- ============================================= -->
         <section id="page-about" class="page-content hidden">
-            <!-- 
-              In Wix, you'd create an "About" page and add a 2-column layout.
-            -->
             <div class="max-w-4xl mx-auto py-16 md:py-24">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
-                    <!-- Profile Image -->
                     <div class="md:col-span-1">
                         <img src="https://placehold.co/400x400/4B5563/F9FAFB?text=WS" 
                              onerror="this.src='https://placehold.co/400x400/4B5563/F9FAFB?text=Photo'"
                              alt="Profile photo for William Schiesser" 
                              class="rounded-lg w-full aspect-square object-cover shadow-md">
                     </div>
-                    <!-- Bio / Skills -->
                     <div class="md:col-span-2">
                         <h1 class="text-4xl font-bold text-white mb-6">About 5words4u</h1>
                         <div class="space-y-4 text-lg text-gray-300">
@@ -229,7 +186,10 @@
                             </li>
                             <li class="flex items-center space-x-2">
                                 <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-_round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Print & Packaging</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                 <span>Creative Direction</span>
                             </li>
                         </ul>
@@ -238,20 +198,13 @@ _round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- 'CONTACT' PAGE                                  -->
-        <!-- ============================================= -->
         <section id="page-contact" class="page-content hidden">
-            <!-- 
-              In Wix, you'd create a "Contact" page and add a Contact Form element.
-            -->
             <div class="max-w-xl mx-auto py-16 md:py-24">
                 <h1 class="text-4xl md:text-5xl font-bold text-white text-center">Let's create something.</h1>
                 <p class="text-lg text-gray-400 text-center mt-4 mb-12">
                     Have a project in mind or just want to say hi? <br> Send me a message, and I'll get back to you soon.
                 </p>
 
-                <!-- Simple Contact Form -->
                 <form action="#" method="POST" class="space-y-6 bg-gray-800 p-8 rounded-lg shadow-lg border border-gray-700">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
@@ -272,7 +225,6 @@ _round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                 </form>
 
-                <!-- Social Links -->
                 <div class="text-center mt-12">
                     <p class="text-gray-400 mb-4">Find me on</p>
                     <div class="flex justify-center space-x-6">
@@ -280,4 +232,22 @@ _round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-pink-500 transition-colors" title="Instagram">
-             
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919-4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors" title="Twitter/X">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-10 border-t border-gray-700 mt-16">
+        <p class="text-sm text-gray-400">&copy; 2025 5words4u | William Schiesser. All Rights Reserved.</p>
+    </footer>
+
+
+    <div id="modal" class="fixed inset-0 bg-bla
