@@ -281,7 +281,7 @@
                 </div>
             </div>
 
-            <!-- Project 2: Graphic Design (UPDATED) -->
+            <!-- Project 2: Graphic Design (FIXED: object-contain) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
                     <p class="text-lg text-gray-300">Advertisement concept for a fictional burger company, focusing on bold typography and a grunge, textured feel.</p>
@@ -290,7 +290,7 @@
                     <div class="project-card rounded-lg overflow-hidden cursor-pointer transform rotate-2" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Advertisement', 'Advertisement concept for a fictional burger company, focusing on bold typography and a grunge, textured feel.')">
                         <img src="https://iili.io/Kie3SjV.md.png" 
                              onerror="this.src='https://placehold.co/1200x800/3B82F6/FFF?text=Design'"
-                             alt="Burger Advertisement" class="w-full aspect-video object-cover">
+                             alt="Burger Advertisement" class="w-full aspect-video object-contain bg-black">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold">Burger Ad Concept</h3>
                             <p class="typewriter text-gray-600">Graphic Design / Branding</p>
@@ -299,13 +299,13 @@
                 </div>
             </div>
 
-            <!-- Project 3: Graphic Design (UPDATED) -->
+            <!-- Project 3: Graphic Design (FIXED: object-contain) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
                     <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster (Concept)', 'An unused poster concept for Rolling Loud, created with an analog, cut-and-paste zine style.')">
                         <img src="https://iili.io/Kikrl3X.md.png" 
                              onerror="this.src='https://placehold.co/1200x800/10B981/FFF?text=Design'"
-                             alt="Rolling Loud Poster" class="w-full aspect-video object-cover">
+                             alt="Rolling Loud Poster" class="w-full aspect-video object-contain bg-black">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold">Rolling Loud Poster</h3>
                             <p class="typewriter text-gray-600">Graphic Design / Print</p>
@@ -486,7 +486,7 @@
             
             <!-- Modal Media (Image, Video, or Gallery) -->
             <!-- UPDATED: Removed fixed widths, added scroll/height limits -->
-            <div id="modal-media" class="w-full bg-black md:rounded-t-lg overflow-y-auto max-h-[70vh]">
+            <div id="modal-media" class="w-full bg-black md:rounded-t-lg overflow-y-auto max-h-[70vh] flex justify-center">
                 <!-- Content injected by JS -->
             </div>
 
@@ -550,13 +550,20 @@
                 // Check if it's a YouTube link before adding autoplay
                 if (srcOrGallery.includes('youtube.com')) {
                     iframe.src = srcOrGallery + "?autoplay=1&mute=1"; // Autoplay muted video
+                    iframe.className = 'w-full h-full aspect-video min-h-[400px] md:aspect-auto md:h-full';
+                    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                } else if (srcOrGallery.includes('instagram.com')) {
+                    iframe.src = srcOrGallery; 
+                    // FIXED: Centered, 65vh tall, 9:16 aspect ratio for portrait video
+                    iframe.className = 'mx-auto h-[65vh] w-auto max-w-full aspect-[9/16]'; 
+                    iframe.setAttribute('allow', 'autoplay'); // Instagram embed
                 } else {
-                    iframe.src = srcOrGallery; // For other embeds like Instagram
+                    iframe.src = srcOrGallery;
+                    iframe.className = 'w-full h-full aspect-video min-h-[400px] md:aspect-auto md:h-full';
+                    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
                 }
                 
-                iframe.className = 'w-full h-full aspect-video min-h-[400px] md:min-h-0 md:aspect-auto md:h-full';
                 iframe.setAttribute('frameborder', '0');
-                iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
                 iframe.setAttribute('allowfullscreen', '');
                 modalMedia.appendChild(iframe);
             } 
