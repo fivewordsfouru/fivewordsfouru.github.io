@@ -115,21 +115,6 @@
         #modal-body { -ms-overflow-style: none; scrollbar-width: none; }
         #modal-media::-webkit-scrollbar { display: none; }
         #modal-media { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* 11. Custom aspect ratio for portrait video */
-        .aspect-portrait {
-            position: relative;
-            padding-bottom: 177.77%; /* 9:16 aspect ratio */
-            height: 0;
-            overflow: hidden;
-        }
-        .aspect-portrait iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -210,7 +195,7 @@
     <main class="container mx-auto max-w-6xl p-6">
 
         <!-- ============================================= -->
-        <!-- 'HERO' SECTION                                  -->
+        <!-- 'HERO' SECTION (Added III)                    -->
         <!-- ============================================= -->
         <section id="hero" class="min-h-[70vh] flex items-center my-16">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
@@ -218,7 +203,7 @@
                     <h1 class="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter">
                         William
                         <br>
-                        Schiesser
+                        Schiesser III
                     </h1>
                     <p class="text-xl md:text-2xl text-gray-400 mt-6 max-w-xl typewriter">
                         Graphic Designer & Videographer.
@@ -275,14 +260,14 @@
             <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
-            <!-- Project 1: Video (Now with play icon and prompt) -->
+            <!-- Project 1: Video (YouTube) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
-                  <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" 
-     onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Song Video Edit', 'A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section).')">
+                    <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" 
+                         onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Song Video Edit', 'A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section).')">
                         <div class="relative">
-                            <!-- UPDATED Image for Video Edit -->
-                            <img src="https://iili.io/KivKf5u.md.png" 
+                            <!-- YouTube Thumbnail -->
+                            <img src="https://img.youtube.com/vi/ml2N6OHfmZQ/maxresdefault.jpg" 
                                  onerror="this.src='https://placehold.co/1200x800/374151/F9FAFB?text=Video+Thumbnail'"
                                  alt="Video Project Thumbnail" class="w-full aspect-video object-cover">
                             <div class="play-button-overlay">
@@ -301,7 +286,7 @@
                 </div>
             </div>
 
-            <!-- Project 2: Graphic Design (UPDATED) -->
+            <!-- Project 2: Graphic Design (Burger) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
                     <p class="text-lg text-gray-300">Advertisement concept for a fictional burger company, focusing on bold typography and a grunge, textured feel.</p>
@@ -320,7 +305,7 @@
                 </div>
             </div>
 
-            <!-- Project 3: Graphic Design (UPDATED) -->
+            <!-- Project 3: Graphic Design (Rolling Loud) -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
                     <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-2" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster (Concept)', 'An unused poster concept for Rolling Loud, created with an analog, cut-and-paste zine style.')">
@@ -339,7 +324,7 @@
                 </div>
             </div>
             
-            <!-- Project 4: Random Graphics Gallery (UPDATED) -->
+            <!-- Project 4: Random Graphics Gallery -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-2 md:order-last">
                     <p class="text-lg text-gray-300">A collection of various graphics, logos, and digital art. Click the card to open the gallery and see more.</p>
@@ -376,7 +361,7 @@
         </section>
 
         <!-- ============================================= -->
-        <!-- 'ABOUT' SECTION                                 -->
+        <!-- 'ABOUT' SECTION (Added III)                   -->
         <!-- ============================================= -->
         <section id="about" class="pt-32 md:pt-48">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1">
@@ -417,7 +402,7 @@
                     <div class="md:col-span-2">
                         <h2 class="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase">About Me</h2>
                         <p class="text-lg text-gray-700 mt-6">
-                            Hi, I'm William Schiesser, the creative force behind <strong>5words4u</strong>. I’m a designer and videographer who believes in ditching the polish for something real.
+                            Hi, I'm William Schiesser III, the creative force behind <strong>5words4u</strong>. I’m a designer and videographer who believes in ditching the polish for something real.
                         </p>
                         <p class="text-lg text-gray-700 mt-4">
                             My style is built on raw ideas, textured layers, and a human touch. I love the happy accidents in analog design and the grit of a story told honestly. I'm here to help brands find their voice, not just a clean look.
@@ -429,6 +414,10 @@
                             <li>> Motion Graphics & Album Art</li>
                             <li>> Packaging & Print Design</li>
                         </ul>
+                        <!-- ADDED: Resume Download Link -->
+                        <a href="https://fivewordsfouru.github.io/WilliamSchiesserResume.pdf" target="_blank" class="inline-block typewriter text-amber-600 hover:text-black font-bold mt-6">
+                            > Download PDF Resume
+                        </a>
                     </div>
                 </div>
             </div>
@@ -502,10 +491,10 @@
     </main>
 
     <!-- 
-      FOOTER
+      FOOTER (Added III)
     -->
     <footer class="text-center py-10 border-t border-gray-800 mt-16">
-        <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser. Built with grit.</p>
+        <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser III. Built with grit.</p>
     </footer>
 
 
@@ -568,11 +557,11 @@
         // Function to render the gallery grid
         function renderGalleryGrid() {
             modalMedia.innerHTML = ''; // Clear media
-            modalMedia.classList.remove('flex', 'items-center', 'justify-center', 'max-h-full');
+            modalMedia.classList.remove('flex', 'items-center', 'justify-center', 'h-full', 'max-h-full', 'max-h-[90vh]');
             modalMedia.classList.add('overflow-y-auto', 'max-h-[70vh]');
             
             modalContent.classList.add('max-w-6xl'); // Ensure gallery is wide
-            modalContent.classList.remove('max-w-lg'); // Remove narrow class
+            modalContent.classList.remove('max-w-md');
 
             const grid = document.createElement('div');
             grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4';
@@ -590,14 +579,15 @@
             // Show description
             modalTitle.textContent = currentGalleryTitle;
             modalDescription.textContent = currentGalleryDescription;
+            document.getElementById('modal-body').style.display = 'block';
         }
 
         // Function to render a single full-size image
         function renderFullImage(imgSrc) {
             modalMedia.innerHTML = ''; // Clear media
-            // FIXED: Removed 'max-h-[70vh]' from container, it will be on the image instead
-            modalMedia.classList.add('flex', 'items-center', 'justify-center');
+            modalMedia.classList.add('flex', 'items-center', 'justify-center', 'h-full', 'max-h-[90vh]');
             modalMedia.classList.remove('overflow-y-auto', 'max-h-[70vh]');
+            document.getElementById('modal-body').style.display = 'none'; // Hide text
 
             // Add a "Back to Gallery" button
             const backButton = document.createElement('button');
@@ -612,8 +602,8 @@
             const img = document.createElement('img');
             img.src = imgSrc;
             img.alt = currentGalleryTitle;
-            // FIXED: Use h-auto and max-h to contain the image, not h-full
-            img.className = 'w-auto h-auto max-w-full max-h-[70vh] object-contain'; // 70vh gives room for text
+            // FIXED: Use h-auto and max-h to contain the image
+            img.className = 'w-auto h-auto max-w-full max-h-[85vh] object-contain';
             modalMedia.appendChild(img);
         }
 
@@ -623,35 +613,46 @@
 
             // Clear previous media
             modalMedia.innerHTML = '';
+            document.getElementById('modal-body').style.display = 'block'; // Ensure text is visible
             
             // Reset modal styles
-            modalMedia.classList.remove('flex', 'items-center', 'justify-center', 'max-h-full', 'overflow-y-auto', 'max-h-[70vh]', 'aspect-portrait');
-            modalContent.classList.remove('max-w-6xl', 'max-w-lg');
+            modalMedia.classList.remove('flex', 'items-center', 'justify-center', 'h-full', 'max-h-full', 'overflow-y-auto', 'max-h-[70vh]', 'max-h-[90vh]', 'aspect-portrait');
+            modalContent.classList.remove('max-w-6xl', 'max-w-md');
             
             if (type === 'video') {
-                modalContent.classList.add('max-w-lg'); // Narrower for portrait video
+                
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'w-full relative';
+                
+                if (srcOrGallery.includes('youtube.com')) {
+                    // 16:9 Widescreen for YouTube
+                    modalContent.classList.add('max-w-4xl'); 
+                    videoContainer.style.paddingBottom = '56.25%'; // 16:9
+                } else {
+                    // 9:16 Portrait for Instagram
+                    modalContent.classList.add('max-w-md'); 
+                    videoContainer.style.paddingBottom = '177.77%'; // 9:16
+                }
                 
                 const iframe = document.createElement('iframe');
-                
                 if (srcOrGallery.includes('youtube.com')) {
                     iframe.src = srcOrGallery + "?autoplay=1&mute=1";
                 } else {
                     iframe.src = srcOrGallery; // For Instagram
                 }
                 
-                // FIXED: Force 9:16 aspect ratio for the video container
-                modalMedia.classList.add('aspect-portrait');
                 iframe.className = 'w-full h-full absolute top-0 left-0';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
                 
-                const videoContainer = document.createElement('div');
-                videoContainer.className = 'w-full' // The aspect-portrait class handles the rest
                 videoContainer.appendChild(iframe);
                 modalMedia.appendChild(videoContainer);
 
             } 
             else if (type === 'image') {
                 modalContent.classList.add('max-w-6xl');
-                modalMedia.classList.add('flex', 'items-center', 'justify-center');
+                modalMedia.classList.add('flex', 'items-center', 'justify-center', 'h-full', 'max-h-[70vh]');
 
                 const img = document.createElement('img');
                 img.src = srcOrGallery;
@@ -695,6 +696,7 @@
         }
         
     </script>
+
 </body>
 </html>
 
