@@ -6,21 +6,20 @@
     <title>5words4u - William Schiesser Portfolio</title>
     
     <!-- Google Analytics Tracking Code -->
-    <!-- 1. PASTE YOUR MEASUREMENT ID in the G-XXXXXXXXXX spot below -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-60KVHEGDD9"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
     
-      gtag('config', 'G-60KVHEGDD9'); // <-- 2. PASTE IT HERE AGAIN
+      gtag('config', 'G-60KVHEGDD9');
     </script>
     <!-- End Google Analytics -->
 
-    <!-- 1. Load Tailwind CSS (FIXED LINK) -->
+    <!-- 1. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 2. Load Google Fonts (FIXED LINKS) -->
+    <!-- 2. Load Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
@@ -272,14 +271,14 @@
             <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
-            <!-- Project 1: Video (YouTube) -->
+            <!-- Project 1: Video (YouTube) - UPDATED TEXT -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div class="md:col-span-3">
                     <div class="project-card rounded-lg overflow-hidden cursor-pointer transform -rotate-1" 
-                         onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Song Video Edit', 'A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section).')">
+                         onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple, focusing on clean motion graphics and a professional aesthetic.')">
                         <div class="relative">
                             <!-- YouTube Thumbnail -->
-                            <img src="https://img.youtube.com/vi/ml2N6OHfmZQ/maxresdefault.jpg" 
+                            <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" 
                                  onerror="this.src='https://placehold.co/1200x800/374151/F9FAFB?text=Video+Thumbnail'"
                                  alt="Video Project Thumbnail" class="w-full aspect-video object-cover">
                             <div class="play-button-overlay">
@@ -287,14 +286,14 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold">Song Video Edit</h3>
-                            <p class="typewriter text-gray-600">Video / Edit</p>
+                            <h3 class="text-2xl font-bold">Apple Ad Concept</h3>
+                            <p class="typewriter text-gray-600">Motion Graphics / Spec Ad</p>
                             <p class="typewriter text-gray-800 text-sm mt-2">Click to View Full Video</p>
                         </div>
                     </div>
                 </div>
                 <div class="md:col-span-2">
-                    <p class="text-lg text-gray-300">A video edit I made for a song. For my full reel and more video projects, please check out my Instagram (linked in the contact section below).</p>
+                    <p class="text-lg text-gray-300">A spec ad I created for Apple, focusing on clean motion graphics and a professional aesthetic. For more work, check my Instagram.</p>
                 </div>
             </div>
 
@@ -629,7 +628,7 @@
             
             // Reset modal styles
             modalMedia.classList.remove('flex', 'items-center', 'justify-center', 'h-full', 'max-h-full', 'overflow-y-auto', 'max-h-[70vh]', 'max-h-[90vh]', 'aspect-portrait');
-            modalContent.classList.remove('max-w-6xl', 'max-w-md');
+            modalContent.classList.remove('max-w-6xl', 'max-w-md', 'max-w-4xl');
             
             if (type === 'video') {
                 
@@ -711,4 +710,5 @@
 
 </body>
 </html>
+
 
