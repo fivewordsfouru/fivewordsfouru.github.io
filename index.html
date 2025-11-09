@@ -84,33 +84,38 @@
 
         /* 7. Project "card" style */
         .project-card {
-            background-color: transparent;
+            background-color: #f4f4f4; /* Off-white paper */
             color: #1a1a1a;
+            border: 1px solid #333;
+            box-shadow: 5px 5px 0px #000; /* Hard, offset shadow */
             transition: all 0.2s ease-in-out;
-            position: relative; 
+            position: relative; /* Needed for play icon positioning */
         }
         .project-card:hover {
-            transform: scale(1.03) !important; 
+            transform: scale(1.03) !important; /* Override inline rotate */
+            box-shadow: 8px 8px 0px #000;
             z-index: 10;
         }
 
-        /* 8. Play button overlay */
+        /* 8. Play button overlay - FIXED HEIGHT */
         .play-button-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; 
+            height: 100%; /* FIXED: Now covers exactly the container it's in */
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.4); 
+            background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        .group:hover .play-button-overlay {
+
+        .project-card:hover .play-button-overlay {
             opacity: 1;
         }
+
         .play-icon {
             color: white;
             font-size: 3rem;
@@ -146,15 +151,51 @@
 </head>
 <body class="antialiased">
 
-    <!-- HEADER -->
+    <!-- 
+      HEADER / NAVIGATION
+    -->
     <header class="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-gray-800">
         <nav class="container mx-auto max-w-7xl px-6 py-5 flex justify-between items-center">
+            <!-- Your Brand / Logo -->
             <a href="#" class="text-2xl font-bold text-white flex items-center space-x-2">
+                
+                <!-- Your SVG Logo Code is Pasted Below -->
                 <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-8 h-8">
-                  <defs><style>.st0{fill:none;}.st1{fill:#e4d7bb;}.st2{fill:#091414;}.st3{fill:#101b1b;}.st4{clip-path:url(#clippath);}.st5{fill:#1d6d00;}</style><clipPath id="clippath"><path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/></clipPath></defs><g id="Black_Outline"><path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/><g class="st4"><path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/></g></g><g id="Leaf"><path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/></g><g id="Skin"><path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/></g><g id="Smile"><path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/></g>
+                  <defs>
+                    <style>
+                      .st0 { fill: none; }
+                      .st1 { fill: #e4d7bb; }
+                      .st2 { fill: #091414; }
+                      .st3 { fill: #101b1b; }
+                      .st4 { clip-path: url(#clippath); }
+                      .st5 { fill: #1d6d00; }
+                    </style>
+                    <clipPath id="clippath">
+                      <path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    </clipPath>
+                  </defs>
+                  <g id="Black_Outline">
+                    <path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    <g class="st4">
+                      <path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                    </g>
+                  </g>
+                  <g id="Leaf">
+                    <path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                  </g>
+                  <g id="Skin">
+                    <path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                  </g>
+                  <g id="Smile">
+                    <path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                  </g>
                 </svg>
+                <!-- End of SVG Logo Code -->
+                
                 <span class="hidden sm:inline">5words4u</span>
             </a>
+            
+            <!-- Navigation Links (now scroll links) -->
             <ul class="flex space-x-6 md:space-x-8 text-gray-300 font-medium">
                 <li><a href="#work" class="header-link hover:text-white transition-colors">Work</a></li>
                 <li><a href="#about" class="header-link hover:text-white transition-colors">About</a></li>
@@ -163,9 +204,14 @@
         </nav>
     </header>
 
+    <!-- 
+      MAIN CONTENT AREA
+    -->
     <main class="container mx-auto max-w-6xl p-6">
 
-        <!-- HERO -->
+        <!-- ============================================= -->
+        <!-- 'HERO' SECTION (Added III)                    -->
+        <!-- ============================================= -->
         <section id="hero" class="min-h-[70vh] flex items-center my-16">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div class="md:col-span-2">
@@ -184,28 +230,64 @@
                     </a>
                 </div>
                 <div class="md:col-span-1 flex justify-center md:justify-end relative">
+                    <!-- Your character SVG replaces the img tag -->
                     <svg id="Layer_1_Hero" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-64 h-64 md:w-full md:h-auto z-10">
-                      <defs><style>.st0{fill:none;}.st1{fill:#e4d7bb;}.st2{fill:#091414;}.st3{fill:#101b1b;}.st4{clip-path:url(#clippath-hero);}.st5{fill:#1d6d00;}</style><clipPath id="clippath-hero"><path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/></clipPath></defs><g id="Black_Outline-hero"><path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/><g class="st4"><path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/></g></g><g id="Leaf-hero"><path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/></g><g id="Skin-hero"><path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/></g><g id="Smile-hero"><path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/></g>
+                      <defs>
+                        <style>
+                          .st0-hero { fill: none; }
+                          .st1-hero { fill: #e4d7bb; }
+                          .st2-hero { fill: #091414; }
+                          .st3-hero { fill: #101b1b; }
+                          .st4-hero { clip-path: url(#clippath-hero); }
+                          .st5-hero { fill: #1d6d00; }
+                        </style>
+                        <clipPath id="clippath-hero">
+                          <path class="st0-hero" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                        </clipPath>
+                      </defs>
+                      <g id="Black_Outline-hero">
+                        <path class="st3-hero" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                        <g class="st4-hero">
+                          <path class="st2-hero" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                        </g>
+                      </g>
+                      <g id="Leaf-hero">
+                        <path class="st5-hero" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                      </g>
+                      <g id="Skin-hero">
+                        <path class="st1-hero" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                      </g>
+                      <g id="Smile-hero">
+                        <path class="st3-hero" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                      </g>
                     </svg>
+                    <!-- Decorative shape behind -->
                     <div class="absolute w-full h-full bg-[#f59e0b] rounded-full blur-3xl opacity-30 z-0"></div>
                 </div>
             </div>
         </section>
 
-        <!-- FEATURED WORK -->
+        <!-- ============================================= -->
+        <!-- 'WORK' SECTION (FEATURED + ARCHIVE)           -->
+        <!-- ============================================= -->
         <section id="work" class="pt-24 space-y-24">
+            
+            <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
-            <!-- Featured Project (Apple Ad) -->
+            <!-- FEATURED PROJECT (Apple Ad) -->
             <div class="project-card rounded-lg overflow-hidden p-2 transform -rotate-1 bg-white" style="background-color: white !important;">
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center bg-[#1a1a1a] p-6 md:p-12 rounded-lg">
                     <div class="lg:col-span-3 cursor-pointer relative group" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple, focusing on clean motion graphics and a professional aesthetic.')">
-                        <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" 
-                             alt="Apple Ad Thumbnail" 
-                             class="w-full aspect-video object-cover rounded border-2 border-[#333] shadow-xl transition-transform duration-300 group-hover:scale-[1.02]">
-                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-                             <svg class="w-24 h-24 text-white drop-shadow-xl" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <div class="relative">
+                            <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" 
+                                 alt="Apple Ad Thumbnail" 
+                                 class="w-full aspect-video object-cover rounded border-2 border-[#333] shadow-xl transition-transform duration-300 group-hover:scale-[1.02]">
+                            <!-- Play button overlay -->
+                            <div class="play-button-overlay">
+                                 <svg class="play-icon w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
                         </div>
                     </div>
                     <div class="lg:col-span-2 text-white">
@@ -223,7 +305,7 @@
                 </div>
             </div>
 
-            <!-- ARCHIVE (Masonry Grid) -->
+            <!-- ARCHIVE SECTION (Masonry Grid) -->
             <div class="pt-16 border-t border-gray-800">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-white tracking-tight">The Archive</h3>
@@ -231,58 +313,53 @@
                 </div>
 
                 <div class="masonry-grid">
-                    <!-- GIPHY -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer" 
-                         onclick="openModal('image', 'https://i.giphy.com/media/sH6sOTHNwS77wLJaGl/giphy.gif', 'GIPHY Animation', '')">
-                        <img src="https://i.giphy.com/media/sH6sOTHNwS77wLJaGl/giphy.gif" alt="Animation" class="w-full h-auto">
-                    </div>
-                    <!-- Burger Ad -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
+                    <!-- 1. Burger Ad -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
                         <img src="https://iili.io/Kie3SjV.md.png" alt="Burger Ad" class="w-full h-auto">
                     </div>
-                    <!-- Rolling Loud -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
+                    <!-- 2. Rolling Loud -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
                         <img src="https://iili.io/Kikrl3X.md.png" alt="Rolling Loud Poster" class="w-full h-auto">
                     </div>
-                     <!-- Graphic 3 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
+                     <!-- 3. Graphic (Video Thumb) -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivKf5u.md.png" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 4 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" onclick="openModal('image', 'https://iili.io/KivzWb9.md.png', 'Digital Art', '')">
+                    <!-- 4. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivzWb9.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivzWb9.md.png" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 5 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" onclick="openModal('image', 'https://iili.io/KivIKdl.md.webp', 'Digital Art', '')">
+                    <!-- 5. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivIKdl.md.webp', 'Digital Art', '')">
                         <img src="https://iili.io/KivIKdl.md.webp" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 6 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" onclick="openModal('image', 'https://iili.io/KivTnvp.md.png', 'Digital Art', '')">
+                    <!-- 6. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivTnvp.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivTnvp.md.png" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 7 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" onclick="openModal('image', 'https://iili.io/Kivu6X9.md.png', 'Digital Art', '')">
+                    <!-- 7. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kivu6X9.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/Kivu6X9.md.png" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 8 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" onclick="openModal('image', 'https://iili.io/KivAIBn.md.png', 'Digital Art', '')">
+                    <!-- 8. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAIBn.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivAIBn.md.png" alt="Digital Art" class="w-full h-auto">
                     </div>
-                    <!-- Graphic 9 -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" onclick="openModal('image', 'https://iili.io/KivAg3J.png', 'Digital Art', '')">
+                    <!-- 9. Graphic -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAg3J.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivAg3J.png" alt="Digital Art" class="w-full h-auto">
                     </div>
                 </div>
             </div>
 
-            <!-- MORE VIDEOS -->
+            <!-- MORE VIDEOS SECTION (FIXED: Added group hover classes) -->
             <div class="pt-16 border-t border-gray-800" id="more-videos">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-white tracking-tight">More Videos</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Video 1 -->
-                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" 
+                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/e-IretuOf4g', 'Video Project', '')">
                         <div class="relative">
                             <img src="https://img.youtube.com/vi/e-IretuOf4g/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
@@ -292,7 +369,7 @@
                         </div>
                     </div>
                     <!-- Video 2 -->
-                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1" 
+                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Video Project', '')">
                         <div class="relative">
                             <img src="https://img.youtube.com/vi/ml2N6OHfmZQ/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
@@ -302,7 +379,7 @@
                         </div>
                     </div>
                     <!-- Video 3 -->
-                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1" 
+                    <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/27_acp7ebK4', 'Video Project', '')">
                         <div class="relative">
                             <img src="https://img.youtube.com/vi/27_acp7ebK4/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
@@ -321,60 +398,253 @@
 
         </section>
 
-        <!-- ABOUT -->
+        <!-- ============================================= -->
+        <!-- 'ABOUT' SECTION (Added III)                   -->
+        <!-- ============================================= -->
         <section id="about" class="pt-32 md:pt-48">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1" style="background-color: #f4f4f4 !important;">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
                     <div class="md:col-span-1">
+                        <!-- UPDATED: Replaced placeholder <img> with your SVG -->
                         <svg id="Layer_1_About" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="rounded-lg w-full aspect-square object-cover border-2 border-gray-300 p-4">
-                          <defs><style>.st0{fill:none;}.st1{fill:#e4d7bb;}.st2{fill:#091414;}.st3{fill:#101b1b;}.st4{clip-path:url(#clippath-about);}.st5{fill:#1d6d00;}</style><clipPath id="clippath-about"><path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/></clipPath></defs><g id="Black_Outline-about"><path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/><g class="st4"><path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/></g></g><g id="Leaf-about"><path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/></g><g id="Skin-about"><path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/></g><g id="Smile-about"><path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/></g>
-                    </svg>
-                </div>
-                <div class="md:col-span-2">
-                    <h2 class="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase">About Me</h2>
-                    <p class="text-lg text-gray-700 mt-6">
-                        Hi, I'm William Schiesser III, the creative force behind <strong>5words4u</strong>. I’m a designer and videographer who believes in ditching the polish for something real.
-                    </p>
-                    <p class="text-lg text-gray-700 mt-4">
-                        My style is built on raw ideas, textured layers, and a human touch. I love the happy accidents in analog design and the grit of a story told honestly. I'm here to help brands find their voice, not just a clean look.
-                    </p>
-                    <h3 class="text-2xl font-bold mt-10 mb-4 typewriter">services.</h3>
-                    <ul class="space-y-2 text-gray-800">
-                        <li>> Brand Identity & Logo Design</li>
-                        <li>> Video Production & Editing</li>
-                        <li>> Motion Graphics & Album Art</li>
-                        <li>> Packaging & Print Design</li>
-                    </ul>
-                    <!-- Resume Download Link -->
-                    <a href="https://fivewordsfouru.github.io/WilliamSchiesserResume.pdf" target="_blank" class="inline-block typewriter text-amber-600 hover:text-black font-bold mt-6">
-                        > Download PDF Resume
-                    </a>
+                          <defs>
+                            <style>
+                              .st0-about { fill: none; }
+                              .st1-about { fill: #e4d7bb; }
+                              .st2-about { fill: #091414; }
+                              .st3-about { fill: #101b1b; }
+                              .st4-about { clip-path: url(#clippath-about); }
+                              .st5-about { fill: #1d6d00; }
+                            </style>
+                            <clipPath id="clippath-about">
+                              <path class="st0-about" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                            </clipPath>
+                          </defs>
+                          <g id="Black_Outline-about">
+                            <path class="st3-about" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                            <g class="st4-about">
+                              <path class="st2-about" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                            </g>
+                          </g>
+                          <g id="Leaf-about">
+                            <path class="st5-about" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                          </g>
+                          <g id="Skin-about">
+                            <path class="st1-about" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                          </g>
+                          <g id="Smile-about">
+                            <path class="st3-about" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h2 class="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase">About Me</h2>
+                        <p class="text-lg text-gray-700 mt-6">
+                            Hi, I'm William Schiesser III, the creative force behind <strong>5words4u</strong>. I’m a designer and videographer who believes in ditching the polish for something real.
+                        </p>
+                        <p class="text-lg text-gray-700 mt-4">
+                            My style is built on raw ideas, textured layers, and a human touch. I love the happy accidents in analog design and the grit of a story told honestly. I'm here to help brands find their voice, not just a clean look.
+                        </p>
+                        <h3 class="text-2xl font-bold mt-10 mb-4 typewriter">services.</h3>
+                        <ul class="space-y-2 text-gray-800">
+                            <li>> Brand Identity & Logo Design</li>
+                            <li>> Video Production & Editing</li>
+                            <li>> Motion Graphics & Album Art</li>
+                            <li>> Packaging & Print Design</li>
+                        </ul>
+                        <!-- Resume Download Link -->
+                        <a href="https://fivewordsfouru.github.io/WilliamSchiesserResume.pdf" target="_blank" class="inline-block typewriter text-amber-600 hover:text-black font-bold mt-6">
+                            > Download PDF Resume
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="pt-32 md:pt-48 pb-32">
-        <div class="max-w-2xl mx-auto text-center">
-            <svg id="Layer_1_Contact" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-24 h-24 mx-auto mb-6">
-              <defs><style>.st0{fill:none;}.st1{fill:#e4d7bb;}.st2{fill:#091414;}.st3{fill:#101b1b;}.st4{clip-path:url(#clippath-contact);}.st5{fill:#1d6d00;}</style><clipPath id="clippath-contact"><path class="st0" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/></clipPath></defs><g id="Black_Outline-contact"><path class="st3" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/><g class="st4"><path class="st2" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/></g></g><g id="Leaf-contact"><path class="st5" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/></g><g id="Skin-contact"><path class="st1" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/></g><g id="Smile-contact"><path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/></g>
-            </svg>
+        <!-- ============================================= -->
+        <!-- 'CONTACT' SECTION                               -->
+        <!-- ============================================= -->
+        <section id="contact" class="pt-32 md:pt-48 pb-32">
+            <div class="max-w-2xl mx-auto text-center">
+                <!-- Your character SVG replaces the img tag -->
+                <svg id="Layer_1_Contact" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-24 h-24 mx-auto mb-6">
+                  <defs>
+                    <style>
+                      .st0-contact { fill: none; }
+                      .st1-contact { fill: #e4d7bb; }
+                      .st2-contact { fill: #091414; } /* Original Hair/Outline Color */
+                      .st3-contact { fill: #101b1b; } /* Original Hair/Outline Color */
+                      .st4-contact { clip-path: url(#clippath-contact); }
+                      .st5-contact { fill: #1d6d00; } /* Original Leaf Color */
+                    </style>
+                    <clipPath id="clippath-contact">
+                      <path class="st0-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    </clipPath>
+                  </defs>
+                  
+                  <g id="Black_Outline-contact">
+                    <path class="st3-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
+                    <g class="st4-contact">
+                      <path class="st2-contact" d="M171.7,159.6c-6.9,13.3-3.1,30.2-18.1,30.2s-19.1-19.4-19.1-34.4,2.4-26.1,17.4-26.1,34.8,1.4,19.7,30.2h0Z"/>
+                    </g>
+                  </g>
+                  <g id="Leaf-contact">
+                    <path class="st5-contact" d="M137.4,182.6l3.1-48.8c1.6-25.6-17.8-47.9-43.4-49.2-.8,0-1.5,0-2.3,0,0,0-22.4-2.8-45.1,16,0,0-4.2-8.6-1.8-18.1,3.7-14.7,37.7-55.7,98.5-4.6,0,0,1.8-17.2-10.4-36.5,0,0-9.7-20.4-34.6-21.8-2.2-.1-3.3-2.8-1.8-4.5,4.7-5.3,13.8-13.6,25.3-14.9,0,0,25.6-2.8,37.2,24.4,2.7,6.4,4,13.4,4,20.4v30.6s4.6-24.2,41.7-30.4c0,0,46.6-7.4,61.1,44.5,0,0,2.5,8.9-3.7,9.5,0,0-12.7-14.1-42.4-21.8-33.5-8.7-62.6,26.6-60.4,64.4.7,11.8,6.3,37.9,2.8,43.9-7.4,12.7-27.8-3.1-27.8-3.1h0Z"/>
+                  </g>
+                  <g id="Skin-contact">
+                    <path class="st1-contact" d="M58.7,290s-2,17.9-2.2,38.4c-.2,26.6,10.4,52.5,30.1,70.3,14.3,13,35.2,23.7,65.3,25.1,0,0,51.9,2.6,83.4-47.5,13.1-20.7,18.7-45.4,15.7-69.8-.6-4.6-1.4-9.2-2.8-13.5l-8.9,15.6s.3-55.9-10.1-61.4c0,0,0,31.3-8.6,43.6l-19-72.4s-.6,45.1-16,61.4l-15-58.9-5.5,57.7-11-20.7,1.5,29.3s-11.1,1.8-26.1-63.2l-4.6,58.6s-10.4-14.4-10.1-41.4c0,0-7.4,12-4.9,31.3,0,0-4.3.3-8.3-20.3l-4-32.5s-13.2,36.5-13.5,66.3c0,0-5.2-4.6-8.9-32.5,0,0-8.3,15.4-5.2,54.9l-11.4-18.4h0Z"/>
+                  </g>
+                  <g id="Smile-contact">
+                    <path class="st3-contact" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
+                  </g>
+                </svg>
 
-            <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Let's Make Something</h2>
-            <p class="text-lg text-gray-400 mt-6 mb-10 typewriter">
-                Got an idea? Need a new look?
-                <br>
-                I'm currently available for freelance projects.
-            </p>
-            <a href="mailto:williamschiesser0@gmail.com" class="btn-primary inline-block px-10 py-4 rounded-lg text-lg">
-                Send Me An Email
-            </a>
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Let's Make Something</h2>
+                <p class="text-lg text-gray-400 mt-6 mb-10 typewriter">
+                    Got an idea? Need a new look?
+                    <br>
+                    I'm currently available for freelance projects.
+                </p>
+                <a href="mailto:williamschiesser0@gmail.com" class="btn-primary inline-block px-10 py-4 rounded-lg text-lg">
+                    Send Me An Email
+                </a>
+                
+                <div class="mt-16">
+                    <div class="flex justify-center space-x-8">
+                        <a href="https://www.linkedin.com/in/william-schiesser-613566357/?skipRedirect=true" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <!-- Replaced standard SVG for Instagram with a simpler, more robust path -->
+                        <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 
+      FOOTER (Added III)
+    -->
+    <footer class="text-center py-10 border-t border-gray-800 mt-16">
+        <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser III. Built with grit.</p>
+    </footer>
+
+
+    <!-- 
+      MODAL / LIGHTBOX
+    -->
+    <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
+        
+        <!-- Main modal container -->
+        <div id="modal-content" class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-6xl w-full max-h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
             
-            <div class="mt-16">
-                <div class="flex justify-center space-x-8">
-                    <a href="https://www.linkedin.com/in/william-schiesser-613566357/?skipRedirect=true" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919-4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.162-6.162-2.759-6.16
+            <!-- Modal Media (Image, Video, or Gallery) -->
+            <div id="modal-media" class="w-full bg-black overflow-y-auto relative">
+                <!-- Content injected by JS -->
+            </div>
+
+            <!-- Modal Content (Text) -->
+            <div id="modal-body" class="w-full p-6 md:p-8 overflow-y-auto">
+                <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
+                <p id="modal-description" class="text-gray-300"></p>
+            </div>
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-all z-50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- 
+      JAVASCRIPT
+    -->
+    <script>
+        // Define all variables in global scope to avoid reference errors
+        let modal, modalMedia, modalTitle, modalDescription, modalContent;
+
+        // Helper function to ensure elements are found before using them
+        function ensureElements() {
+            if (!modal) modal = document.getElementById('modal');
+            if (!modalContent) modalContent = document.getElementById('modal-content');
+            if (!modalMedia) modalMedia = document.getElementById('modal-media');
+            if (!modalTitle) modalTitle = document.getElementById('modal-title');
+            if (!modalDescription) modalDescription = document.getElementById('modal-description');
+        }
+
+        // Main Modal Opening Function
+        function openModal(type, src, title, description) {
+            ensureElements();
+            if (!modal) return; // Safety check if DOM is somehow not ready
+
+            // Clear previous content
+            modalMedia.innerHTML = '';
+            
+            // Reset classes for fresh state
+            modalMedia.className = 'w-full bg-black overflow-y-auto relative';
+            modalContent.classList.remove('max-w-4xl', 'max-w-md');
+            modalContent.classList.add('max-w-6xl'); // Default wide width
+
+            if (type === 'video') {
+                // Video handling
+                modalContent.classList.remove('max-w-6xl');
+                modalContent.classList.add('max-w-4xl'); // Widescreen video width
+                
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'w-full relative';
+                videoContainer.style.paddingBottom = '56.25%'; // 16:9 aspect ratio
+                
+                const iframe = document.createElement('iframe');
+                iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related videos
+                iframe.className = 'absolute top-0 left-0 w-full h-full';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                
+                videoContainer.appendChild(iframe);
+                modalMedia.appendChild(videoContainer);
+            } 
+            else if (type === 'image') {
+                // Single image handling
+                modalMedia.classList.add('flex', 'items-center', 'justify-center', 'min-h-[50vh]');
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = title;
+                img.className = 'w-auto h-auto max-w-full max-h-[80vh] object-contain';
+                modalMedia.appendChild(img);
+            }
+
+            // Set text content
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalDescription) modalDescription.textContent = description;
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Modal Closing Function
+        function closeModal() {
+            ensureElements();
+            if (!modal) return;
+            
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            modalMedia.innerHTML = ''; // Stop video playback
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            ensureElements();
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        });
+    </script>
+</body>
+</html>
