@@ -56,6 +56,17 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #444; }
 
+        /* === NEW POLISH: Scroll Reveal Animation Base State === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* 5. Typewriter font for accents */
         .typewriter {
             font-family: 'Courier Prime', monospace;
@@ -82,14 +93,14 @@
             transform: scaleX(1);
         }
 
-        /* 7. Project "card" style */
+        /* 7. Project "card" style - RESTORED PAPER LOOK */
         .project-card {
             background-color: #f4f4f4; /* Off-white paper */
             color: #1a1a1a;
             border: 1px solid #333;
             box-shadow: 5px 5px 0px #000; /* Hard, offset shadow */
             transition: all 0.2s ease-in-out;
-            position: relative; /* Needed for play icon positioning */
+            position: relative; 
         }
         .project-card:hover {
             transform: scale(1.03) !important; /* Override inline rotate */
@@ -97,21 +108,23 @@
             z-index: 10;
         }
 
-        /* 8. Play button overlay - FIXED HEIGHT */
+        /* 8. Play button overlay - FIXED */
         .play-button-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* FIXED: Now covers exactly the container it's in */
+            height: 100%; /* Covers the exact container it is placed in */
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+            background-color: rgba(0, 0, 0, 0.4); 
             opacity: 0;
             transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
+        .group:hover .play-button-overlay,
         .project-card:hover .play-button-overlay {
             opacity: 1;
         }
@@ -212,7 +225,7 @@
         <!-- ============================================= -->
         <!-- 'HERO' SECTION (Added III)                    -->
         <!-- ============================================= -->
-        <section id="hero" class="min-h-[70vh] flex items-center my-16">
+        <section id="hero" class="min-h-[70vh] flex items-center my-16 reveal">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div class="md:col-span-2">
                     <h1 class="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter">
@@ -270,7 +283,7 @@
         <!-- ============================================= -->
         <!-- 'WORK' SECTION (FEATURED + ARCHIVE)           -->
         <!-- ============================================= -->
-        <section id="work" class="pt-24 space-y-24">
+        <section id="work" class="pt-24 space-y-24 reveal">
             
             <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
@@ -306,13 +319,24 @@
             </div>
 
             <!-- ARCHIVE SECTION (Masonry Grid) -->
-            <div class="pt-16 border-t border-gray-800">
+            <div class="pt-16 border-t border-gray-800 reveal">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-white tracking-tight">The Archive</h3>
                     <p class="text-gray-400 mt-2 typewriter">A collection of graphics, posters, and experiments.</p>
                 </div>
 
                 <div class="masonry-grid">
+                    <!-- Jumpshare Video Embed (Autoplay attempt) -->
+                    <div class="masonry-item project-card rounded-lg overflow-hidden p-0 bg-transparent">
+                       <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                           <iframe src="https://jumpshare.com/embed/fSrxhuo8BThgq2eSZYxQ?autoplay=true&muted=true" 
+                                   frameborder="0" 
+                                   webkitallowfullscreen mozallowfullscreen allowfullscreen 
+                                   allow="autoplay; fullscreen"
+                                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                           </iframe>
+                       </div>
+                    </div>
                     <!-- 1. Burger Ad -->
                     <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
                         <img src="https://iili.io/Kie3SjV.md.png" alt="Burger Ad" class="w-full h-auto">
@@ -352,8 +376,8 @@
                 </div>
             </div>
 
-            <!-- MORE VIDEOS SECTION (FIXED: Added group hover classes) -->
-            <div class="pt-16 border-t border-gray-800" id="more-videos">
+            <!-- MORE VIDEOS SECTION -->
+            <div class="pt-16 border-t border-gray-800 reveal" id="more-videos">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-white tracking-tight">More Videos</h3>
                 </div>
@@ -401,7 +425,7 @@
         <!-- ============================================= -->
         <!-- 'ABOUT' SECTION (Added III)                   -->
         <!-- ============================================= -->
-        <section id="about" class="pt-32 md:pt-48">
+        <section id="about" class="pt-32 md:pt-48 reveal">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1" style="background-color: #f4f4f4 !important;">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
                     <div class="md:col-span-1">
@@ -464,7 +488,7 @@
         <!-- ============================================= -->
         <!-- 'CONTACT' SECTION                               -->
         <!-- ============================================= -->
-        <section id="contact" class="pt-32 md:pt-48 pb-32">
+        <section id="contact" class="pt-32 md:pt-48 pb-32 reveal">
             <div class="max-w-2xl mx-auto text-center">
                 <!-- Your character SVG replaces the img tag -->
                 <svg id="Layer_1_Contact" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-24 h-24 mx-auto mb-6">
@@ -516,7 +540,7 @@
                         </a>
                         <!-- Replaced standard SVG for Instagram with a simpler, more robust path -->
                         <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
                         </a>
                     </div>
                 </div>
@@ -576,10 +600,24 @@
             if (!modalDescription) modalDescription = document.getElementById('modal-description');
         }
 
+        // Intersection Observer for Scroll Animations
+        function setupScrollReveal() {
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => observer.observe(el));
+        }
+
         // Main Modal Opening Function
         function openModal(type, src, title, description) {
             ensureElements();
-            if (!modal) return; // Safety check if DOM is somehow not ready
+            if (!modal) return; 
 
             // Clear previous content
             modalMedia.innerHTML = '';
@@ -587,7 +625,7 @@
             // Reset classes for fresh state
             modalMedia.className = 'w-full bg-black overflow-y-auto relative';
             modalContent.classList.remove('max-w-4xl', 'max-w-md');
-            modalContent.classList.add('max-w-6xl'); // Default wide width
+            modalContent.classList.add('max-w-6xl'); 
 
             if (type === 'video') {
                 // Video handling
@@ -640,6 +678,7 @@
         // Event Listeners
         document.addEventListener('DOMContentLoaded', () => {
             ensureElements();
+            setupScrollReveal();
             // Close on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
