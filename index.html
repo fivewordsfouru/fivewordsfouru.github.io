@@ -41,11 +41,11 @@
             color: #e5e5e5;
             /* Subtle noise texture */
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noise)" opacity="0.02"/></svg>');
-            /* FIXED: Removed overflow-x-hidden from body */
+            overflow-x: hidden; /* FIXED: Apply overflow-x-hidden to BODY */
         }
-        /* FIXED: Moved overflow-x-hidden to main content area */
+        /* FIXED: REMOVED overflow-x: hidden from main */
         main {
-            overflow-x: hidden;
+            /* overflow-x: hidden; */ 
         }
 
         /* Custom Selection Color */
@@ -60,7 +60,7 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #444; }
 
-        /* === RE-ADDED SCROLL ANIMATION (FIXED) === */
+        /* === FIXED SCROLL ANIMATION === */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -248,9 +248,8 @@
 
     <!-- 
       MAIN CONTENT AREA
-      (FIXED: Added overflow-x-hidden here)
     -->
-    <main class="container mx-auto max-w-6xl p-6 overflow-x-hidden">
+    <main class="container mx-auto max-w-6xl p-6">
 
         <!-- ============================================= -->
         <!-- 'HERO' SECTION (Added III)                    -->
