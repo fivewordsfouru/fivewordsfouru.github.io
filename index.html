@@ -41,6 +41,10 @@
             color: #e5e5e5;
             /* Subtle noise texture */
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noise)" opacity="0.02"/></svg>');
+            /* FIXED: Removed overflow-x-hidden from body */
+        }
+        /* FIXED: Moved overflow-x-hidden to main content area */
+        main {
             overflow-x: hidden;
         }
 
@@ -56,7 +60,7 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #444; }
 
-        /* === NEW POLISH: Scroll Reveal Animation Base State === */
+        /* === RE-ADDED SCROLL ANIMATION (FIXED) === */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -93,7 +97,7 @@
             transform: scaleX(1);
         }
 
-        /* 7. Project "card" style - RESTORED PAPER LOOK */
+        /* 7. Project "card" style */
         .project-card {
             background-color: #f4f4f4; /* Off-white paper */
             color: #1a1a1a;
@@ -107,27 +111,28 @@
             box-shadow: 8px 8px 0px #000;
             z-index: 10;
         }
-
+        
         /* 8. Play button overlay - FIXED */
-        .play-button-overlay {
+        .image-overlay-container {
+            position: relative;
+            overflow: hidden; /* Ensures overlay respects rounding */
+        }
+        .image-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%; /* Covers the exact container it is placed in */
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.4); 
+            background-color: rgba(0, 0, 0, 0.4);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-
-        .group:hover .play-button-overlay,
-        .project-card:hover .play-button-overlay {
+        .project-card:hover .image-overlay,
+        .group:hover .image-overlay {
             opacity: 1;
         }
+
 
         .play-icon {
             color: white;
@@ -160,6 +165,30 @@
         @media (min-width: 768px) { .masonry-grid { column-count: 3; } }
         @media (min-width: 1024px) { .masonry-grid { column-count: 4; } }
         .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+        
+        /* 12. Modal aspect ratios */
+        .aspect-portrait {
+            position: relative;
+            padding-bottom: 177.77%; /* 9:16 */
+            height: 0;
+            overflow: hidden;
+        }
+        .aspect-widescreen {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        /* 13. FIX for Archive PNGs/GIFs */
+        .archive-item {
+            background-color: transparent !important; /* Remove paper background */
+            box-shadow: none !important; /* Remove shadow */
+            border: none !important; /* Remove border */
+        }
+        .archive-item img {
+            border-radius: 0.5rem; /* Add rounding to the image itself */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -219,8 +248,9 @@
 
     <!-- 
       MAIN CONTENT AREA
+      (FIXED: Added overflow-x-hidden here)
     -->
-    <main class="container mx-auto max-w-6xl p-6">
+    <main class="container mx-auto max-w-6xl p-6 overflow-x-hidden">
 
         <!-- ============================================= -->
         <!-- 'HERO' SECTION (Added III)                    -->
@@ -293,12 +323,12 @@
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center bg-[#1a1a1a] p-6 md:p-12 rounded-lg">
                     <div class="lg:col-span-3 cursor-pointer relative group" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple, focusing on clean motion graphics and a professional aesthetic.')">
-                        <div class="relative">
+                        <div class="relative image-overlay-container rounded">
                             <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" 
                                  alt="Apple Ad Thumbnail" 
                                  class="w-full aspect-video object-cover rounded border-2 border-[#333] shadow-xl transition-transform duration-300 group-hover:scale-[1.02]">
                             <!-- Play button overlay -->
-                            <div class="play-button-overlay">
+                            <div class="image-overlay rounded">
                                  <svg class="play-icon w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
@@ -326,52 +356,57 @@
                 </div>
 
                 <div class="masonry-grid">
-                    <!-- Jumpshare Video Embed (Autoplay attempt) -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden p-0 bg-transparent">
-                       <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-                           <iframe src="https://jumpshare.com/embed/fSrxhuo8BThgq2eSZYxQ?autoplay=true&muted=true" 
-                                   frameborder="0" 
-                                   webkitallowfullscreen mozallowfullscreen allowfullscreen 
-                                   allow="autoplay; fullscreen"
-                                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                           </iframe>
-                       </div>
+                    <!-- GIF from GitHub (replaces Jumpshare) -->
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden p-0">
+                       <img src="https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif" 
+                            alt="Animated graphic" 
+                            class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 1. Burger Ad -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
-                        <img src="https://iili.io/Kie3SjV.md.png" alt="Burger Ad" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
+                        <img src="https://iili.io/Kie3SjV.md.png" alt="Burger Ad" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 2. Rolling Loud -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
-                        <img src="https://iili.io/Kikrl3X.md.png" alt="Rolling Loud Poster" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
+                        <img src="https://iili.io/Kikrl3X.md.png" alt="Rolling Loud Poster" class="w-full h-auto rounded-lg">
                     </div>
                      <!-- 3. Graphic (Video Thumb) -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
-                        <img src="https://iili.io/KivKf5u.md.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/KivKf5u.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 4. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivzWb9.md.png', 'Digital Art', '')">
-                        <img src="https://iili.io/KivzWb9.md.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivzWb9.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/KivzWb9.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 5. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivIKdl.md.webp', 'Digital Art', '')">
-                        <img src="https://iili.io/KivIKdl.md.webp" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivIKdl.md.webp', 'Digital Art', '')">
+                        <img src="https://iili.io/KivIKdl.md.webp" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 6. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivTnvp.md.png', 'Digital Art', '')">
-                        <img src="https://iili.io/KivTnvp.md.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivTnvp.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/KivTnvp.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 7. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kivu6X9.md.png', 'Digital Art', '')">
-                        <img src="https://iili.io/Kivu6X9.md.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kivu6X9.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/Kivu6X9.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 8. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAIBn.md.png', 'Digital Art', '')">
-                        <img src="https://iili.io/KivAIBn.md.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAIBn.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/KivAIBn.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 9. Graphic -->
-                    <div class="masonry-item project-card rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAg3J.png', 'Digital Art', '')">
-                        <img src="https://iili.io/KivAg3J.png" alt="Digital Art" class="w-full h-auto">
+                    <!-- FIXED: Added 'archive-item' class for transparent background -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAg3J.png', 'Digital Art', '')">
+                        <img src="https://iili.io/KivAg3J.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                 </div>
             </div>
@@ -385,9 +420,10 @@
                     <!-- Video 1 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/e-IretuOf4g', 'Video Project', '')">
-                        <div class="relative">
-                            <img src="https://img.youtube.com/vi/e-IretuOf4g/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
-                            <div class="play-button-overlay">
+                        <div class="relative image-overlay-container">
+                            <!-- FIXED Thumbnail -->
+                            <img src="https://img.youtube.com/vi/e-IretuOf4g/hqdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
+                            <div class="image-overlay">
                                 <svg class="play-icon w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
@@ -395,9 +431,9 @@
                     <!-- Video 2 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Video Project', '')">
-                        <div class="relative">
+                        <div class="relative image-overlay-container">
                             <img src="https://img.youtube.com/vi/ml2N6OHfmZQ/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
-                            <div class="play-button-overlay">
+                            <div class="image-overlay">
                                 <svg class="play-icon w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
@@ -405,9 +441,9 @@
                     <!-- Video 3 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/27_acp7ebK4', 'Video Project', '')">
-                        <div class="relative">
+                        <div class="relative image-overlay-container">
                             <img src="https://img.youtube.com/vi/27_acp7ebK4/maxresdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
-                            <div class="play-button-overlay">
+                            <div class="image-overlay">
                                 <svg class="play-icon w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
@@ -538,9 +574,9 @@
                         <a href="https://www.linkedin.com/in/william-schiesser-613566357/?skipRedirect=true" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
                             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
-                        <!-- Replaced standard SVG for Instagram with a simpler, more robust path -->
+                        <!-- FIXED Instagram Icon SVG Path -->
                         <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919 4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -585,59 +621,88 @@
 
 
     <!-- 
-      JAVASCRIPT
+      JAVASCRIPT (FIXED)
+      The script is now wrapped in DOMContentLoaded to ensure elements
+      exist before being assigned to variables.
     -->
     <script>
-        // Define all variables in global scope to avoid reference errors
+        // Define all variables
         let modal, modalMedia, modalTitle, modalDescription, modalContent;
 
-        // Helper function to ensure elements are found before using them
-        function ensureElements() {
-            if (!modal) modal = document.getElementById('modal');
-            if (!modalContent) modalContent = document.getElementById('modal-content');
-            if (!modalMedia) modalMedia = document.getElementById('modal-media');
-            if (!modalTitle) modalTitle = document.getElementById('modal-title');
-            if (!modalDescription) modalDescription = document.getElementById('modal-description');
+        // Helper function to find elements (will be called when DOM is ready)
+        function initializeElements() {
+            modal = document.getElementById('modal');
+            modalContent = document.getElementById('modal-content');
+            modalMedia = document.getElementById('modal-media');
+            modalTitle = document.getElementById('modal-title');
+            modalDescription = document.getElementById('modal-description');
         }
 
         // Intersection Observer for Scroll Animations
         function setupScrollReveal() {
-            const revealElements = document.querySelectorAll('.reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1 });
+            // Check if IntersectionObserver is supported
+            if ('IntersectionObserver' in window) {
+                const revealElements = document.querySelectorAll('.reveal');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target); // Stop observing once animated
+                        }
+                    });
+                }, { threshold: 0.1 });
 
-            revealElements.forEach(el => observer.observe(el));
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                // Fallback for older browsers: just show everything
+                const revealElements = document.querySelectorAll('.reveal');
+                revealElements.forEach(el => el.classList.add('active'));
+            }
         }
 
         // Main Modal Opening Function
         function openModal(type, src, title, description) {
-            ensureElements();
-            if (!modal) return; 
+            // Ensure elements are found (in case this is called early)
+            if (!modal) initializeElements();
+            if (!modal) return; // Exit if modal still not found
 
             // Clear previous content
             modalMedia.innerHTML = '';
             
             // Reset classes for fresh state
             modalMedia.className = 'w-full bg-black overflow-y-auto relative';
-            modalContent.classList.remove('max-w-4xl', 'max-w-md');
-            modalContent.classList.add('max-w-6xl'); 
+            modalContent.classList.remove('max-w-4xl', 'max-w-md', 'max-w-lg'); // Clear all size classes
+            modalContent.classList.add('max-w-6xl'); // Default to large
 
             if (type === 'video') {
                 // Video handling
-                modalContent.classList.remove('max-w-6xl');
-                modalContent.classList.add('max-w-4xl'); // Widescreen video width
-                
-                const videoContainer = document.createElement('div');
+                let videoContainer = document.createElement('div');
                 videoContainer.className = 'w-full relative';
-                videoContainer.style.paddingBottom = '56.25%'; // 16:9 aspect ratio
                 
+                if (src.includes('youtube.com')) {
+                    // YouTube (16:9)
+                    modalContent.classList.remove('max-w-6xl');
+                    modalContent.classList.add('max-w-4xl');
+                    videoContainer.style.paddingBottom = '56.25%'; // 16:9
+                } else if (src.includes('instagram.com')) {
+                    // Instagram (9:16)
+                    modalContent.classList.remove('max-w-6xl');
+                    modalContent.classList.add('max-w-lg'); // Narrow for portrait
+                    videoContainer.style.paddingBottom = '177.77%'; // 9:16
+                } else {
+                    // Default (16:9)
+                    modalContent.classList.remove('max-w-6xl');
+                    modalContent.classList.add('max-w-4xl');
+                    videoContainer.style.paddingBottom = '56.25%'; // 16:9
+                }
+
                 const iframe = document.createElement('iframe');
-                iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related videos
+                if (src.includes('youtube.com')) {
+                     iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related
+                } else {
+                    iframe.src = src; // For Instagram, etc.
+                }
+           
                 iframe.className = 'absolute top-0 left-0 w-full h-full';
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
@@ -648,7 +713,7 @@
             } 
             else if (type === 'image') {
                 // Single image handling
-                modalMedia.classList.add('flex', 'items-center', 'justify-center', 'min-h-[50vh]');
+                modalMedia.classList.add('flex', 'items-center', 'justify-center', 'min-h-[50vh]', 'max-h-[80vh]');
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = title;
@@ -667,7 +732,7 @@
 
         // Modal Closing Function
         function closeModal() {
-            ensureElements();
+            if (!modal) initializeElements();
             if (!modal) return;
             
             modal.classList.add('hidden');
@@ -675,10 +740,12 @@
             modalMedia.innerHTML = ''; // Stop video playback
         }
 
-        // Event Listeners
+        // --- Event Listeners ---
+        // CRITICAL FIX: Wrap all initialization in DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
-            ensureElements();
-            setupScrollReveal();
+            initializeElements(); // Find all elements
+            setupScrollReveal();  // Start scroll animations
+            
             // Close on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
