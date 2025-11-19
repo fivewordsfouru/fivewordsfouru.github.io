@@ -374,7 +374,7 @@
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
                         <img src="https://iili.io/Kikrl3X.md.png" alt="Rolling Loud Poster" class="w-full h-auto rounded-lg">
                     </div>
-                     <!-- 3. Graphic (Video Thumb) -->
+                      <!-- 3. Graphic (Video Thumb) -->
                     <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivKf5u.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
@@ -410,8 +410,12 @@
                         <img src="https://iili.io/KivAg3J.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                     <!-- 10. NEW GRAPHIC -->
-                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KpA1set.md.png', 'Digital Art', '')">
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KpA1set.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KpA1set.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
+                    </div>
+                    <!-- 11. NEW ADDITION (fdcACrJ) -->
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/fdcACrJ.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/fdcACrJ.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                 </div>
             </div>
@@ -464,7 +468,7 @@
         </section>
 
         <!-- ============================================= -->
-        <!-- 'ABOUT' SECTION (Added III)                   -->
+        <!-- 'ABOUT' SECTION (Added III)                    -->
         <!-- ============================================= -->
         <section id="about" class="pt-32 md:pt-48 reveal">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1" style="background-color: #f4f4f4 !important;">
@@ -510,6 +514,7 @@
                         <p class="text-lg text-gray-700 mt-4">
                             My style is built on raw ideas, textured layers, and a human touch. I love the happy accidents in analog design and the grit of a story told honestly. I'm here to help brands find their voice, not just a clean look.
                         </p>
+
                         <h3 class="text-2xl font-bold mt-10 mb-4 typewriter">services.</h3>
                         <ul class="space-y-2 text-gray-800">
                             <li>> Brand Identity & Logo Design</li>
@@ -703,11 +708,11 @@
 
                 const iframe = document.createElement('iframe');
                 if (src.includes('youtube.com')) {
-                     iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related
+                      iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related
                 } else {
                     iframe.src = src; // For Instagram, etc.
                 }
-           
+            
                 iframe.className = 'absolute top-0 left-0 w-full h-full';
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
