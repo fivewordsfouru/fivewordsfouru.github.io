@@ -34,7 +34,6 @@
         /* 4. Base font and dark, grainy background */
         html {
             scroll-behavior: smooth;
-            overflow-x: hidden; /* FIXED: Moved overflow-x-hidden to HTML tag */
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -42,9 +41,8 @@
             color: #e5e5e5;
             /* Subtle noise texture */
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noise)" opacity="0.02"/></svg>');
-            /* FIXED: Removed overflow-x: hidden from body */
+            overflow-x: hidden;
         }
-        /* FIXED: Removed overflow-x: hidden from main */
         main {
             /* overflow-x: hidden; */ 
         }
@@ -61,13 +59,20 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #444; }
 
-        /* === FIXED SCROLL ANIMATION === */
+        /* === SCROLL ANIMATION === */
+        /* Start fully visible so if JS fails, site still works */
         .reveal {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 1;
+            transform: translateY(0);
             transition: all 0.8s ease;
         }
-        .reveal.active {
+        /* Class added by JS to hide elements before animation */
+        .reveal-waiting {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        /* Class added by Observer to show elements */
+        .reveal-active {
             opacity: 1;
             transform: translateY(0);
         }
@@ -113,10 +118,10 @@
             z-index: 10;
         }
         
-        /* 8. Play button overlay - FIXED */
+        /* 8. Play button overlay */
         .image-overlay-container {
             position: relative;
-            overflow: hidden; /* Ensures overlay respects rounding */
+            overflow: hidden; 
         }
         .image-overlay {
             position: absolute;
@@ -133,7 +138,6 @@
         .group:hover .image-overlay {
             opacity: 1;
         }
-
 
         .play-icon {
             color: white;
@@ -190,6 +194,33 @@
         .archive-item img {
             border-radius: 0.5rem; /* Add rounding to the image itself */
         }
+
+        /* 14. Custom Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100px;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #f59e0b;
+            cursor: pointer;
+            margin-top: -5px; 
+            box-shadow: 0 0 2px rgba(0,0,0,0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #4b5563;
+            border-radius: 2px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -202,7 +233,7 @@
             <!-- Your Brand / Logo -->
             <a href="#" class="text-2xl font-bold text-white flex items-center space-x-2">
                 
-                <!-- Your SVG Logo Code is Pasted Below -->
+                <!-- Your SVG Logo Code -->
                 <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-8 h-8">
                   <defs>
                     <style>
@@ -233,12 +264,11 @@
                     <path class="st3" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
                   </g>
                 </svg>
-                <!-- End of SVG Logo Code -->
                 
                 <span class="hidden sm:inline">5words4u</span>
             </a>
             
-            <!-- Navigation Links (now scroll links) -->
+            <!-- Navigation Links -->
             <ul class="flex space-x-6 md:space-x-8 text-gray-300 font-medium">
                 <li><a href="#work" class="header-link hover:text-white transition-colors">Work</a></li>
                 <li><a href="#about" class="header-link hover:text-white transition-colors">About</a></li>
@@ -252,9 +282,7 @@
     -->
     <main class="container mx-auto max-w-6xl p-6">
 
-        <!-- ============================================= -->
-        <!-- 'HERO' SECTION (Added III)                    -->
-        <!-- ============================================= -->
+        <!-- HERO SECTION -->
         <section id="hero" class="min-h-[70vh] flex items-center my-16 reveal">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div class="md:col-span-2">
@@ -273,7 +301,6 @@
                     </a>
                 </div>
                 <div class="md:col-span-1 flex justify-center md:justify-end relative">
-                    <!-- Your character SVG replaces the img tag -->
                     <svg id="Layer_1_Hero" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-64 h-64 md:w-full md:h-auto z-10">
                       <defs>
                         <style>
@@ -304,30 +331,23 @@
                         <path class="st3-hero" d="M225.3,325.3c-10.5-3.6-18.6,9.8-10.2,16.9-28.1,65.9-110.4,46.7-125.7.3,7.6-7.5-.8-20-10.9-16.3-10.7,3-9.7,18.7,1.3,19.7,14.8,53,64.4,53.8,71.4,53.7.7,0,1.3,0,2,0,57.7,1.1,71.5-54.5,71.5-54.5,10.8-1.5,11.3-16.9.7-19.7h0Z"/>
                       </g>
                     </svg>
-                    <!-- Decorative shape behind -->
                     <div class="absolute w-full h-full bg-[#f59e0b] rounded-full blur-3xl opacity-30 z-0"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- 'WORK' SECTION (FEATURED + ARCHIVE)           -->
-        <!-- ============================================= -->
+        <!-- WORK SECTION -->
         <section id="work" class="pt-24 space-y-24 reveal">
-            
-            <!-- Section Title -->
             <h2 class="text-5xl md:text-6xl font-black text-white text-center tracking-tighter uppercase">Selected Work</h2>
 
-            <!-- FEATURED PROJECT (Apple Ad) -->
             <div class="project-card rounded-lg overflow-hidden p-2 transform -rotate-1 bg-white" style="background-color: white !important;">
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center bg-[#1a1a1a] p-6 md:p-12 rounded-lg">
                     <div class="lg:col-span-3 cursor-pointer relative group" 
-                         onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple, focusing on clean motion graphics and a professional aesthetic.')">
+                         onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple.')">
                         <div class="relative image-overlay-container rounded">
                             <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" 
                                  alt="Apple Ad Thumbnail" 
                                  class="w-full aspect-video object-cover rounded border-2 border-[#333] shadow-xl transition-transform duration-300 group-hover:scale-[1.02]">
-                            <!-- Play button overlay -->
                             <div class="image-overlay rounded">
                                  <svg class="play-icon w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
@@ -337,7 +357,7 @@
                         <h3 class="text-4xl font-bold mb-4">Apple Ad Concept</h3>
                         <p class="typewriter text-[#f59e0b] mb-6">> Motion Graphics / Spec Ad</p>
                         <p class="text-lg text-gray-300 leading-relaxed">
-                            A high-energy spec ad created for Apple. This project focuses on clean, dynamic motion graphics and a professional aesthetic to match the brand's iconic style.
+                            A high-energy spec ad created for Apple. This project focuses on clean, dynamic motion graphics and a professional aesthetic.
                         </p>
                         <button onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'A spec ad I created for Apple.')" 
                                 class="mt-8 btn-primary px-8 py-3 rounded font-bold flex items-center space-x-2">
@@ -348,7 +368,7 @@
                 </div>
             </div>
 
-            <!-- ARCHIVE SECTION (Masonry Grid) -->
+            <!-- ARCHIVE SECTION -->
             <div class="pt-16 border-t border-gray-800 reveal">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-white tracking-tight">The Archive</h3>
@@ -356,66 +376,44 @@
                 </div>
 
                 <div class="masonry-grid">
-                    <!-- GIF from GitHub (replaces Jumpshare) -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background AND onclick -->
-                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden p-0 cursor-pointer"
-                         onclick="openModal('image', 'https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif', 'Animated Graphic', '')">
-                       <img src="https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif" 
-                            alt="Animated graphic" 
-                            class="w-full h-auto rounded-lg">
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden p-0 cursor-pointer" onclick="openModal('image', 'https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif', 'Animated Graphic', '')">
+                       <img src="https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif" alt="Animated graphic" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 1. Burger Ad -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
-                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', 'Advertisement concept for a fictional burger company.')">
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kie3SjV.md.png', 'Burger Ad Concept', '')">
                         <img src="https://iili.io/Kie3SjV.md.png" alt="Burger Ad" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 2. Rolling Loud -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
-                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', 'Unused poster concept for Rolling Loud.')">
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kikrl3X.md.png', 'Rolling Loud Poster', '')">
                         <img src="https://iili.io/Kikrl3X.md.png" alt="Rolling Loud Poster" class="w-full h-auto rounded-lg">
                     </div>
-                      <!-- 3. Graphic (Video Thumb) -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivKf5u.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 4. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivzWb9.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivzWb9.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 5. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivIKdl.md.webp', 'Digital Art', '')">
                         <img src="https://iili.io/KivIKdl.md.webp" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 6. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivTnvp.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivTnvp.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 7. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/Kivu6X9.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/Kivu6X9.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 8. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAIBn.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivAIBn.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 9. Graphic -->
-                    <!-- FIXED: Added 'archive-item' class for transparent background -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KivAg3J.png', 'Digital Art', '')">
                         <img src="https://iili.io/KivAg3J.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 10. NEW GRAPHIC -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/KpA1set.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/KpA1set.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- 11. NEW ADDITION (fdcACrJ) -->
                     <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/fdcACrJ.md.png', 'Digital Art', '')">
                         <img src="https://iili.io/fdcACrJ.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="masonry-item project-card archive-item rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" onclick="openModal('image', 'https://iili.io/fIndYqG.md.png', 'Digital Art', '')">
+                        <img src="https://iili.io/fIndYqG.md.png" alt="Digital Art" class="w-full h-auto rounded-lg">
                     </div>
                 </div>
             </div>
@@ -426,18 +424,15 @@
                     <h3 class="text-3xl font-bold text-white tracking-tight">More Videos</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Video 1 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/e-IretuOf4g', 'Video Project', '')">
                         <div class="relative image-overlay-container">
-                            <!-- FIXED Thumbnail -->
                             <img src="https://img.youtube.com/vi/e-IretuOf4g/hqdefault.jpg" alt="Video Thumbnail" class="w-full aspect-video object-cover">
                             <div class="image-overlay">
                                 <svg class="play-icon w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
                     </div>
-                    <!-- Video 2 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/ml2N6OHfmZQ', 'Video Project', '')">
                         <div class="relative image-overlay-container">
@@ -447,7 +442,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Video 3 -->
                     <div class="project-card group rounded-lg overflow-hidden cursor-pointer transform hover:-rotate-1 transition-transform duration-200" 
                          onclick="openModal('video', 'https://www.youtube.com/embed/27_acp7ebK4', 'Video Project', '')">
                         <div class="relative image-overlay-container">
@@ -464,17 +458,13 @@
                     </a>
                 </div>
             </div>
-
         </section>
 
-        <!-- ============================================= -->
-        <!-- 'ABOUT' SECTION (Added III)                    -->
-        <!-- ============================================= -->
+        <!-- ABOUT SECTION -->
         <section id="about" class="pt-32 md:pt-48 reveal">
             <div class="project-card rounded-lg p-8 md:p-12 transform rotate-1" style="background-color: #f4f4f4 !important;">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
                     <div class="md:col-span-1">
-                        <!-- UPDATED: Replaced placeholder <img> with your SVG -->
                         <svg id="Layer_1_About" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="rounded-lg w-full aspect-square object-cover border-2 border-gray-300 p-4">
                           <defs>
                             <style>
@@ -522,7 +512,6 @@
                             <li>> Motion Graphics & Album Art</li>
                             <li>> Packaging & Print Design</li>
                         </ul>
-                        <!-- Resume Download Link -->
                         <a href="https://fivewordsfouru.github.io/WilliamSchiesserResume.pdf" target="_blank" class="inline-block typewriter text-amber-600 hover:text-black font-bold mt-6">
                             > Download PDF Resume
                         </a>
@@ -531,27 +520,23 @@
             </div>
         </section>
 
-        <!-- ============================================= -->
-        <!-- 'CONTACT' SECTION                               -->
-        <!-- ============================================= -->
+        <!-- CONTACT SECTION -->
         <section id="contact" class="pt-32 md:pt-48 pb-32 reveal">
             <div class="max-w-2xl mx-auto text-center">
-                <!-- Your character SVG replaces the img tag -->
                 <svg id="Layer_1_Contact" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-24 h-24 mx-auto mb-6">
                   <defs>
                     <style>
                       .st0-contact { fill: none; }
                       .st1-contact { fill: #e4d7bb; }
-                      .st2-contact { fill: #091414; } /* Original Hair/Outline Color */
-                      .st3-contact { fill: #101b1b; } /* Original Hair/Outline Color */
+                      .st2-contact { fill: #091414; }
+                      .st3-contact { fill: #101b1b; }
                       .st4-contact { clip-path: url(#clippath-contact); }
-                      .st5-contact { fill: #1d6d00; } /* Original Leaf Color */
+                      .st5-contact { fill: #1d6d00; }
                     </style>
                     <clipPath id="clippath-contact">
                       <path class="st0-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.5,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.3-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
                     </clipPath>
                   </defs>
-                  
                   <g id="Black_Outline-contact">
                     <path class="st3-contact" d="M33.8,364.6l-3.7-43.6s-15,15.4-19.3,12.3c0,0,12.9-24.2,14.1-56.2C24.9,277.2,7.1,295,0,294.7,0,294.7,18,270.3,32.1,208.3c0,0,27-86.6,116-78,0,0,80.4-6.8,116.6,63.2,0,0,13.4,43.6,21.1,79.2,0,0,6.1,20.9,16.6,29.8,0,0-8.6,3.1-28.2-15,0,0,4.9,40.2,15.6,54.9,0,0-10.7-2.8-20.9-11.7l-.3,36.5-13.2-9.2s-15.9,75.4-103.4,76.9-108.1-87.3-108.1-87.3l-10.2,17h0Z"/>
                     <g class="st4-contact">
@@ -584,9 +569,8 @@
                         <a href="https://www.linkedin.com/in/william-schiesser-613566357/?skipRedirect=true" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="LinkedIn">
                             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
-                        <!-- FIXED Instagram Icon SVG Path -->
                         <a href="https://www.instagram.com/5words4u" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors" title="Instagram">
-                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.229-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.229 1.664-4.771 4.919 4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,5A1,1 0 0,1 19,6A1,1 0 0,1 18,7A1,1 0 0,1 17,6A1,1 0 0,1 18,5Z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -596,50 +580,29 @@
     </main>
 
     <!-- 
-      FOOTER (Added III)
-    -->
-    <footer class="text-center py-10 border-t border-gray-800 mt-16">
-        <p class="text-sm text-gray-500 typewriter">&copy; 2025 5words4u | William Schiesser III. Built with grit.</p>
-    </footer>
-
-
-    <!-- 
       MODAL / LIGHTBOX
     -->
     <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" onclick="closeModal()">
-        
-        <!-- Main modal container -->
-        <div id="modal-content" class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-6xl w-full max-h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-            
-            <!-- Modal Media (Image, Video, or Gallery) -->
-            <div id="modal-media" class="w-full bg-black overflow-y-auto relative">
+        <div id="modal-content" class="bg-gray-900 border border-gray-700 shadow-2xl rounded-lg max-w-6xl w-full max-h-[90vh] flex flex-col overflow-hidden relative" onclick="event.stopPropagation()">
+            <div id="modal-media" class="w-full bg-black overflow-y-auto relative flex-1">
                 <!-- Content injected by JS -->
             </div>
-
-            <!-- Modal Content (Text) -->
             <div id="modal-body" class="w-full p-6 md:p-8 overflow-y-auto">
                 <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
                 <p id="modal-description" class="text-gray-300"></p>
             </div>
-            
-            <!-- Close Button -->
             <button onclick="closeModal()" class="absolute -top-3 -right-3 md:top-4 md:right-4 w-10 h-10 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-300 hover:text-white transition-all z-50">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
 
-
     <!-- 
-      JAVASCRIPT (FIXED)
-      The script is now wrapped in DOMContentLoaded to ensure elements
-      exist before being assigned to variables.
+      JAVASCRIPT
     -->
     <script>
-        // Define all variables
         let modal, modalMedia, modalTitle, modalDescription, modalContent;
 
-        // Helper function to find elements (will be called when DOM is ready)
         function initializeElements() {
             modal = document.getElementById('modal');
             modalContent = document.getElementById('modal-content');
@@ -648,69 +611,66 @@
             modalDescription = document.getElementById('modal-description');
         }
 
-        // Intersection Observer for Scroll Animations
         function setupScrollReveal() {
-            // Check if IntersectionObserver is supported
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => el.classList.add('reveal-waiting'));
+
             if ('IntersectionObserver' in window) {
-                const revealElements = document.querySelectorAll('.reveal');
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
-                            observer.unobserve(entry.target); // Stop observing once animated
+                            entry.target.classList.remove('reveal-waiting');
+                            entry.target.classList.add('reveal-active');
+                            observer.unobserve(entry.target); 
                         }
                     });
                 }, { threshold: 0.1 });
 
                 revealElements.forEach(el => observer.observe(el));
             } else {
-                // Fallback for older browsers: just show everything
-                const revealElements = document.querySelectorAll('.reveal');
-                revealElements.forEach(el => el.classList.add('active'));
+                revealElements.forEach(el => {
+                    el.classList.remove('reveal-waiting');
+                    el.classList.add('reveal-active');
+                });
             }
         }
 
-        // Main Modal Opening Function
         function openModal(type, src, title, description) {
-            // Ensure elements are found (in case this is called early)
             if (!modal) initializeElements();
-            if (!modal) return; // Exit if modal still not found
+            if (!modal) return; 
 
-            // Clear previous content
             modalMedia.innerHTML = '';
             
-            // Reset classes for fresh state
-            modalMedia.className = 'w-full bg-black overflow-y-auto relative';
-            modalContent.classList.remove('max-w-4xl', 'max-w-md', 'max-w-lg'); // Clear all size classes
-            modalContent.classList.add('max-w-6xl'); // Default to large
+            const existingControls = modalContent.querySelector('.zoom-controls');
+            if(existingControls) existingControls.remove();
+
+            modalMedia.className = 'w-full bg-black relative flex-1'; 
+            modalContent.classList.remove('max-w-4xl', 'max-w-md', 'max-w-lg');
+            modalContent.classList.add('max-w-6xl');
 
             if (type === 'video') {
-                // Video handling
                 let videoContainer = document.createElement('div');
                 videoContainer.className = 'w-full relative';
                 
                 if (src.includes('youtube.com')) {
-                    // YouTube (16:9)
                     modalContent.classList.remove('max-w-6xl');
                     modalContent.classList.add('max-w-4xl');
-                    videoContainer.style.paddingBottom = '56.25%'; // 16:9
+                    videoContainer.style.paddingBottom = '56.25%'; 
                 } else if (src.includes('instagram.com')) {
-                    // Instagram (9:16)
                     modalContent.classList.remove('max-w-6xl');
-                    modalContent.classList.add('max-w-lg'); // Narrow for portrait
-                    videoContainer.style.paddingBottom = '177.77%'; // 9:16
+                    modalContent.classList.add('max-w-lg'); 
+                    videoContainer.style.paddingBottom = '177.77%'; 
                 } else {
-                    // Default (16:9)
                     modalContent.classList.remove('max-w-6xl');
                     modalContent.classList.add('max-w-4xl');
-                    videoContainer.style.paddingBottom = '56.25%'; // 16:9
+                    videoContainer.style.paddingBottom = '56.25%'; 
                 }
 
                 const iframe = document.createElement('iframe');
                 if (src.includes('youtube.com')) {
-                      iframe.src = src + "?autoplay=1&rel=0"; // Autoplay & no related
+                      iframe.src = src + "?autoplay=1&rel=0"; 
                 } else {
-                    iframe.src = src; // For Instagram, etc.
+                    iframe.src = src; 
                 }
             
                 iframe.className = 'absolute top-0 left-0 w-full h-full';
@@ -722,13 +682,162 @@
                 modalMedia.appendChild(videoContainer);
             } 
             else if (type === 'image') {
-                // Single image handling
-                modalMedia.classList.add('flex', 'items-center', 'justify-center', 'min-h-[50vh]', 'max-h-[80vh]');
+                modalMedia.style.overflow = 'auto';
+                modalMedia.className = 'w-full bg-black relative flex-1 flex min-h-[50vh] max-h-[80vh] overflow-hidden'; // Start hidden overflow until dragged
+                
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = title;
-                img.className = 'w-auto h-auto max-w-full max-h-[80vh] object-contain';
+                img.className = 'block m-auto object-contain cursor-zoom-in transition-all duration-500 ease-in-out shrink-0 select-none'; // Added select-none
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '100%';
+                img.draggable = false; // Disable native drag
+                
                 modalMedia.appendChild(img);
+
+                // --- DRAG VARIABLES ---
+                let isDown = false;
+                let startX, startY, scrollLeft, scrollTop;
+
+                // --- CREATE ZOOM CONTROLS ---
+                const zoomContainer = document.createElement('div');
+                zoomContainer.className = 'zoom-controls absolute bottom-4 right-4 bg-black/80 backdrop-blur-md rounded-full px-4 py-2 flex items-center space-x-3 border border-gray-600 shadow-2xl z-50';
+                
+                const btnMinus = document.createElement('button');
+                btnMinus.innerHTML = '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>';
+                
+                const slider = document.createElement('input');
+                slider.type = 'range';
+                slider.min = '100';
+                slider.max = '250';
+                slider.value = '100';
+                slider.step = '10';
+                slider.className = 'w-24';
+
+                const btnPlus = document.createElement('button');
+                btnPlus.innerHTML = '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>';
+
+                zoomContainer.appendChild(btnMinus);
+                zoomContainer.appendChild(slider);
+                zoomContainer.appendChild(btnPlus);
+                
+                const mediaWrapper = document.createElement('div');
+                mediaWrapper.className = 'relative w-full flex-1 overflow-hidden flex flex-col';
+                modalContent.insertBefore(mediaWrapper, document.getElementById('modal-body'));
+                mediaWrapper.appendChild(modalMedia);
+                mediaWrapper.appendChild(zoomContainer);
+
+                // --- ZOOM LOGIC ---
+                const applyZoom = (val) => {
+                    const percentage = parseInt(val);
+                    
+                    if (percentage <= 100) {
+                        // FIT MODE
+                        img.style.width = 'auto';
+                        img.style.height = 'auto';
+                        img.style.maxWidth = '100%';
+                        img.style.maxHeight = '100%';
+                        img.classList.remove('cursor-grab', 'cursor-grabbing');
+                        img.classList.add('cursor-zoom-in');
+                        modalMedia.style.cursor = 'default';
+                        modalMedia.style.overflow = 'hidden'; // Hide scrollbars when fit
+                    } else {
+                        // ZOOM MODE
+                        if (img.style.maxWidth === '100%') {
+                             img.style.width = img.clientWidth + 'px';
+                             img.style.maxWidth = 'none';
+                             img.style.maxHeight = 'none';
+                             void img.offsetWidth; 
+                        }
+                        
+                        img.style.width = percentage + '%'; 
+                        img.style.height = 'auto';
+                        img.classList.remove('cursor-zoom-in');
+                        img.classList.add('cursor-grab'); // Change to Grab Hand
+                        modalMedia.style.overflow = 'auto'; // Enable scrolling
+                    }
+                };
+
+                // --- EVENT LISTENERS ---
+
+                // Drag to Scroll Logic
+                modalMedia.addEventListener('mousedown', (e) => {
+                    if(parseInt(slider.value) <= 100) return; // Only drag when zoomed
+                    isDown = true;
+                    modalMedia.classList.add('cursor-grabbing');
+                    img.classList.add('cursor-grabbing');
+                    img.classList.remove('cursor-grab');
+                    startX = e.pageX - modalMedia.offsetLeft;
+                    startY = e.pageY - modalMedia.offsetTop;
+                    scrollLeft = modalMedia.scrollLeft;
+                    scrollTop = modalMedia.scrollTop;
+                });
+
+                modalMedia.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    modalMedia.classList.remove('cursor-grabbing');
+                    if(parseInt(slider.value) > 100) {
+                        img.classList.remove('cursor-grabbing');
+                        img.classList.add('cursor-grab');
+                    }
+                });
+
+                modalMedia.addEventListener('mouseup', () => {
+                    isDown = false;
+                    modalMedia.classList.remove('cursor-grabbing');
+                    if(parseInt(slider.value) > 100) {
+                        img.classList.remove('cursor-grabbing');
+                        img.classList.add('cursor-grab');
+                    }
+                });
+
+                modalMedia.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - modalMedia.offsetLeft;
+                    const y = e.pageY - modalMedia.offsetTop;
+                    const walkX = (x - startX) * 1.5; // Scroll Speed
+                    const walkY = (y - startY) * 1.5;
+                    modalMedia.scrollLeft = scrollLeft - walkX;
+                    modalMedia.scrollTop = scrollTop - walkY;
+                });
+
+                slider.addEventListener('input', (e) => applyZoom(e.target.value));
+
+                btnMinus.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slider.value = Math.max(100, parseInt(slider.value) - 50);
+                    applyZoom(slider.value);
+                });
+                btnPlus.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slider.value = Math.min(250, parseInt(slider.value) + 50);
+                    applyZoom(slider.value);
+                });
+
+                // Click to Zoom (Only if not dragging)
+                let wasDragging = false;
+                modalMedia.addEventListener('mousemove', () => {
+                    if(isDown) wasDragging = true;
+                });
+                
+                modalMedia.addEventListener('mousedown', () => {
+                    wasDragging = false;
+                });
+
+                img.onclick = (e) => {
+                    if(wasDragging) return; // Don't toggle zoom if we just dragged
+                    
+                    e.stopPropagation();
+                    const currentVal = parseInt(slider.value);
+                    if (currentVal >= 250) { 
+                        slider.value = 100;
+                        applyZoom(100);
+                    } else {
+                        slider.value = 250; 
+                        applyZoom(250);
+                    }
+                };
             }
 
             // Set text content
@@ -737,26 +846,28 @@
             
             // Show modal
             modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden'; 
         }
 
-        // Modal Closing Function
         function closeModal() {
             if (!modal) initializeElements();
             if (!modal) return;
             
             modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Restore scrolling
-            modalMedia.innerHTML = ''; // Stop video playback
+            document.body.style.overflow = 'auto'; 
+            modalMedia.innerHTML = ''; 
+            
+            const mediaWrapper = modalContent.querySelector('.relative.w-full.flex-1.overflow-hidden');
+            if (mediaWrapper) {
+                modalContent.insertBefore(modalMedia, document.getElementById('modal-body'));
+                mediaWrapper.remove();
+            }
         }
 
-        // --- Event Listeners ---
-        // CRITICAL FIX: Wrap all initialization in DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
-            initializeElements(); // Find all elements
-            setupScrollReveal();  // Start scroll animations
+            initializeElements(); 
+            setupScrollReveal();  
             
-            // Close on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
             });
