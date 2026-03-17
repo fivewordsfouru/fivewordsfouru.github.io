@@ -143,6 +143,11 @@
 
         @media (min-width: 768px) {
             body, a, button, .masonry-item { cursor: none !important; }
+            
+            .zoomable-img { cursor: zoom-in !important; }
+            .zoomable-img.grab { cursor: grab !important; }
+            .zoomable-img.grabbing { cursor: grabbing !important; }
+
             .custom-cursor-dot {
                 position: fixed;
                 top: 0; left: 0;
@@ -163,7 +168,7 @@
                 pointer-events: none;
                 z-index: 9998;
                 transform: translate3d(-50%, -50%, 0);
-                transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+                transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s, opacity 0.2s;
             }
             .custom-cursor-dot.hover {
                 width: 0; height: 0;
@@ -515,6 +520,7 @@
             modalMedia.innerHTML = '';
 
             if (type === 'video') {
+                modalMedia.style.overflow = 'hidden';
                 let videoWrapper = document.createElement('div');
                 videoWrapper.className = 'w-full w-full h-full flex items-center justify-center p-0 m-0';
                 
@@ -538,12 +544,161 @@
                 modalMedia.appendChild(videoWrapper);
             } 
             else if (type === 'image') {
+                modalMedia.style.overflow = 'auto';
+                modalMedia.style.display = 'flex';
+                modalMedia.style.alignItems = 'center';
+                modalMedia.style.justifyContent = 'center';
+
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = title;
-                img.className = 'max-w-full max-h-full object-contain p-2 md:p-6'; 
+                img.className = 'zoomable-img max-w-full max-h-full object-contain p-2 md:p-6 select-none'; 
                 img.draggable = false; 
+
+                const zoomContainer = document.createElement('div');
+                zoomContainer.id = 'zoom-controls';
+                zoomContainer.className = 'absolute bottom-4 right-4 bg-black border border-[#333] shadow-[4px_4px_0px_#111] flex items-center p-2 z-50 gap-3';
+                
+                const btnMinus = document.createElement('button');
+                btnMinus.innerHTML = '<svg class="w-5 h-5 text-white hover:text-[var(--accent-neon)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>';
+                
+                const slider = document.createElement('input');
+                slider.type = 'range';
+                slider.min = '100';
+                slider.max = '300';
+                slider.value = '100';
+                
+                const btnPlus = document.createElement('button');
+                btnPlus.innerHTML = '<svg class="w-5 h-5 text-white hover:text-[var(--accent-neon)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>';
+
+                zoomContainer.appendChild(btnMinus);
+                zoomContainer.appendChild(slider);
+                zoomContainer.appendChild(btnPlus);
+
                 modalMedia.appendChild(img);
+                document.getElementById('modal-content').appendChild(zoomContainer);
+
+                const applyZoom = (val) => {
+                    const percentage = parseInt(val);
+                    if (percentage <= 100) {
+                        img.style.width = 'auto';
+                        img.style.height = 'auto';
+                        img.style.maxWidth = '100%';
+                        img.style.maxHeight = '100%';
+                        img.classList.remove('grab', 'grabbing');
+                        modalMedia.style.alignItems = 'center';
+                        modalMedia.style.justifyContent = 'center';
+                    } else {
+                        const wasCentered = img.style.maxWidth === '100%';
+                        img.style.maxWidth = 'none';
+                        img.style.maxHeight = 'none';
+                        img.style.width = `${percentage}%`;
+                        img.style.height = 'auto';
+                        img.classList.add('grab');
+                        modalMedia.style.alignItems = 'flex-start';
+                        modalMedia.style.justifyContent = 'flex-start';
+
+                        if (wasCentered) {
+                            setTimeout(() => {
+                                modalMedia.scrollLeft = (modalMedia.scrollWidth - modalMedia.clientWidth) / 2;
+                                modalMedia.scrollTop = (modalMedia.scrollHeight - modalMedia.clientHeight) / 2;
+                            }, 0);
+                        }
+                    }
+                };
+
+                let isDown = false;
+                let startX, startY, scrollLeft, scrollTop;
+
+                modalMedia.onmousedown = (e) => {
+                    if (parseInt(slider.value) <= 100) return;
+                    isDown = true;
+                    img.classList.add('grabbing');
+                    img.classList.remove('grab');
+                    startX = e.pageX - modalMedia.offsetLeft;
+                    startY = e.pageY - modalMedia.offsetTop;
+                    scrollLeft = modalMedia.scrollLeft;
+                    scrollTop = modalMedia.scrollTop;
+                };
+
+                modalMedia.onmouseleave = () => {
+                    isDown = false;
+                    if (parseInt(slider.value) > 100) {
+                        img.classList.remove('grabbing');
+                        img.classList.add('grab');
+                    }
+                };
+
+                modalMedia.onmouseup = () => {
+                    isDown = false;
+                    if (parseInt(slider.value) > 100 && img) {
+                        img.classList.remove('grabbing');
+                        img.classList.add('grab');
+                    }
+                };
+
+                modalMedia.onmousemove = (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - modalMedia.offsetLeft;
+                    const y = e.pageY - modalMedia.offsetTop;
+                    const walkX = (x - startX) * 2;
+                    const walkY = (y - startY) * 2;
+                    modalMedia.scrollLeft = scrollLeft - walkX;
+                    modalMedia.scrollTop = scrollTop - walkY;
+                };
+
+                slider.addEventListener('input', (e) => applyZoom(e.target.value));
+
+                btnMinus.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slider.value = Math.max(100, parseInt(slider.value) - 50);
+                    applyZoom(slider.value);
+                });
+                
+                btnPlus.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slider.value = Math.min(300, parseInt(slider.value) + 50);
+                    applyZoom(slider.value);
+                });
+
+                let wasDragging = false;
+                modalMedia.addEventListener('mousemove', () => { if(isDown) wasDragging = true; });
+                modalMedia.addEventListener('mousedown', () => { wasDragging = false; });
+
+                img.onclick = (e) => {
+                    if (wasDragging) return;
+                    e.stopPropagation();
+                    if (parseInt(slider.value) >= 250) {
+                        slider.value = 100;
+                        applyZoom(100);
+                    } else {
+                        slider.value = 250;
+                        applyZoom(250);
+                    }
+                };
+
+                const cursorDot = document.getElementById('cursor-dot');
+                const cursorOutline = document.getElementById('cursor-outline');
+                
+                modalMedia.addEventListener('mouseenter', () => {
+                    if (cursorDot) cursorDot.style.opacity = '0';
+                    if (cursorOutline) cursorOutline.style.opacity = '0';
+                });
+                
+                modalMedia.addEventListener('mouseleave', () => {
+                    if (cursorDot) cursorDot.style.opacity = '1';
+                    if (cursorOutline) cursorOutline.style.opacity = '1';
+                });
+                
+                zoomContainer.addEventListener('mouseenter', () => {
+                    if (cursorDot) cursorDot.style.opacity = '1';
+                    if (cursorOutline) cursorOutline.style.opacity = '1';
+                });
+                zoomContainer.addEventListener('mouseleave', () => {
+                    if (cursorDot) cursorDot.style.opacity = '0';
+                    if (cursorOutline) cursorOutline.style.opacity = '0';
+                });
             }
 
             if (modalTitle) modalTitle.textContent = title;
@@ -559,7 +714,20 @@
             
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto'; 
+            
+            modalMedia.onmousedown = null;
+            modalMedia.onmousemove = null;
+            modalMedia.onmouseup = null;
+            modalMedia.onmouseleave = null;
+
             modalMedia.innerHTML = ''; 
+            modalMedia.style.display = '';
+            modalMedia.style.alignItems = '';
+            modalMedia.style.justifyContent = '';
+            modalMedia.style.overflow = 'hidden';
+            
+            const existingZoom = document.getElementById('zoom-controls');
+            if (existingZoom) existingZoom.remove();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
