@@ -140,6 +140,7 @@
 
         #modal-body, #modal-media { -ms-overflow-style: none; scrollbar-width: none; }
         #modal-body::-webkit-scrollbar, #modal-media::-webkit-scrollbar { display: none; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
 
         @media (min-width: 768px) {
             body, a, button, .masonry-item { cursor: none !important; }
@@ -520,7 +521,6 @@
             modalMedia.innerHTML = '';
 
             if (type === 'video') {
-                modalMedia.style.overflow = 'hidden';
                 let videoWrapper = document.createElement('div');
                 videoWrapper.className = 'w-full w-full h-full flex items-center justify-center p-0 m-0';
                 
@@ -544,15 +544,17 @@
                 modalMedia.appendChild(videoWrapper);
             } 
             else if (type === 'image') {
-                modalMedia.style.overflow = 'auto';
-                modalMedia.style.display = 'flex';
-                modalMedia.style.alignItems = 'center';
-                modalMedia.style.justifyContent = 'center';
+                const scrollWrapper = document.createElement('div');
+                scrollWrapper.className = 'absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden hide-scroll';
 
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = title;
-                img.className = 'zoomable-img max-w-full max-h-full object-contain p-2 md:p-6 select-none'; 
+                img.className = 'zoomable-img object-contain p-2 md:p-6 select-none'; 
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '100%';
+                img.style.width = 'auto';
+                img.style.height = 'auto';
                 img.draggable = false; 
 
                 const zoomContainer = document.createElement('div');
@@ -575,8 +577,9 @@
                 zoomContainer.appendChild(slider);
                 zoomContainer.appendChild(btnPlus);
 
-                modalMedia.appendChild(img);
-                document.getElementById('modal-content').appendChild(zoomContainer);
+                scrollWrapper.appendChild(img);
+                modalMedia.appendChild(scrollWrapper);
+                modalMedia.appendChild(zoomContainer);
 
                 const applyZoom = (val) => {
                     const percentage = parseInt(val);
@@ -585,23 +588,27 @@
                         img.style.height = 'auto';
                         img.style.maxWidth = '100%';
                         img.style.maxHeight = '100%';
-                        img.classList.remove('grab', 'grabbing');
-                        modalMedia.style.alignItems = 'center';
-                        modalMedia.style.justifyContent = 'center';
+                        img.classList.remove('grab', 'grabbing', 'flex-shrink-0');
+                        scrollWrapper.style.alignItems = 'center';
+                        scrollWrapper.style.justifyContent = 'center';
+                        scrollWrapper.style.overflow = 'hidden';
                     } else {
                         const wasCentered = img.style.maxWidth === '100%';
                         img.style.maxWidth = 'none';
                         img.style.maxHeight = 'none';
-                        img.style.width = `${percentage}%`;
+                        
+                        img.style.width = `${(scrollWrapper.clientWidth * percentage) / 100}px`;
                         img.style.height = 'auto';
-                        img.classList.add('grab');
-                        modalMedia.style.alignItems = 'flex-start';
-                        modalMedia.style.justifyContent = 'flex-start';
+                        
+                        img.classList.add('grab', 'flex-shrink-0');
+                        scrollWrapper.style.alignItems = 'flex-start';
+                        scrollWrapper.style.justifyContent = 'flex-start';
+                        scrollWrapper.style.overflow = 'auto';
 
                         if (wasCentered) {
                             setTimeout(() => {
-                                modalMedia.scrollLeft = (modalMedia.scrollWidth - modalMedia.clientWidth) / 2;
-                                modalMedia.scrollTop = (modalMedia.scrollHeight - modalMedia.clientHeight) / 2;
+                                scrollWrapper.scrollLeft = (scrollWrapper.scrollWidth - scrollWrapper.clientWidth) / 2;
+                                scrollWrapper.scrollTop = (scrollWrapper.scrollHeight - scrollWrapper.clientHeight) / 2;
                             }, 0);
                         }
                     }
@@ -610,18 +617,18 @@
                 let isDown = false;
                 let startX, startY, scrollLeft, scrollTop;
 
-                modalMedia.onmousedown = (e) => {
+                scrollWrapper.onmousedown = (e) => {
                     if (parseInt(slider.value) <= 100) return;
                     isDown = true;
                     img.classList.add('grabbing');
                     img.classList.remove('grab');
-                    startX = e.pageX - modalMedia.offsetLeft;
-                    startY = e.pageY - modalMedia.offsetTop;
-                    scrollLeft = modalMedia.scrollLeft;
-                    scrollTop = modalMedia.scrollTop;
+                    startX = e.pageX - scrollWrapper.offsetLeft;
+                    startY = e.pageY - scrollWrapper.offsetTop;
+                    scrollLeft = scrollWrapper.scrollLeft;
+                    scrollTop = scrollWrapper.scrollTop;
                 };
 
-                modalMedia.onmouseleave = () => {
+                scrollWrapper.onmouseleave = () => {
                     isDown = false;
                     if (parseInt(slider.value) > 100) {
                         img.classList.remove('grabbing');
@@ -629,23 +636,23 @@
                     }
                 };
 
-                modalMedia.onmouseup = () => {
+                scrollWrapper.onmouseup = () => {
                     isDown = false;
-                    if (parseInt(slider.value) > 100 && img) {
+                    if (parseInt(slider.value) > 100) {
                         img.classList.remove('grabbing');
                         img.classList.add('grab');
                     }
                 };
 
-                modalMedia.onmousemove = (e) => {
+                scrollWrapper.onmousemove = (e) => {
                     if (!isDown) return;
                     e.preventDefault();
-                    const x = e.pageX - modalMedia.offsetLeft;
-                    const y = e.pageY - modalMedia.offsetTop;
+                    const x = e.pageX - scrollWrapper.offsetLeft;
+                    const y = e.pageY - scrollWrapper.offsetTop;
                     const walkX = (x - startX) * 2;
                     const walkY = (y - startY) * 2;
-                    modalMedia.scrollLeft = scrollLeft - walkX;
-                    modalMedia.scrollTop = scrollTop - walkY;
+                    scrollWrapper.scrollLeft = scrollLeft - walkX;
+                    scrollWrapper.scrollTop = scrollTop - walkY;
                 };
 
                 slider.addEventListener('input', (e) => applyZoom(e.target.value));
@@ -663,8 +670,8 @@
                 });
 
                 let wasDragging = false;
-                modalMedia.addEventListener('mousemove', () => { if(isDown) wasDragging = true; });
-                modalMedia.addEventListener('mousedown', () => { wasDragging = false; });
+                scrollWrapper.addEventListener('mousemove', () => { if(isDown) wasDragging = true; });
+                scrollWrapper.addEventListener('mousedown', () => { wasDragging = false; });
 
                 img.onclick = (e) => {
                     if (wasDragging) return;
@@ -681,12 +688,12 @@
                 const cursorDot = document.getElementById('cursor-dot');
                 const cursorOutline = document.getElementById('cursor-outline');
                 
-                modalMedia.addEventListener('mouseenter', () => {
+                scrollWrapper.addEventListener('mouseenter', () => {
                     if (cursorDot) cursorDot.style.opacity = '0';
                     if (cursorOutline) cursorOutline.style.opacity = '0';
                 });
                 
-                modalMedia.addEventListener('mouseleave', () => {
+                scrollWrapper.addEventListener('mouseleave', () => {
                     if (cursorDot) cursorDot.style.opacity = '1';
                     if (cursorOutline) cursorOutline.style.opacity = '1';
                 });
@@ -714,20 +721,7 @@
             
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto'; 
-            
-            modalMedia.onmousedown = null;
-            modalMedia.onmousemove = null;
-            modalMedia.onmouseup = null;
-            modalMedia.onmouseleave = null;
-
             modalMedia.innerHTML = ''; 
-            modalMedia.style.display = '';
-            modalMedia.style.alignItems = '';
-            modalMedia.style.justifyContent = '';
-            modalMedia.style.overflow = 'hidden';
-            
-            const existingZoom = document.getElementById('zoom-controls');
-            if (existingZoom) existingZoom.remove();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
