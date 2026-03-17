@@ -155,12 +155,53 @@
         /* MODAL FIXES */
         #modal-body, #modal-media { -ms-overflow-style: none; scrollbar-width: none; }
         #modal-body::-webkit-scrollbar, #modal-media::-webkit-scrollbar { display: none; }
+
+        /* CUSTOM CURSOR */
+        @media (min-width: 768px) {
+            body, a, button, .masonry-item { cursor: none !important; }
+            .custom-cursor-dot {
+                position: fixed;
+                top: 0; left: 0;
+                width: 8px; height: 8px;
+                background-color: var(--accent-neon);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate3d(-50%, -50%, 0);
+                transition: width 0.2s, height 0.2s, opacity 0.2s;
+            }
+            .custom-cursor-outline {
+                position: fixed;
+                top: 0; left: 0;
+                width: 40px; height: 40px;
+                border: 1px solid var(--accent-cyan);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                transform: translate3d(-50%, -50%, 0);
+                transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+            }
+            .custom-cursor-dot.hover {
+                width: 0; height: 0;
+                opacity: 0;
+            }
+            .custom-cursor-outline.hover {
+                width: 60px; height: 60px;
+                background-color: rgba(255, 0, 85, 0.1);
+                border-color: var(--accent-neon);
+                backdrop-filter: blur(2px);
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- GLOBAL NOISE OVERLAY -->
     <div class="noise-overlay"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot" class="custom-cursor-dot hidden md:block"></div>
+    <div id="cursor-outline" class="custom-cursor-outline hidden md:block"></div>
 
     <!-- NAVIGATION -->
     <nav class="fixed top-0 w-full z-40 py-6 px-6 md:px-12 flex justify-between items-center pointer-events-none">
@@ -219,7 +260,7 @@
         </div>
         
         <!-- Large Background Logo Decorator -->
-        <div class="absolute right-4 md:right-20 top-1/4 hidden lg:block w-72 xl:w-96 transform -rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-500 z-0">
+        <div class="absolute right-10 lg:right-32 top-[15%] hidden lg:block w-80 xl:w-[450px] transform rotate-0 hover:-rotate-12 hover:scale-105 transition-all duration-500 z-0">
             <svg id="Layer_1_Decor" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302.4 435" class="w-full h-full filter drop-shadow-[8px_8px_0px_var(--accent-neon)] opacity-80">
                 <defs>
                     <style>
@@ -273,6 +314,12 @@
         <!-- MASONRY GRID: Mixed Videos and Images -->
         <div class="masonry-wall">
             
+            <!-- Main Video Project -->
+            <div class="masonry-item" onclick="openModal('video', 'https://www.youtube.com/embed/8WcStvUz9wU', 'Main Video Project', 'Video Production')">
+                <img src="https://img.youtube.com/vi/8WcStvUz9wU/maxresdefault.jpg" class="art-piece" alt="Video">
+                <svg class="video-indicator w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+
             <!-- Video 1 -->
             <div class="masonry-item" onclick="openModal('video', 'https://www.youtube.com/embed/Akcp6IzgnQo', 'Apple Ad Concept', 'Motion Graphics')">
                 <img src="https://img.youtube.com/vi/Akcp6IzgnQo/maxresdefault.jpg" class="art-piece" alt="Video">
@@ -298,11 +345,6 @@
             <!-- Gif / Animation -->
             <div class="masonry-item" onclick="openModal('image', 'https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif', 'Animated Graphic', 'Motion')">
                 <img src="https://github.com/fivewordsfouru/fivewordsfouru.github.io/raw/main/Comp%20(1).gif" class="art-piece" alt="Animation">
-            </div>
-
-            <!-- Poster 3 (Demon / Osamason style) -->
-            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/KivKf5u.md.png', 'Digital Art', 'Illustration')">
-                <img src="https://iili.io/KivKf5u.md.png" class="art-piece" alt="Art">
             </div>
 
             <!-- Poster 4 -->
@@ -363,6 +405,37 @@
 
             <div class="masonry-item" onclick="openModal('image', 'https://iili.io/fSODGb2.md.png', 'Digital Art', 'Design')">
                 <img src="https://iili.io/fSODGb2.md.png" class="art-piece" alt="Art">
+            </div>
+
+            <!-- New Media Content -->
+            <div class="masonry-item" onclick="openModal('image', 'https://raw.githubusercontent.com/fivewordsfouru/fivewordsfouru.github.io/49be5543ebd8acbc7323be2385b6d305088867c3/TFC.gif', 'TFC Animation', 'Motion')">
+                <img src="https://raw.githubusercontent.com/fivewordsfouru/fivewordsfouru.github.io/49be5543ebd8acbc7323be2385b6d305088867c3/TFC.gif" class="art-piece" alt="Animation">
+            </div>
+
+            <div class="masonry-item" onclick="openModal('video', 'https://www.youtube.com/embed/lgyT7ZuO4n0', 'Video Project', 'Editing')">
+                <img src="https://img.youtube.com/vi/lgyT7ZuO4n0/maxresdefault.jpg" class="art-piece" alt="Video">
+                <svg class="video-indicator w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+
+            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/qVIO2kX.md.png', 'Digital Art', 'Design')">
+                <img src="https://iili.io/qVIO2kX.md.png" class="art-piece" alt="Art">
+            </div>
+
+            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/qVIk8In.md.png', 'Digital Art', 'Design')">
+                <img src="https://iili.io/qVIk8In.md.png" class="art-piece" alt="Art">
+            </div>
+
+            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/qVIUdYl.md.png', 'Digital Art', 'Design')">
+                <img src="https://iili.io/qVIUdYl.md.png" class="art-piece" alt="Art">
+            </div>
+            
+            <!-- New Added Art Pieces -->
+            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/qVIb1Wv.md.png', 'Digital Art', 'Design')">
+                <img src="https://iili.io/qVIb1Wv.md.png" class="art-piece" alt="Art">
+            </div>
+
+            <div class="masonry-item" onclick="openModal('image', 'https://iili.io/qVIykXa.md.png', 'Digital Art', 'Design')">
+                <img src="https://iili.io/qVIykXa.md.png" class="art-piece" alt="Art">
             </div>
             
         </div>
@@ -542,6 +615,51 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
             });
+
+            // --- CUSTOM CURSOR LOGIC ---
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorOutline = document.getElementById('cursor-outline');
+            
+            let mouseX = 0, mouseY = 0;
+            let outlineX = 0, outlineY = 0;
+            
+            if (window.matchMedia("(min-width: 768px)").matches) {
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (cursorDot) {
+                        // Move dot instantly
+                        cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+                    }
+                });
+                
+                function animateCursor() {
+                    let distX = mouseX - outlineX;
+                    let distY = mouseY - outlineY;
+                    
+                    outlineX += distX * 0.15; // Smooth trailing effect
+                    outlineY += distY * 0.15;
+                    
+                    if (cursorOutline) {
+                        cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+                    }
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+                
+                // Add hover states to interactable elements
+                const interactables = document.querySelectorAll('a, button, .masonry-item');
+                interactables.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorDot?.classList.add('hover');
+                        cursorOutline?.classList.add('hover');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorDot?.classList.remove('hover');
+                        cursorOutline?.classList.remove('hover');
+                    });
+                });
+            }
         });
     </script>
 </body>
