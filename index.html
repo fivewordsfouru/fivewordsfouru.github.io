@@ -144,10 +144,6 @@
 
         @media (min-width: 768px) {
             body, a, button, .masonry-item { cursor: none !important; }
-            
-            .zoomable-img { cursor: zoom-in !important; }
-            .zoomable-img.grab { cursor: grab !important; }
-            .zoomable-img.grabbing { cursor: grabbing !important; }
 
             .custom-cursor-dot {
                 position: fixed;
@@ -492,7 +488,7 @@
 
         <div id="modal-content" class="w-full max-w-7xl max-h-[90vh] flex flex-col md:flex-row gap-6 md:gap-10 relative" onclick="event.stopPropagation()">
             
-            <div id="modal-media" class="flex-1 bg-black/50 border border-gray-800 rounded flex items-center justify-center min-h-[40vh] relative overflow-hidden">
+            <div id="modal-media" class="flex-1 bg-black/50 border border-gray-800 rounded flex items-center justify-center min-h-[40vh] md:min-h-[80vh] relative overflow-hidden w-full">
             </div>
             
             <div class="w-full md:w-72 flex flex-col justify-end pb-4">
@@ -506,6 +502,8 @@
 
     <script>
         let modal, modalMedia, modalTitle, modalDescription;
+        let globalMouseMove = null;
+        let globalMouseUp = null;
 
         function initializeElements() {
             modal = document.getElementById('modal');
@@ -521,6 +519,7 @@
             modalMedia.innerHTML = '';
 
             if (type === 'video') {
+                modalMedia.style.overflow = 'hidden';
                 let videoWrapper = document.createElement('div');
                 videoWrapper.className = 'w-full w-full h-full flex items-center justify-center p-0 m-0';
                 
@@ -544,17 +543,18 @@
                 modalMedia.appendChild(videoWrapper);
             } 
             else if (type === 'image') {
-                const scrollWrapper = document.createElement('div');
-                scrollWrapper.className = 'absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden hide-scroll';
+                modalMedia.style.overflow = 'hidden';
+                modalMedia.style.display = 'flex';
+                modalMedia.style.alignItems = 'center';
+                modalMedia.style.justifyContent = 'center';
+
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'w-full h-full relative flex items-center justify-center cursor-zoom-in';
 
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = title;
-                img.className = 'zoomable-img object-contain p-2 md:p-6 select-none'; 
-                img.style.maxWidth = '100%';
-                img.style.maxHeight = '100%';
-                img.style.width = 'auto';
-                img.style.height = 'auto';
+                img.className = 'max-w-full max-h-full object-contain select-none transition-transform duration-150 ease-out'; 
                 img.draggable = false; 
 
                 const zoomContainer = document.createElement('div');
@@ -567,8 +567,9 @@
                 const slider = document.createElement('input');
                 slider.type = 'range';
                 slider.min = '100';
-                slider.max = '300';
+                slider.max = '400';
                 slider.value = '100';
+                slider.step = '1';
                 
                 const btnPlus = document.createElement('button');
                 btnPlus.innerHTML = '<svg class="w-5 h-5 text-white hover:text-[var(--accent-neon)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>';
@@ -577,135 +578,105 @@
                 zoomContainer.appendChild(slider);
                 zoomContainer.appendChild(btnPlus);
 
-                scrollWrapper.appendChild(img);
-                modalMedia.appendChild(scrollWrapper);
-                modalMedia.appendChild(zoomContainer);
+                let scale = 1;
+                let translateX = 0;
+                let translateY = 0;
+                let isDragging = false;
+                let startX, startY;
 
-                const applyZoom = (val) => {
-                    const percentage = parseInt(val);
-                    if (percentage <= 100) {
-                        img.style.width = 'auto';
-                        img.style.height = 'auto';
-                        img.style.maxWidth = '100%';
-                        img.style.maxHeight = '100%';
-                        img.classList.remove('grab', 'grabbing', 'flex-shrink-0');
-                        scrollWrapper.style.alignItems = 'center';
-                        scrollWrapper.style.justifyContent = 'center';
-                        scrollWrapper.style.overflow = 'hidden';
+                const updateTransform = () => {
+                    img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+                    if (scale > 1) {
+                        imgContainer.style.cursor = isDragging ? 'grabbing' : 'grab';
                     } else {
-                        const wasCentered = img.style.maxWidth === '100%';
-                        img.style.maxWidth = 'none';
-                        img.style.maxHeight = 'none';
-                        
-                        img.style.width = `${(scrollWrapper.clientWidth * percentage) / 100}px`;
-                        img.style.height = 'auto';
-                        
-                        img.classList.add('grab', 'flex-shrink-0');
-                        scrollWrapper.style.alignItems = 'flex-start';
-                        scrollWrapper.style.justifyContent = 'flex-start';
-                        scrollWrapper.style.overflow = 'auto';
-
-                        if (wasCentered) {
-                            setTimeout(() => {
-                                scrollWrapper.scrollLeft = (scrollWrapper.scrollWidth - scrollWrapper.clientWidth) / 2;
-                                scrollWrapper.scrollTop = (scrollWrapper.scrollHeight - scrollWrapper.clientHeight) / 2;
-                            }, 0);
-                        }
+                        imgContainer.style.cursor = 'zoom-in';
+                        translateX = 0;
+                        translateY = 0;
+                        img.style.transform = `translate(0px, 0px) scale(1)`;
                     }
                 };
 
-                let isDown = false;
-                let startX, startY, scrollLeft, scrollTop;
-
-                scrollWrapper.onmousedown = (e) => {
-                    if (parseInt(slider.value) <= 100) return;
-                    isDown = true;
-                    img.classList.add('grabbing');
-                    img.classList.remove('grab');
-                    startX = e.pageX - scrollWrapper.offsetLeft;
-                    startY = e.pageY - scrollWrapper.offsetTop;
-                    scrollLeft = scrollWrapper.scrollLeft;
-                    scrollTop = scrollWrapper.scrollTop;
-                };
-
-                scrollWrapper.onmouseleave = () => {
-                    isDown = false;
-                    if (parseInt(slider.value) > 100) {
-                        img.classList.remove('grabbing');
-                        img.classList.add('grab');
-                    }
-                };
-
-                scrollWrapper.onmouseup = () => {
-                    isDown = false;
-                    if (parseInt(slider.value) > 100) {
-                        img.classList.remove('grabbing');
-                        img.classList.add('grab');
-                    }
-                };
-
-                scrollWrapper.onmousemove = (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = e.pageX - scrollWrapper.offsetLeft;
-                    const y = e.pageY - scrollWrapper.offsetTop;
-                    const walkX = (x - startX) * 2;
-                    const walkY = (y - startY) * 2;
-                    scrollWrapper.scrollLeft = scrollLeft - walkX;
-                    scrollWrapper.scrollTop = scrollTop - walkY;
-                };
-
-                slider.addEventListener('input', (e) => applyZoom(e.target.value));
+                slider.addEventListener('input', (e) => {
+                    scale = parseInt(e.target.value) / 100;
+                    updateTransform();
+                });
 
                 btnMinus.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    slider.value = Math.max(100, parseInt(slider.value) - 50);
-                    applyZoom(slider.value);
+                    scale = Math.max(1, scale - 0.5);
+                    slider.value = scale * 100;
+                    updateTransform();
                 });
                 
                 btnPlus.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    slider.value = Math.min(300, parseInt(slider.value) + 50);
-                    applyZoom(slider.value);
+                    scale = Math.min(4, scale + 0.5);
+                    slider.value = scale * 100;
+                    updateTransform();
                 });
 
-                let wasDragging = false;
-                scrollWrapper.addEventListener('mousemove', () => { if(isDown) wasDragging = true; });
-                scrollWrapper.addEventListener('mousedown', () => { wasDragging = false; });
+                imgContainer.addEventListener('mousedown', (e) => {
+                    if (scale <= 1) return;
+                    if (e.target.closest('#zoom-controls')) return;
+                    
+                    isDragging = true;
+                    img.classList.remove('duration-150');
+                    imgContainer.style.cursor = 'grabbing';
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                });
 
-                img.onclick = (e) => {
-                    if (wasDragging) return;
-                    e.stopPropagation();
-                    if (parseInt(slider.value) >= 250) {
-                        slider.value = 100;
-                        applyZoom(100);
-                    } else {
-                        slider.value = 250;
-                        applyZoom(250);
+                globalMouseMove = (e) => {
+                    if (!isDragging) return;
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+                };
+
+                globalMouseUp = () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        img.classList.add('duration-150');
+                        updateTransform();
                     }
                 };
+
+                window.addEventListener('mousemove', globalMouseMove);
+                window.addEventListener('mouseup', globalMouseUp);
+
+                let wasDragging = false;
+                imgContainer.addEventListener('mousemove', () => { if (isDragging) wasDragging = true; });
+                imgContainer.addEventListener('mousedown', () => { wasDragging = false; });
+
+                imgContainer.addEventListener('click', (e) => {
+                    if (wasDragging || e.target.closest('#zoom-controls')) return;
+                    e.stopPropagation();
+                    if (scale > 1) {
+                        scale = 1;
+                        slider.value = 100;
+                    } else {
+                        scale = 2.5;
+                        slider.value = 250;
+                    }
+                    updateTransform();
+                });
 
                 const cursorDot = document.getElementById('cursor-dot');
                 const cursorOutline = document.getElementById('cursor-outline');
                 
-                scrollWrapper.addEventListener('mouseenter', () => {
+                imgContainer.addEventListener('mouseenter', () => {
                     if (cursorDot) cursorDot.style.opacity = '0';
                     if (cursorOutline) cursorOutline.style.opacity = '0';
                 });
                 
-                scrollWrapper.addEventListener('mouseleave', () => {
+                imgContainer.addEventListener('mouseleave', () => {
                     if (cursorDot) cursorDot.style.opacity = '1';
                     if (cursorOutline) cursorOutline.style.opacity = '1';
                 });
-                
-                zoomContainer.addEventListener('mouseenter', () => {
-                    if (cursorDot) cursorDot.style.opacity = '1';
-                    if (cursorOutline) cursorOutline.style.opacity = '1';
-                });
-                zoomContainer.addEventListener('mouseleave', () => {
-                    if (cursorDot) cursorDot.style.opacity = '0';
-                    if (cursorOutline) cursorOutline.style.opacity = '0';
-                });
+
+                imgContainer.appendChild(img);
+                modalMedia.appendChild(imgContainer);
+                document.getElementById('modal-content').appendChild(zoomContainer);
             }
 
             if (modalTitle) modalTitle.textContent = title;
@@ -721,7 +692,24 @@
             
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto'; 
+            
+            if (globalMouseMove) {
+                window.removeEventListener('mousemove', globalMouseMove);
+                globalMouseMove = null;
+            }
+            if (globalMouseUp) {
+                window.removeEventListener('mouseup', globalMouseUp);
+                globalMouseUp = null;
+            }
+
             modalMedia.innerHTML = ''; 
+            modalMedia.style.display = '';
+            modalMedia.style.alignItems = '';
+            modalMedia.style.justifyContent = '';
+            modalMedia.style.overflow = 'hidden';
+            
+            const existingZoom = document.getElementById('zoom-controls');
+            if (existingZoom) existingZoom.remove();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -760,7 +748,7 @@
                 }
                 animateCursor();
                 
-                const interactables = document.querySelectorAll('a, button, .masonry-item');
+                const interactables = document.querySelectorAll('a, button, .masonry-item, input[type="range"]');
                 interactables.forEach(el => {
                     el.addEventListener('mouseenter', () => {
                         cursorDot?.classList.add('hover');
