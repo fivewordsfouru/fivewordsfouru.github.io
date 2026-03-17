@@ -144,6 +144,10 @@
 
         @media (min-width: 768px) {
             body, a, button, .masonry-item { cursor: none !important; }
+            
+            .zoomable-img { cursor: zoom-in !important; }
+            .zoomable-img.grab { cursor: grab !important; }
+            .zoomable-img.grabbing { cursor: grabbing !important; }
 
             .custom-cursor-dot {
                 position: fixed;
@@ -521,7 +525,7 @@
             if (type === 'video') {
                 modalMedia.style.overflow = 'hidden';
                 let videoWrapper = document.createElement('div');
-                videoWrapper.className = 'w-full w-full h-full flex items-center justify-center p-0 m-0';
+                videoWrapper.className = 'w-full w-full h-full flex items-center justify-center p-0 m-0 relative';
                 
                 let aspectWrapper = document.createElement('div');
                 aspectWrapper.className = 'relative w-full';
@@ -540,6 +544,20 @@
                 
                 aspectWrapper.appendChild(iframe);
                 videoWrapper.appendChild(aspectWrapper);
+                
+                if (src.includes('youtube.com')) {
+                    const hint = document.createElement('div');
+                    hint.className = 'absolute top-4 md:top-8 left-1/2 transform -translate-x-1/2 bg-[#050505] border border-[var(--accent-neon)] text-[var(--accent-neon)] font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] px-4 py-2 z-50 shadow-[4px_4px_0px_#000] pointer-events-none text-center transition-opacity duration-1000 flex items-center gap-2';
+                    hint.innerHTML = '<span class="w-2 h-2 rounded-full bg-[var(--accent-neon)] animate-pulse"></span> Set player to highest resolution for optimal viewing';
+                    
+                    videoWrapper.appendChild(hint);
+                    
+                    setTimeout(() => {
+                        hint.style.opacity = '0';
+                        setTimeout(() => hint.remove(), 1000);
+                    }, 5000);
+                }
+
                 modalMedia.appendChild(videoWrapper);
             } 
             else if (type === 'image') {
