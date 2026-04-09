@@ -179,6 +179,9 @@
                 border-color: var(--accent-neon);
                 backdrop-filter: blur(2px);
             }
+            .custom-cursor-hidden {
+                opacity: 0 !important;
+            }
         }
     </style>
 </head>
@@ -689,13 +692,13 @@
                 const cursorOutline = document.getElementById('cursor-outline');
                 
                 imgContainer.addEventListener('mouseenter', () => {
-                    if (cursorDot) cursorDot.style.opacity = '0';
-                    if (cursorOutline) cursorOutline.style.opacity = '0';
+                    if (cursorDot) cursorDot.classList.add('custom-cursor-hidden');
+                    if (cursorOutline) cursorOutline.classList.add('custom-cursor-hidden');
                 });
                 
                 imgContainer.addEventListener('mouseleave', () => {
-                    if (cursorDot) cursorDot.style.opacity = '1';
-                    if (cursorOutline) cursorOutline.style.opacity = '1';
+                    if (cursorDot) cursorDot.classList.remove('custom-cursor-hidden');
+                    if (cursorOutline) cursorOutline.classList.remove('custom-cursor-hidden');
                 });
 
                 imgContainer.appendChild(img);
@@ -734,6 +737,18 @@
             
             const existingZoom = document.getElementById('zoom-controls');
             if (existingZoom) existingZoom.remove();
+
+            // FIX: Ensure custom cursor resets and becomes visible immediately when modal closes
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorOutline = document.getElementById('cursor-outline');
+            if (cursorDot) {
+                cursorDot.style.opacity = '';
+                cursorDot.classList.remove('hover', 'custom-cursor-hidden');
+            }
+            if (cursorOutline) {
+                cursorOutline.style.opacity = '';
+                cursorOutline.classList.remove('hover', 'custom-cursor-hidden');
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
