@@ -41,10 +41,10 @@
     .eyebrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--acid);text-transform:uppercase;letter-spacing:.19em;font-size:10px;margin-bottom:24px}.eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--acid);box-shadow:0 0 18px var(--acid)}
     .title{font-size:clamp(4.7rem,12.5vw,13rem);line-height:.78;text-transform:uppercase;margin:0;max-width:10ch}.title .outline{-webkit-text-stroke:1px #eee;color:transparent}.title .acid{color:var(--acid)}
     .hero-copy{max-width:600px;margin:34px 0 0;color:#bcbcbc;font-size:clamp(16px,2vw,22px);line-height:1.35}.hero-copy strong{color:#fff}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid #3d3d3d;background:#111;border-radius:999px;padding:11px 15px;font-size:10px;text-transform:uppercase;letter-spacing:.13em;transition:transform .3s var(--ease),background .2s,border-color .2s,color .2s}.pill:hover,.pill:focus-visible{background:var(--acid);color:#000;border-color:var(--acid);transform:translateY(-2px)}
-    .hero-side{min-height:390px;border-left:1px solid var(--line);padding-left:28px;display:flex;flex-direction:column;justify-content:space-between}.sigbox{position:relative;min-height:250px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,#0d0d0d,#151515);border-radius:var(--r)}
+    .hero-side{min-height:420px;border-left:1px solid var(--line);padding-left:28px;display:flex;flex-direction:column;justify-content:space-between}.sigbox{position:relative;min-height:330px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,#0d0d0d,#151515);border-radius:var(--r)}
     .sigbox:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 10px,rgba(255,255,255,.025) 10px 11px)}
-    .sigbox .orb{position:absolute;width:210px;height:210px;border:1px solid #383838;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);animation:spin 17s linear infinite}.sigbox .orb:before,.sigbox .orb:after{content:"";position:absolute;inset:17%;border:1px solid #323232;border-radius:50%}.sigbox .orb:after{inset:34%;background:var(--acid);border:0;box-shadow:0 0 60px rgba(204,255,0,.28);animation:pulse 2.7s ease-in-out infinite}
-    .sigbox .tick{position:absolute;left:50%;top:50%;width:260px;height:1px;background:linear-gradient(90deg,transparent,var(--acid),transparent);transform:translate(-50%,-50%) rotate(-25deg);animation:glide 4.2s var(--ease) infinite}.sigbox .sig{position:absolute;left:14px;bottom:12px;font:500 9px/1 "DM Mono",monospace;color:#777;letter-spacing:.1em}.sigbox .sig strong{color:var(--acid);font-weight:500}
+    .sigbox .orb{position:absolute;width:270px;height:270px;border:1px solid #383838;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);animation:spin 17s linear infinite}.sigbox .orb:before,.sigbox .orb:after{content:"";position:absolute;inset:17%;border:1px solid #323232;border-radius:50%}.sigbox .orb:after{inset:34%;background:var(--acid);border:0;box-shadow:0 0 60px rgba(204,255,0,.28);animation:pulse 2.7s ease-in-out infinite}
+    .sigbox .tick{position:absolute;left:50%;top:50%;width:330px;height:1px;background:linear-gradient(90deg,transparent,var(--acid),transparent);transform:translate(-50%,-50%) rotate(-25deg);animation:glide 4.2s var(--ease) infinite}.sigbox .sig{position:absolute;left:16px;bottom:14px;font:500 11px/1 "DM Mono",monospace;color:#777;letter-spacing:.1em}.sigbox .sig strong{color:var(--acid);font-weight:500}
     .side-info{display:grid;grid-template-columns:auto 1fr;gap:12px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;line-height:1.5;color:#777}.side-info strong{color:#eaeaea;font-weight:500}
     .scroll{position:absolute;left:0;bottom:25px;display:flex;gap:10px;align-items:center;color:#6b6b6b;font-size:9px;text-transform:uppercase;letter-spacing:.2em}.scroll i{display:block;width:74px;height:1px;background:#444}
     @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes pulse{50%{transform:scale(.75);box-shadow:0 0 90px rgba(204,255,0,.44)}}@keyframes glide{0%,100%{transform:translate(-65%,-50%) rotate(-25deg);opacity:.1}45%{opacity:1}55%{transform:translate(-35%,-50%) rotate(-25deg);opacity:.7}}
@@ -86,6 +86,18 @@
     .modal-media.image-mode{width:fit-content;max-width:calc(100vw - 48px);max-height:calc(100svh - 48px);min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center}
     .modal-media.image-mode img{width:auto;height:auto;max-width:calc(100vw - 64px);max-height:calc(100svh - 64px);object-fit:contain}
     @media(max-width:760px){.brand-mark{width:78px}.brand-word{font-size:10px}.modal{padding:12px}.modal-media.image-mode{max-width:calc(100vw - 24px);max-height:calc(100svh - 24px)}.modal-media.image-mode img{max-width:calc(100vw - 36px);max-height:calc(100svh - 36px)}}
+
+    /* Image viewer: large by default, never cropped, with real zoom + scroll when enlarged. */
+    .modal-shell.image-shell{grid-template-columns:1fr;width:min(1280px,100%);max-height:94svh;gap:12px}
+    .modal-shell.image-shell .modal-media{width:100%;height:min(82svh,900px);max-height:none;min-height:360px;overflow:auto;align-items:center;justify-content:center}
+    .zoom-stage{width:max-content;min-width:100%;height:max-content;min-height:100%;display:grid;place-items:center;padding:28px}
+    .modal-media.image-mode img{width:auto;max-width:none;max-height:none;height:auto;object-fit:contain;flex:none;transition:width .22s ease}
+    .zoom-controls{position:absolute;top:14px;right:14px;z-index:5;display:flex;gap:6px;padding:6px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(8,8,8,.78);backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .zoom-btn,.zoom-readout{height:34px;border:1px solid #3a3a3a;background:#111;color:#eee;border-radius:999px;display:grid;place-items:center;font:500 11px/1 "DM Mono",monospace;cursor:pointer}
+    .zoom-btn{width:34px;font-size:18px;line-height:1}.zoom-readout{min-width:64px;padding:0 10px;font-size:9px;letter-spacing:.08em}
+    .zoom-btn:hover,.zoom-btn:focus-visible,.zoom-readout:hover,.zoom-readout:focus-visible{background:var(--acid);border-color:var(--acid);color:#000}
+    .modal-shell.image-shell .modal-side{display:flex;justify-content:space-between;align-items:end;gap:18px}
+    @media(max-width:760px){.hero-side{min-height:360px;padding-left:0;border-left:0}.sigbox{min-height:290px}.sigbox .orb{width:220px;height:220px}.sigbox .tick{width:280px}.modal-shell.image-shell{width:100%}.modal-shell.image-shell .modal-media{height:min(76svh,700px);min-height:250px}.zoom-stage{padding:20px}.zoom-controls{top:10px;right:10px}}
 </style>
 </head>
 <body>
@@ -208,8 +220,15 @@
   <footer><div class="wrap footer-in"><span>© 2026 William Schiesser III</span><strong>5W4U / INDEPENDENT VISUAL STUDIO</strong><span class="mono" id="footerSignal">05:04 / 000</span></div></footer>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-shell">
-      <div class="modal-media" id="modalMedia"></div>
+    <div class="modal-shell" id="modalShell">
+      <div class="modal-media" id="modalMedia">
+        <div class="zoom-stage" id="zoomStage"></div>
+        <div class="zoom-controls" id="zoomControls" aria-label="Image zoom controls" hidden>
+          <button type="button" class="zoom-btn clickable" data-hot data-zoom="out" aria-label="Zoom out">−</button>
+          <button type="button" class="zoom-readout clickable" data-hot data-zoom="reset" aria-label="Reset zoom"><span id="zoomValue">100%</span></button>
+          <button type="button" class="zoom-btn clickable" data-hot data-zoom="in" aria-label="Zoom in">+</button>
+        </div>
+      </div>
       <div class="modal-side"><div><div class="modal-kicker" id="modalCat"></div><h3 id="modalTitle" class="display"></h3><p id="modalText"></p></div><button class="close clickable" data-hot id="closeModal" type="button">Close ×</button></div>
     </div>
   </div>
@@ -240,17 +259,67 @@
       // Keyboard support on cards.
       $$('.clickable').forEach(el=>el.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&el.tagName!=='BUTTON'&&el.tagName!=='A'){e.preventDefault();el.click()}}));
 
-      // Open/close modal.
+      // Open/close modal + adaptive image viewer.
+      const modalShell=$('#modalShell'); let zoomStage=$('#zoomStage'), zoomControls=$('#zoomControls'), zoomValue=$('#zoomValue');
+      let zoom=1, baseImageWidth=0;
+      const updateZoom=()=>{
+        const img=zoomStage.querySelector('img');
+        if(!img || !baseImageWidth)return;
+        const nextWidth=baseImageWidth*zoom;
+        img.style.width=`${nextWidth}px`;
+        zoomValue.textContent=`${Math.round(zoom*100)}%`;
+      };
+      const fitImage=img=>{
+        const naturalW=img.naturalWidth||1, naturalH=img.naturalHeight||1;
+        const availableW=Math.max(180,media.clientWidth-56), availableH=Math.max(180,media.clientHeight-56);
+        const scale=Math.min(availableW/naturalW,availableH/naturalH);
+        baseImageWidth=Math.max(1,naturalW*scale);
+        zoom=1;
+        updateZoom();
+      };
       const openModal=(el)=>{
         lastFocus=document.activeElement; const type=el.dataset.type, src=el.dataset.src, title=el.dataset.title||'Untitled', cat=el.dataset.cat||'Archive';
-        modalTitle.textContent=title;modalCat.textContent=cat;modalText.textContent=type==='video'?'Open the work, watch full screen, then hit close to return to the archive.':'Visual file from the 5W4U GitHub archive.'; media.innerHTML='';
-        if(type==='video'){const iframe=document.createElement('iframe');iframe.src=src+'?autoplay=1&rel=0&modestbranding=1';iframe.title=title;iframe.allow='autoplay; fullscreen';media.appendChild(iframe)}
-        else {media.classList.add('image-mode');const img=document.createElement('img');img.src=src;img.alt=title;img.decoding='async';media.appendChild(img)}
-        if(type==='video')media.classList.remove('image-mode');modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('#closeModal').focus();
+        modalTitle.textContent=title;modalCat.textContent=cat;modalText.textContent=type==='video'?'Open the work, watch full screen, then hit close to return to the archive.':'Use + / − to zoom. At higher zoom levels, scroll to explore the full image.';
+        media.innerHTML='<div class="zoom-stage" id="zoomStage"></div><div class="zoom-controls" id="zoomControls" aria-label="Image zoom controls" hidden><button type="button" class="zoom-btn clickable" data-hot data-zoom="out" aria-label="Zoom out">−</button><button type="button" class="zoom-readout clickable" data-hot data-zoom="reset" aria-label="Reset zoom"><span id="zoomValue">100%</span></button><button type="button" class="zoom-btn clickable" data-hot data-zoom="in" aria-label="Zoom in">+</button></div>';
+        zoomStage=$('#zoomStage'); zoomControls=$('#zoomControls'); zoomValue=$('#zoomValue'); zoom=1;baseImageWidth=0;
+        modalShell.classList.toggle('image-shell',type==='image');
+        if(type==='video'){
+          media.classList.remove('image-mode');zoomControls.hidden=true;
+          const iframe=document.createElement('iframe');iframe.src=src+'?autoplay=1&rel=0&modestbranding=1';iframe.title=title;iframe.allow='autoplay; fullscreen';media.appendChild(iframe);
+        }else{
+          media.classList.add('image-mode');zoomControls.hidden=false;
+          const img=document.createElement('img');img.src=src;img.alt=title;img.decoding='async';
+          img.addEventListener('load',()=>fitImage(img),{once:true});
+          zoomStage.appendChild(img);
+          if(img.complete)fitImage(img);
+        }
+        modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');$('#closeModal').focus();
       };
-      const closeModal=()=>{if(!modal.classList.contains('open'))return;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');media.innerHTML='';media.classList.remove('image-mode');document.body.classList.remove('modal-open');if(lastFocus)lastFocus.focus()};
+      const closeModal=()=>{if(!modal.classList.contains('open'))return;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');media.innerHTML='';media.classList.remove('image-mode');modalShell.classList.remove('image-shell');document.body.classList.remove('modal-open');zoom=1;baseImageWidth=0;if(lastFocus)lastFocus.focus()};
       $$('.video-card,.visual-card').forEach(card=>card.addEventListener('click',()=>openModal(card)));
+      media.addEventListener('click',e=>{
+        const action=e.target.closest('[data-zoom]')?.dataset.zoom;
+        if(!action)return;
+        if(action==='in')zoom=Math.min(4,zoom+0.25);
+        if(action==='out')zoom=Math.max(1,zoom-0.25);
+        if(action==='reset')zoom=1;
+        updateZoom();
+      });
+      media.addEventListener('wheel',e=>{
+        if(!modal.classList.contains('open') || !media.classList.contains('image-mode'))return;
+        if(!e.ctrlKey && Math.abs(e.deltaY)<8)return;
+        e.preventDefault();
+        zoom=Math.min(4,Math.max(1,zoom-(e.deltaY>0?.1:-.1)));
+        updateZoom();
+      },{passive:false});
+      addEventListener('resize',()=>{if(modal.classList.contains('open')&&media.classList.contains('image-mode')&&zoom===1){const img=zoomStage.querySelector('img');if(img)fitImage(img)}});
       $('#closeModal').addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+      document.addEventListener('keydown',e=>{
+        if(!modal.classList.contains('open')||!media.classList.contains('image-mode'))return;
+        if(e.key==='+'||e.key==='='){e.preventDefault();zoom=Math.min(4,zoom+0.25);updateZoom()}
+        if(e.key==='-'||e.key==='_'){e.preventDefault();zoom=Math.max(1,zoom-0.25);updateZoom()}
+        if(e.key==='0'){e.preventDefault();zoom=1;updateZoom()}
+      });
 
       // Surprise me = one-off archive jump.
       $('#surprise').addEventListener('click',()=>{const cards=$$('.video-card');const el=cards[Math.floor(Math.random()*cards.length)];ping();el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>openModal(el),430);showToast('<strong>5W4U // RANDOMIZED</strong> — opening work '+el.dataset.index)});
