@@ -35,3 +35,10 @@
 @media(max-width:1080px){.cover-folio-right{font-size:clamp(58px,7.9vw,82px);top:81px}.cover-year{top:156px;left:29%}}
 @media(max-width:760px){.cover-folio-right{font-size:clamp(46px,8.8vw,72px);top:82px}.cover-year{top:150px;left:17%}}
 @media(max-width:480px){.cover-folio-right{font-size:clamp(38px,9.2vw,49px);top:80px;left:3%}.cover-year{top:135px;left:10%}.title-underline{top:111px}}
+
+/* A handwritten insert inviting visitors to explore more video work. */
+.instagram-invite{margin-top:29px;padding:17px 17px 19px;background:#e8e4d7;border:1px dashed #b9a99a;transform:rotate(-1.5deg);box-shadow:3px 4px 0 #b6afa02b}
+.instagram-invite-label{font:700 10px var(--mono);color:#a42429;letter-spacing:.055em}
+.instagram-invite p{font:14px/1.55 Arial,Helvetica,sans-serif!important;color:#333;max-width:440px;margin:11px 0 14px!important}
+.instagram-invite a{display:inline-block;color:#a61f28;font:700 11px/1.5 var(--mono);text-decoration:underline;text-underline-offset:4px}
+.instagram-invite a:hover{color:#d83a3a}

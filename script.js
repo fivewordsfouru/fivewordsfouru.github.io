@@ -119,7 +119,9 @@ const WORKS = [
     "kind": "still",
     "src": "https://raw.githubusercontent.com/fivewordsfouru/fivewordsfouru.github.io/main/jalenhurts2.png",
     "group": "art"
-  }
+  },
+  { "id":"A16", "title":"Neon Rupture", "category":"Digital Collage / Portrait", "kind":"still", "src":"assets/neon-rupture.png", "group":"art" },
+  { "id":"A17", "title":"Midnight Velocity", "category":"Automotive / Digital Art", "kind":"still", "src":"assets/midnight-velocity.jpg", "group":"art" }
 ];
 const VIDEOS = [
   {
@@ -177,7 +179,8 @@ const VIDEOS = [
     "category": "Editing",
     "kind": "youtube",
     "src": "https://www.youtube.com/embed/27_acp7ebK4"
-  }
+  },
+  { "id":"V09", "title":"Afterimage", "category":"Video / Motion Study", "kind":"hls", "src":"https://customer-k6bj905t57lcimuc.cloudflarestream.com/eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZTg2MTE4NWEzMDg5MGU5NzgxNGRlMzA5M2IwNmYxNSIsImlzcyI6ImFwcC5qb2luaGFuZHNoYWtlLmNvbSIsImV4cCI6MTc5MjYwNDQzNCwiaWF0IjoxNzkyNTE4MDM0LCJuYmYiOjE3OTI1MTc5NzQsImtpZCI6ImFkMzY5ODY2MDIwYWJhYTgzMzlhMmZhZmRhNmZiYjdjIn0.3d8kJz4J9VRW6mKL-IL_6ct8e5hxG5x3rxPJj3uIw5MW7MdJsrw9OUck2MN1x7ajaGpWucaZlcCPJRg1p-Fck7SpJunEJPg0p7bXXDatNHZFktk1sabEIYxNzvKxo4xiBtdpcS6BWZ7JuWaRBjXexPrxUdTT5hJJzCJ0FpLKSV7TfYxxlH-Fv6a2djsQUeJD5lbOo2ZODwfcNTcwawkhxW75VJJddZF7tb7g71k6H4mqnvN6Gp7ecmHhq6QafbTutNPWDMroEe-PwhaOzdPra6kuFa5vgVM8WKs3R2VWNJDRGSWAZq7VPMYABFsfCPj3uGtzUIeT5dEKbJh4V6ea6g/manifest/video.m3u8" }
 ];
 
 
@@ -278,7 +281,7 @@ function renderVideos() {
     const card = element('button','video-card');
     card.type='button';card.setAttribute('aria-label',`Play ${v.title}`);
     const frame = element('span','video-frame');
-    const thumb = v.kind==='youtube' ? youtubeThumb(v.src) : WORKS.find(w=>w.id==='A06').src;
+    const thumb = v.kind==='youtube' ? youtubeThumb(v.src) : (v.kind==='hls' ? 'assets/neon-rupture.png' : WORKS.find(w=>w.id==='A06').src);
     frame.append(makeMediaImage(thumb,`${v.title} thumbnail`));
     frame.append(element('span','video-play','▶'));
     const meta = element('div','video-card-label');
@@ -307,6 +310,29 @@ function openVideo(v) {
   } else {
     const video=document.createElement('video');
     video.controls=true;video.autoplay=true;video.playsInline=true;
+    if (v.kind === 'hls') {
+      // Safari supports HLS natively; other browsers use hls.js when available.
+      const source = v.src;
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = source;
+      } else if (window.Hls?.isSupported()) {
+        const player = new Hls({enableWorker:true});
+        player.loadSource(source); player.attachMedia(video);
+        player.on(Hls.Events.ERROR, (_event, info) => {
+          if(info.fatal) { player.destroy(); stage.replaceChildren(element('div','dialog-missing','This video link may have expired or cannot be played. Please replace it with a fresh public video link.')); }
+        });
+        modal.addEventListener('close',()=>player.destroy(),{once:true});
+      } else {
+        stage.replaceChildren(element('div','dialog-missing','This browser cannot play HLS video right now. Try Safari, or check your internet connection.'));
+        if (!modal.open) modal.showModal();
+        return;
+      }
+      video.addEventListener('error',()=>stage.replaceChildren(element('div','dialog-missing','This video could not load. The signed streaming link may have expired.')),{once:true});
+      stage.append(video);
+      video.play().catch(()=>{});
+      if (!modal.open) modal.showModal();
+      return;
+    }
     video.src=decodeURIComponent(v.src);
     const errorMsg=element('div','dialog-missing');
     errorMsg.innerHTML='<strong>Comp 1.mp4 has not been included yet.</strong><br>Place the original video file next to index.html in the portfolio folder. The rest of your videos open normally.';
