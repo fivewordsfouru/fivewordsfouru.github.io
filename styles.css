@@ -42,3 +42,69 @@
 .instagram-invite p{font:14px/1.55 Arial,Helvetica,sans-serif!important;color:#333;max-width:440px;margin:11px 0 14px!important}
 .instagram-invite a{display:inline-block;color:#a61f28;font:700 11px/1.5 var(--mono);text-decoration:underline;text-underline-offset:4px}
 .instagram-invite a:hover{color:#d83a3a}
+
+
+/* ===========================================================
+   VOL. 02 / MOTION STUDIES — small hand-drawn interactions
+   Native scrolling stays in control; no heavy scroll libraries.
+   =========================================================== */
+html { scroll-padding-top: 28px; }
+.reading-progress{position:fixed;z-index:95;left:0;right:0;top:0;height:4px;pointer-events:none;background:transparent;}
+.reading-progress span{display:block;width:100%;height:100%;background:repeating-linear-gradient(105deg,#a31820 0 17px,#d4484d 17px 19px,#a31820 21px 34px);transform:scaleX(0);transform-origin:0 50%;box-shadow:0 0 0 1px #17171744;will-change:transform;}
+.reading-rail{position:fixed;z-index:39;right:15px;top:50%;transform:translateY(-50%);display:flex;align-items:center;flex-direction:column;gap:12px;color:#f3efe7;mix-blend-mode:difference;}
+.rail-caption{writing-mode:vertical-rl;font:800 8px var(--mono);letter-spacing:.12em;opacity:.75}
+.rail-stack{display:flex;flex-direction:column;align-items:center;gap:0;position:relative}
+.rail-stack:before{content:'';position:absolute;top:9px;bottom:9px;left:50%;width:1px;background:currentColor;opacity:.35;pointer-events:none}
+.rail-stack a{display:grid;place-items:center;position:relative;z-index:1;height:29px;width:30px;font:700 9px var(--mono);color:inherit;text-decoration:none;opacity:.62;transition:opacity .2s,transform .25s}
+.rail-stack a span{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;border:1px solid currentColor;background:#0c0c0c;color:white}
+.rail-stack a.is-current{opacity:1;transform:scale(1.16)}
+.rail-stack a.is-current span{background:#be2630;color:#fff;border-color:#f1ebe0;box-shadow:2px 2px 0 #0007;transform:rotate(-9deg)}
+.rail-stack a:hover{opacity:1;transform:scale(1.15)}
+.rail-current{writing-mode:vertical-rl;font:700 9px var(--mono);letter-spacing:.14em;white-space:nowrap}
+.fx-toggle{background:#e8e3d7;color:#181818;border:1px solid #bfada3;padding:7px 9px;font:800 10px var(--mono);letter-spacing:.03em;white-space:nowrap;transform:rotate(-3deg);box-shadow:2px 3px 0 #0009;transition:transform .2s,background .2s}
+.fx-toggle:hover{transform:rotate(3deg);background:#f8f1e6}
+.fx-toggle[aria-pressed=false]{color:#a3a0a0;background:#2a2626;border-color:#575050}
+.pencil-ink{position:fixed;inset:0;z-index:190;pointer-events:none;width:100vw;height:100dvh;opacity:0;transition:opacity .16s}
+.pencil-cursor{position:fixed;z-index:191;top:0;left:0;width:42px;height:52px;pointer-events:none;opacity:0;transform:translate3d(-100px,-100px,0);will-change:transform;transition:opacity .14s ease}
+.pencil-cursor svg{display:block;width:42px;height:52px;filter:drop-shadow(1px 2px 1px #0008);transform:rotate(7deg);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.cursor-caption{position:absolute;top:-10px;left:38px;display:none;white-space:nowrap;color:#201b1b;background:#faf6eb;padding:5px 7px;box-shadow:2px 3px 0 #b52630;font:800 9px var(--mono);transform:rotate(-6deg)}
+body.cursor-over-link .pencil-cursor svg{transform:rotate(-18deg) translateY(-4px)}
+body.cursor-over-link .cursor-caption{display:block}
+@media(hover:hover) and (pointer:fine){body.pencil-enabled,body.pencil-enabled a,body.pencil-enabled button,body.pencil-enabled summary{cursor:none!important}body.pencil-enabled .pencil-ink,body.pencil-enabled .pencil-cursor{opacity:1}body.pencil-enabled .gallery-dialog,body.pencil-enabled .gallery-dialog *{cursor:auto!important}}
+/* The cover rises off the desk just slightly as a page gets turned. */
+.notebook-shell{transform:rotate(-1.1deg) translate3d(0,var(--book-shift,0px),0);will-change:transform;transition:box-shadow .45s ease}
+.notebook-shell:hover{box-shadow:0 32px 0 -8px #171717,0 40px 18px 5px #000d,0 85px 90px #000c}
+.scroll-arrow{animation:pencil-scroll-nudge 2s ease-in-out infinite}
+@keyframes pencil-scroll-nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+/* Page reveals are only activated by JS, so an offline/broken script leaves everything visible. */
+.motion-ready [data-reveal]:not(.is-visible){opacity:0;translate:0 42px;filter:blur(2px)}
+.motion-ready [data-reveal]{transition:opacity .86s cubic-bezier(.2,.85,.2,1),translate .9s cubic-bezier(.19,1,.22,1),filter .85s ease,transform .26s ease,box-shadow .24s ease;transition-delay:var(--reveal-delay,0ms)}
+.motion-ready [data-reveal].is-visible{opacity:1;translate:0 0;filter:blur(0)}
+/* Let hover remain snappy even after a card's entrance. */
+.motion-ready .project-card.is-visible:hover{transition-delay:0ms;transform:translateY(-10px) rotate(0)}
+.motion-ready .video-card.is-visible:hover{transition-delay:0ms;transform:translateY(-5px)}
+/* Pin-on hover and sketchbook tape giving a subtle curl. */
+.project-card .card-tape{transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .25s;transform-origin:20% 50%}
+.project-card:hover .card-tape{transform:rotate(calc(var(--t) - 6deg)) translateY(-4px);filter:drop-shadow(2px 3px 1px #0003)}
+.project-card:after{content:'OPEN FILE ↗';position:absolute;right:14px;top:16px;z-index:5;background:#b91f25;color:#fff;padding:6px 8px;box-shadow:2px 3px 0 #17171799;font:800 10px var(--mono);transform:rotate(5deg) scale(.85);opacity:0;transition:opacity .22s,transform .26s;pointer-events:none}
+.project-card:hover:after,.project-card:focus-visible:after{opacity:1;transform:rotate(5deg) scale(1)}
+.video-card .video-play{transition:transform .25s,background .25s,box-shadow .25s}
+.video-card:hover .video-play{transform:translate(-50%,-50%) rotate(12deg) scale(1.08);background:#b91f25;box-shadow:3px 5px 0 #151515}
+/* Red underline looks like a quick ink flick instead of a generic link underline. */
+.mini-nav a,.envelope-footer a,.instagram-invite a{position:relative}
+.mini-nav a:after{content:'';position:absolute;bottom:-6px;left:0;right:0;height:2px;background:#c52933;transform:scaleX(0) rotate(-2deg);transform-origin:0 50%;transition:transform .22s}
+.mini-nav a:hover:after,.mini-nav a:focus-visible:after{transform:scaleX(1) rotate(-2deg)}
+.scroll-marginalia{position:absolute;right:0;bottom:-60px;font:italic 22px var(--hand);color:var(--red);transform:rotate(-9deg)}
+/* The sticky table of contents feels like a removable note. */
+.sticky-note{transition:box-shadow .35s,rotate .35s;transform-origin:center}
+.sticky-note:hover{rotate:-1deg;box-shadow:11px 17px 14px #0006,0 0 0 7px #d4c8ae69 inset}
+/* Staggered crossing effect for the film strip. */
+.film-ribbon span{display:block;animation:film-breathe 12s linear infinite alternate}
+@keyframes film-breathe{0%{translate:-8px 0}100%{translate:8px 0}}
+body.motion-off .scroll-arrow,body.motion-off .film-ribbon span{animation:none!important}
+body.motion-off .notebook-shell{transform:rotate(-1.1deg)!important}
+body.motion-off .pencil-ink,body.motion-off .pencil-cursor{display:none!important}
+body.motion-off [data-reveal]{opacity:1!important;translate:none!important;filter:none!important;transition-delay:0ms!important}
+@media(max-width:1180px){.reading-rail{right:3px;opacity:.78}.rail-caption,.rail-current{display:none}}
+@media(max-width:760px){.reading-rail{display:none}.fx-toggle{display:none}.pencil-cursor,.pencil-ink{display:none!important}.scroll-marginalia{display:none}.project-card:after{font-size:8px;right:7px;top:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reading-progress span{will-change:auto}.pencil-ink,.pencil-cursor{display:none!important}.notebook-shell{will-change:auto;transform:rotate(-1.1deg)!important}.motion-ready [data-reveal]{opacity:1!important;translate:none!important;filter:none!important;transition:none!important}.scroll-arrow,.film-ribbon span{animation:none!important}}

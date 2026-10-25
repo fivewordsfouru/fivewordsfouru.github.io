@@ -238,6 +238,7 @@ function renderGallery() {
     frag.append(card);
   }
   $('#artGallery').replaceChildren(frag);
+  if (typeof window.installScrollReveals === 'function') window.installScrollReveals($('#artGallery'));
   $('#gallery-count').textContent = `${shownWorks.length} ${shownWorks.length===1?'WORK':'WORKS'} / ${WORKS.length} IN THE ARCHIVE`;
 }
 
@@ -358,3 +359,187 @@ renderVideos();
 // Image on the about page is part of the original archive; gracefully handle an offline preview.
 const aboutImg=$('.portrait-photo img');
 aboutImg?.addEventListener('error',()=>{aboutImg.style.display='none';const f=element('span','portrait-offline','5W4U / DESIGN ARCHIVE');aboutImg.parentElement.append(f)},{once:true});
+
+
+/* ===========================================================
+   VOL. 02 / Motion & interaction. Lightweight and reversible.
+   =========================================================== */
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)');
+  const canvas = document.getElementById('pencilInk');
+  const nib = document.getElementById('pencilCursor');
+  const fxToggle = document.getElementById('fxToggle');
+  const progress = document.getElementById('readingProgress');
+  const railCurrent = document.getElementById('railCurrent');
+  const railLinks = [...document.querySelectorAll('.rail-stack a')];
+  const sections = ['top','about','projects','videos','contact'].map(id => document.getElementById(id));
+  const names = ['COVER / 00','ABOUT / 01','WORK / 02','VIDEO / 03','CONTACT / 04'];
+  const cover = document.querySelector('.cover-section');
+  const book = document.querySelector('.notebook-shell');
+  const ctx = canvas?.getContext('2d');
+  const paperPoints = [];
+  const life = 690; // each pencil mark evaporates after 690ms
+  let enabled = !reduceMotion.matches;
+  let drawing = false;
+  let paintFrame = 0;
+  let scrollFrame = 0;
+  let revealObserver;
+  let lastMove = 0;
+  let cursorInside = false;
+  let pointX = -200, pointY = -200;
+
+  const active = () => enabled && !reduceMotion.matches;
+
+  function resizeCanvas() {
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(window.innerWidth*dpr);
+    canvas.height = Math.round(window.innerHeight*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resizeCanvas();
+  window.addEventListener('resize',resizeCanvas,{passive:true});
+
+  // This canvas is red on dark paper, graphite on cream paper.
+  // Old strokes fade; only short segments are retained, keeping work bounded.
+  function paint(now) {
+    paintFrame = 0;
+    if (!ctx) return;
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    while(paperPoints.length && now-paperPoints[0].t > life) paperPoints.shift();
+    if (!active() || !finePointer.matches || !cursorInside) {
+      paperPoints.length=0;
+      return;
+    }
+    if (paperPoints.length > 1) {
+      ctx.lineCap='round';ctx.lineJoin='round';
+      for (let i=1; i<paperPoints.length; i++) {
+        const prev = paperPoints[i-1], curr=paperPoints[i];
+        const fade = Math.max(0,1-(now-curr.t)/life);
+        if(fade<=0)continue;
+        // Tiny non-uniformity like imperfect graphite on textured paper.
+        const wobble = Math.sin(i*4.17)*.34;
+        ctx.beginPath();
+        ctx.moveTo(prev.x,prev.y);
+        ctx.quadraticCurveTo((prev.x+curr.x)/2+wobble,(prev.y+curr.y)/2-wobble,curr.x,curr.y);
+        ctx.strokeStyle = curr.dark ? `rgba(239,206,196,${fade*.72})` : `rgba(34,32,31,${fade*.62})`;
+        ctx.lineWidth = 1.8 + fade*.52;
+        ctx.stroke();
+        ctx.beginPath();ctx.moveTo(prev.x+.55,prev.y+.8);ctx.lineTo(curr.x+.4,curr.y+.8);
+        ctx.strokeStyle = curr.dark ? `rgba(205,45,52,${fade*.63})` : `rgba(174,47,52,${fade*.38})`;
+        ctx.lineWidth = .85;
+        ctx.stroke();
+      }
+    }
+    if(paperPoints.length>0) paintFrame=requestAnimationFrame(paint);
+  }
+  function schedulePaint(){if (!paintFrame) paintFrame=requestAnimationFrame(paint);}
+  function clearInk() {
+    paperPoints.length=0;
+    if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  function syncCursor() {
+    const allowed=active() && finePointer.matches && cursorInside && !modal.open;
+    document.body.classList.toggle('pencil-enabled',allowed);
+    if (!allowed) {
+      nib.style.opacity='0';
+      clearInk();
+    } else nib.style.opacity='1';
+  }
+  document.addEventListener('pointermove', e => {
+    if (!active() || !finePointer.matches || e.pointerType==='touch' || modal.open) return;
+    const now=performance.now();
+    const dx=e.clientX-pointX, dy=e.clientY-pointY;
+    const moved = Math.hypot(dx,dy);
+    pointX=e.clientX;pointY=e.clientY;
+    cursorInside=true;
+    const isLink=Boolean(e.target.closest('a,button,summary,[role="button"]'));
+    document.body.classList.toggle('cursor-over-link',isLink);
+    nib.style.transform=`translate3d(${pointX-21}px,${pointY-42}px,0)`;
+    // Big pointer teleports don't leave a line across the whole viewport.
+    if (moved>1.5 && moved<130 && now-lastMove<150) {
+      const dark=!!e.target.closest('.cover-section,.video-section,.mini-header,.site-footer');
+      paperPoints.push({x:pointX,y:pointY,t:now,dark});
+      if (paperPoints.length>70)paperPoints.shift();
+      schedulePaint();
+    } else if (moved>130 || now-lastMove>=150) {
+      paperPoints.length=0;
+      paperPoints.push({x:pointX,y:pointY,t:now,dark:!!e.target.closest('.cover-section,.video-section,.mini-header,.site-footer')});
+    }
+    lastMove=now;
+    syncCursor();
+  },{passive:true});
+  document.addEventListener('pointerleave',()=>{cursorInside=false;document.body.classList.remove('cursor-over-link');syncCursor()});
+  window.addEventListener('blur',()=>{cursorInside=false;syncCursor()});
+  modal.addEventListener('close',syncCursor);
+  modal.addEventListener('close',()=>{cursorInside=false;syncCursor()});
+  modal.addEventListener('cancel',()=>{cursorInside=false;syncCursor()});
+
+  // Sections and card reveals: once each. Content and layout remain intact.
+  function installScrollReveals(root=document) {
+    if (!active()) return;
+    const elements = root===document ? [
+      ...document.querySelectorAll('.about-portrait-area,.about-writing,.project-header,.gallery-control,.gallery-bottom,.video-head,.film-ribbon,.contact-left,.contact-envelope,.paper-page-number,.project-card,.video-card')
+    ] : [...root.querySelectorAll('.project-card,.video-card')];
+    elements.forEach((el,i)=>{
+      if(el.hasAttribute('data-reveal')) return;
+      el.dataset.reveal='';
+      if(el.matches('.project-card,.video-card')) el.style.setProperty('--reveal-delay',`${(i%3)*70}ms`);
+      revealObserver?.observe(el);
+    });
+  }
+  window.installScrollReveals = installScrollReveals;
+  if (active() && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('motion-ready');
+    revealObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    },{threshold:0.04,rootMargin:'0px 0px -45px 0px'});
+    installScrollReveals();
+  }
+  // Main scroll timeline and book parallax are frame-throttled.
+  function updateScroll(){
+    scrollFrame=0;
+    const y=window.scrollY;
+    const maxScroll=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+    progress.style.transform=`scaleX(${Math.min(1,Math.max(0,y/maxScroll))})`;
+    const middle=y + window.innerHeight*.36;
+    let at=0;
+    for(let i=1;i<sections.length;i++) if(sections[i] && middle>=sections[i].offsetTop) at=i;
+    railLinks.forEach((a,i)=>{
+      a.classList.toggle('is-current',i===at);
+      if(i===at)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');
+    });
+    railCurrent.textContent=names[at];
+    if(active() && cover && book){
+      const coverAmount=Math.min(1,Math.max(0,y/cover.offsetHeight));
+      book.style.setProperty('--book-shift',`${(-coverAmount*25).toFixed(1)}px`);
+    } else if(book)book.style.setProperty('--book-shift','0px');
+  }
+  const requestScroll=()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(updateScroll)};
+  window.addEventListener('scroll',requestScroll,{passive:true});
+  window.addEventListener('resize',requestScroll,{passive:true});
+  requestScroll();
+
+  function setEnabled(on) {
+    enabled=Boolean(on)&&!reduceMotion.matches;
+    document.body.classList.toggle('motion-off',!enabled);
+    document.documentElement.classList.toggle('motion-ready',enabled && Boolean(revealObserver));
+    fxToggle?.setAttribute('aria-pressed',String(enabled));
+    if(fxToggle)fxToggle.textContent=enabled?'✳ FX ON':'✳ FX OFF';
+    document.querySelectorAll('[data-reveal]').forEach(el=>{
+      if(!enabled)el.classList.add('is-visible');
+    });
+    if(enabled) { installScrollReveals(); requestScroll(); }
+    else clearInk();
+    syncCursor();
+  }
+  fxToggle?.addEventListener('click',()=>setEnabled(!enabled));
+  reduceMotion.addEventListener?.('change',e=>setEnabled(!e.matches));
+  finePointer.addEventListener?.('change',syncCursor);
+  if(!enabled)setEnabled(false);
+})();
