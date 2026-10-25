@@ -64,13 +64,23 @@ html { scroll-padding-top: 28px; }
 .fx-toggle{background:#e8e3d7;color:#181818;border:1px solid #bfada3;padding:7px 9px;font:800 10px var(--mono);letter-spacing:.03em;white-space:nowrap;transform:rotate(-3deg);box-shadow:2px 3px 0 #0009;transition:transform .2s,background .2s}
 .fx-toggle:hover{transform:rotate(3deg);background:#f8f1e6}
 .fx-toggle[aria-pressed=false]{color:#a3a0a0;background:#2a2626;border-color:#575050}
+/* Cursor is the *real CSS mouse cursor*, not an oversized on-page illustration.
+   32x32 PNG, with its graphite tip anchored to the browser pointer at 3,29.
+   It never appears by itself on load; native cursor fallback remains usable. */
 .pencil-ink{position:fixed;inset:0;z-index:190;pointer-events:none;width:100vw;height:100dvh;opacity:0;transition:opacity .16s}
-.pencil-cursor{position:fixed;z-index:191;top:0;left:0;width:42px;height:52px;pointer-events:none;opacity:0;transform:translate3d(-100px,-100px,0);will-change:transform;transition:opacity .14s ease}
-.pencil-cursor svg{display:block;width:42px;height:52px;filter:drop-shadow(1px 2px 1px #0008);transform:rotate(7deg);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
-.cursor-caption{position:absolute;top:-10px;left:38px;display:none;white-space:nowrap;color:#201b1b;background:#faf6eb;padding:5px 7px;box-shadow:2px 3px 0 #b52630;font:800 9px var(--mono);transform:rotate(-6deg)}
-body.cursor-over-link .pencil-cursor svg{transform:rotate(-18deg) translateY(-4px)}
-body.cursor-over-link .cursor-caption{display:block}
-@media(hover:hover) and (pointer:fine){body.pencil-enabled,body.pencil-enabled a,body.pencil-enabled button,body.pencil-enabled summary{cursor:none!important}body.pencil-enabled .pencil-ink,body.pencil-enabled .pencil-cursor{opacity:1}body.pencil-enabled .gallery-dialog,body.pencil-enabled .gallery-dialog *{cursor:auto!important}}
+.pencil-cursor,.cursor-caption{display:none!important}
+@media(hover:hover) and (pointer:fine){
+  body.pencil-enabled,body.pencil-enabled a,body.pencil-enabled button,body.pencil-enabled summary,
+  body.pencil-enabled label,body.pencil-enabled [role="button"]{
+    cursor:url("assets/pencil-cursor.png") 3 29, auto!important;
+  }
+  body.pencil-enabled a,body.pencil-enabled button,body.pencil-enabled summary,
+  body.pencil-enabled [role="button"]{
+    cursor:url("assets/pencil-cursor.png") 3 29, pointer!important;
+  }
+  body.pencil-enabled .pencil-ink{opacity:1}
+  body.pencil-enabled .gallery-dialog,body.pencil-enabled .gallery-dialog *{cursor:auto!important}
+}
 /* The cover rises off the desk just slightly as a page gets turned. */
 .notebook-shell{transform:rotate(-1.1deg) translate3d(0,var(--book-shift,0px),0);will-change:transform;transition:box-shadow .45s ease}
 .notebook-shell:hover{box-shadow:0 32px 0 -8px #171717,0 40px 18px 5px #000d,0 85px 90px #000c}

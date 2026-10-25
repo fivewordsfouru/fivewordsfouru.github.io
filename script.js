@@ -368,7 +368,6 @@ aboutImg?.addEventListener('error',()=>{aboutImg.style.display='none';const f=el
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)');
   const canvas = document.getElementById('pencilInk');
-  const nib = document.getElementById('pencilCursor');
   const fxToggle = document.getElementById('fxToggle');
   const progress = document.getElementById('readingProgress');
   const railCurrent = document.getElementById('railCurrent');
@@ -440,12 +439,11 @@ aboutImg?.addEventListener('error',()=>{aboutImg.style.display='none';const f=el
     if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);
   }
   function syncCursor() {
-    const allowed=active() && finePointer.matches && cursorInside && !modal.open;
+    // Use the browser's correctly sized pencil cursor; it replaces the mouse pointer.
+    // No HTML/SVG cursor element is needed or allowed to appear on the page.
+    const allowed=active() && finePointer.matches && !modal.open;
     document.body.classList.toggle('pencil-enabled',allowed);
-    if (!allowed) {
-      nib.style.opacity='0';
-      clearInk();
-    } else nib.style.opacity='1';
+    if (!allowed) clearInk();
   }
   document.addEventListener('pointermove', e => {
     if (!active() || !finePointer.matches || e.pointerType==='touch' || modal.open) return;
@@ -456,7 +454,6 @@ aboutImg?.addEventListener('error',()=>{aboutImg.style.display='none';const f=el
     cursorInside=true;
     const isLink=Boolean(e.target.closest('a,button,summary,[role="button"]'));
     document.body.classList.toggle('cursor-over-link',isLink);
-    nib.style.transform=`translate3d(${pointX-21}px,${pointY-42}px,0)`;
     // Big pointer teleports don't leave a line across the whole viewport.
     if (moved>1.5 && moved<130 && now-lastMove<150) {
       const dark=!!e.target.closest('.cover-section,.video-section,.mini-header,.site-footer');
@@ -542,4 +539,5 @@ aboutImg?.addEventListener('error',()=>{aboutImg.style.display='none';const f=el
   reduceMotion.addEventListener?.('change',e=>setEnabled(!e.matches));
   finePointer.addEventListener?.('change',syncCursor);
   if(!enabled)setEnabled(false);
+  else syncCursor();
 })();
